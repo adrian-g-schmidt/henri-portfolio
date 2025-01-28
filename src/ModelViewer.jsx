@@ -6,7 +6,7 @@ import {
   Center,
   Html,
 } from "@react-three/drei";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 
 const easeOutCubic = (x) => {
@@ -54,14 +54,33 @@ function Model() {
   const tv = useGLTF(`${import.meta.env.BASE_URL}crt_tv.glb`);
   const modelRef = useRef();
   const { camera } = useThree();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const animationStartTime = useRef(null);
 
   useEffect(() => {
     camera.lookAt(0, 0, 0);
   }, [camera]);
 
+  useEffect(() => {
+    // Set initial position
+    if (modelRef.current) {
+      modelRef.current.position.z = -50;
+      modelRef.current.position.y = -0.2;
+      modelRef.current.scale.setScalar(0);
+    }
+    setIsLoaded(true);
+  }, []);
+
   useFrame((state) => {
-    const time = state.clock.getElapsedTime();
+    if (!isLoaded) return;
+
+    if (animationStartTime.current === null) {
+      animationStartTime.current = state.clock.getElapsedTime();
+    }
+
+    const time = state.clock.getElapsedTime() - animationStartTime.current;
     const duration = 2;
+
     if (time <= duration) {
       const progress = time / duration;
       const eased = easeOutCubic(progress);
@@ -71,7 +90,7 @@ function Model() {
     } else {
       modelRef.current.position.z = 0;
       modelRef.current.position.y = -0.2;
-      modelRef.current.scale.setScalar(1.21);
+      modelRef.current.scale.setScalar(1.2);
     }
   });
 
@@ -83,6 +102,7 @@ function Model() {
           position={[0, -0.2, 0]}
           scale={8}
           rotation={[0, Math.PI, 0]}
+          onLoad={() => setIsLoaded(true)}
         />
         <TVInterface />
       </group>
