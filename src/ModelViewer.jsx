@@ -17,31 +17,31 @@ const TVInterface = () => {
   return (
     <Html
       transform
-      position={[0, 2.35, -0.01]}
+      position={[0, 1.95, -0.01]}
       rotation={[0, 0, 0]}
-      scale={1.3}
+      scale={4}
       style={{
-        width: "980px",
-        height: "750px",
+        width: "320px",
+        height: "240px",
         borderRadius: "15px",
         overflow: "hidden",
       }}
       distanceFactor={1}
     >
-      <div className="crt w-full h-full text-white border-none p-16 blur-[0.5px]">
+      <div className="crt w-full h-full text-white border-none p-4 blur-[0.5px]">
         <div>
-          <h1 className="text-4xl text-white">
+          <h1 className="text-2xl text-white w-full text-center">
             This works way better than I expected
           </h1>
         </div>
-        <div className="flex flex-col gap-8 items-center justify-center">
-          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20 cursor-pointer">
+        <div className="flex flex-col gap-2 items-center justify-center">
+          <div className="w-3/4 py-2 text-lg border-white text-white hover:bg-white/20 cursor-pointer flex items-center justify-center">
             Channel 1
           </div>
-          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20 cursor-pointer">
+          <div className="w-3/4 py-2 text-lg border-white text-white hover:bg-white/20 cursor-pointer flex items-center justify-center">
             Channel 2
           </div>
-          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20 cursor-pointer">
+          <div className="w-3/4 py-2 text-lg border-white text-white hover:bg-white/20 cursor-pointer flex items-center justify-center">
             Channel 3
           </div>
         </div>
@@ -66,12 +66,12 @@ function Model() {
       const progress = time / duration;
       const eased = easeOutCubic(progress);
       modelRef.current.position.z = -50 * (1 - eased);
-      modelRef.current.position.y = 0.2;
-      modelRef.current.scale.setScalar(eased);
+      modelRef.current.position.y = -0.2;
+      modelRef.current.scale.setScalar(1.2 * eased);
     } else {
       modelRef.current.position.z = 0;
-      modelRef.current.position.y = 0.2;
-      modelRef.current.scale.setScalar(1);
+      modelRef.current.position.y = -0.2;
+      modelRef.current.scale.setScalar(1.21);
     }
   });
 
@@ -80,7 +80,7 @@ function Model() {
       <group ref={modelRef}>
         <primitive
           object={tv.scene}
-          position={[0, 0.2, 0]}
+          position={[0, -0.2, 0]}
           scale={8}
           rotation={[0, Math.PI, 0]}
         />
