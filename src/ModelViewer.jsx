@@ -17,28 +17,31 @@ const TVInterface = () => {
   return (
     <Html
       transform
-      position={[0, 2.35, -0.01]} // Slightly in front of the TV screen
+      position={[0, 2.35, -0.01]}
       rotation={[0, 0, 0]}
-      scale={1.3} // Scaled to fit the TV screen
+      scale={1.3}
       style={{
-        width: "980px", // Large base size that will be scaled down
+        width: "980px",
         height: "750px",
-        backgroundColor: "#ffffff",
+        borderRadius: "15px",
+        overflow: "hidden",
       }}
       distanceFactor={1}
     >
-      <div className="w-full h-full bg-black/90 backdrop-blur-sm text-white border-none">
+      <div className="crt w-full h-full text-white border-none p-16 blur-[0.5px]">
         <div>
-          <h1 className="text-4xl text-white">Interactive TV</h1>
+          <h1 className="text-4xl text-white">
+            This works way better than I expected
+          </h1>
         </div>
         <div className="flex flex-col gap-8 items-center justify-center">
-          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20">
+          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20 cursor-pointer">
             Channel 1
           </div>
-          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20">
+          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20 cursor-pointer">
             Channel 2
           </div>
-          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20">
+          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20 cursor-pointer">
             Channel 3
           </div>
         </div>
