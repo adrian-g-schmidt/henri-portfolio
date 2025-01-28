@@ -9,7 +9,7 @@ const easeOutCubic = (x) => {
 };
 
 function Model() {
-  const tv = useGLTF("/crt_tv.glb");
+  const tv = useGLTF(`${import.meta.env.BASE_URL}crt_tv.glb`);
   const modelRef = useRef();
   const { camera } = useThree();
 
