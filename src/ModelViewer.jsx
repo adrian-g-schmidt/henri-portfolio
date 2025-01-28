@@ -1,11 +1,50 @@
-// ModelViewer.jsx
 import { Canvas } from "@react-three/fiber";
-import { useGLTF, OrbitControls, Environment, Center } from "@react-three/drei";
+import {
+  useGLTF,
+  OrbitControls,
+  Environment,
+  Center,
+  Html,
+} from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 
 const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
+};
+
+const TVInterface = () => {
+  return (
+    <Html
+      transform
+      position={[0, 2.35, -0.01]} // Slightly in front of the TV screen
+      rotation={[0, 0, 0]}
+      scale={1.3} // Scaled to fit the TV screen
+      style={{
+        width: "980px", // Large base size that will be scaled down
+        height: "750px",
+        backgroundColor: "#ffffff",
+      }}
+      distanceFactor={1}
+    >
+      <div className="w-full h-full bg-black/90 backdrop-blur-sm text-white border-none">
+        <div>
+          <h1 className="text-4xl text-white">Interactive TV</h1>
+        </div>
+        <div className="flex flex-col gap-8 items-center justify-center">
+          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20">
+            Channel 1
+          </div>
+          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20">
+            Channel 2
+          </div>
+          <div className="w-3/4 h-16 text-2xl border-white text-white hover:bg-white/20">
+            Channel 3
+          </div>
+        </div>
+      </div>
+    </Html>
+  );
 };
 
 function Model() {
@@ -14,42 +53,36 @@ function Model() {
   const { camera } = useThree();
 
   useEffect(() => {
-    // Adjust the camera to look at the center
     camera.lookAt(0, 0, 0);
   }, [camera]);
 
-  // Animation
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     const duration = 2;
-
     if (time <= duration) {
       const progress = time / duration;
       const eased = easeOutCubic(progress);
-
-      // Move from far away to exactly 0
       modelRef.current.position.z = -50 * (1 - eased);
       modelRef.current.position.y = 0.2;
-
-      // Scale up to final size
-      modelRef.current.scale.setScalar(eased * 8);
+      modelRef.current.scale.setScalar(eased);
     } else {
-      // Ensure final position is exact
       modelRef.current.position.z = 0;
       modelRef.current.position.y = 0.2;
-      modelRef.current.scale.setScalar(8);
+      modelRef.current.scale.setScalar(1);
     }
   });
 
   return (
     <Center>
-      <primitive
-        ref={modelRef}
-        object={tv.scene}
-        position={[0, 0.2, 0]} // Offset to adjust vertical position
-        scale={8}
-        rotation={[0, Math.PI, 0]} // Start with 180-degree rotation
-      />
+      <group ref={modelRef}>
+        <primitive
+          object={tv.scene}
+          position={[0, 0.2, 0]}
+          scale={8}
+          rotation={[0, Math.PI, 0]}
+        />
+        <TVInterface />
+      </group>
     </Center>
   );
 }
@@ -63,7 +96,7 @@ export default function ModelViewer() {
         enableZoom={true}
         minPolarAngle={Math.PI / 4}
         maxPolarAngle={Math.PI / 2}
-        target={[0, 0, 0]} // Set orbit center to match model center
+        target={[0, 0, 0]}
       />
       <Environment preset="city" />
     </Canvas>
