@@ -17,7 +17,7 @@ const TVInterface = () => {
   return (
     <Html
       transform
-      position={[0, 1.95, -0.01]}
+      position={[0, 1.95, 0.046]}
       rotation={[0, 0, 0]}
       scale={4}
       style={{
@@ -27,6 +27,7 @@ const TVInterface = () => {
         overflow: "hidden",
       }}
       distanceFactor={1}
+      occlude
     >
       <div className="crt w-full h-full text-white border-none p-4 blur-[0.5px]">
         <div>
