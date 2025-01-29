@@ -68,6 +68,7 @@ function Model() {
       modelRef.current.position.z = -50;
       modelRef.current.position.y = -0.2;
       modelRef.current.scale.setScalar(0);
+      modelRef.current.visible = true;
     }
     setIsLoaded(true);
   }, []);
@@ -97,7 +98,7 @@ function Model() {
 
   return (
     <Center>
-      <group ref={modelRef}>
+      <group ref={modelRef} visible={false}>
         <primitive
           object={tv.scene}
           position={[0, -0.2, 0]}
