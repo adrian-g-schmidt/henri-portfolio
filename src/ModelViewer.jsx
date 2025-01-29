@@ -8,6 +8,16 @@ import {
 } from "@react-three/drei";
 import { useRef, useEffect, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
+import * as THREE from "three";
+import {
+  EffectComposer,
+  ChromaticAberration,
+  Noise,
+  Vignette,
+  Sepia,
+  Bloom,
+} from "@react-three/postprocessing";
+import { BlendFunction } from "postprocessing";
 
 const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
@@ -15,7 +25,7 @@ const easeOutCubic = (x) => {
 
 const TVInterface = () => {
   const [stream, setStream] = useState(null);
-  const [activeChannel, setActiveChannel] = useState(1);
+  const [activeChannel, setActiveChannel] = useState(0);
 
   useEffect(() => {
     navigator.mediaDevices
@@ -26,7 +36,6 @@ const TVInterface = () => {
       .catch((err) => {
         console.error("Error accessing webcam:", err);
       });
-
     return () => {
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
@@ -54,7 +63,7 @@ const TVInterface = () => {
           <video
             autoPlay
             playsInline
-            className="absolute top-0 left-0 w-full h-full object-cover z-10 rotate-y-180 opacity-10 mix-blend-multiply"
+            className="absolute top-0 left-0 w-full h-full object-cover z-40 rotate-y-180 opacity-5 pointer-events-none"
             ref={(video) => {
               if (video && stream) {
                 video.srcObject = stream;
@@ -62,31 +71,44 @@ const TVInterface = () => {
             }}
           />
         )}
-        <div className="relative z-20 p-4">
-          <h1 className="text-2xl text-white w-full text-center mb-4">
-            Reflections
-          </h1>
-          <div className="flex flex-col gap-2 items-center justify-center">
-            <div
-              className={`w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center`}
-              onClick={() => setActiveChannel(1)}
-            >
-              Channel 1
-            </div>
-            <div
-              className={`w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center`}
-              onClick={() => setActiveChannel(2)}
-            >
-              Channel 2
-            </div>
-            <div
-              className={`w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center`}
-              onClick={() => setActiveChannel(3)}
-            >
-              Channel 3
+        {activeChannel === 0 && (
+          <div className="relative z-20 p-4">
+            <h1 className="text-2xl text-white w-full text-center mb-4">
+              Reflections
+            </h1>
+            <div className="flex flex-col gap-2 items-center justify-center">
+              <div
+                className="w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center"
+                onClick={() => setActiveChannel(1)}
+              >
+                Click to Play Intro
+              </div>
+              <div
+                className="w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center"
+                onClick={() => setActiveChannel(2)}
+              >
+                Channel 2
+              </div>
+              <div
+                className="w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center"
+                onClick={() => setActiveChannel(3)}
+              >
+                Channel 3
+              </div>
             </div>
           </div>
-        </div>
+        )}
+        {activeChannel === 1 && (
+          <>
+            <video
+              autoPlay
+              playsInline
+              className="absolute top-0 left-0 w-full h-full object-cover z-20 opacity-50"
+              src="./intro-vid.mp4"
+              onEnded={() => setActiveChannel(0)}
+            />
+          </>
+        )}
       </div>
     </Html>
   );
@@ -147,7 +169,7 @@ function Model() {
           rotation={[0, Math.PI, 0]}
           onLoad={() => setIsLoaded(true)}
         />
-        <TVInterface />
+        <TVInterface blendFunction={THREE.AdditiveBlending} />
       </group>
     </Center>
   );
@@ -165,6 +187,18 @@ export default function ModelViewer() {
         target={[0, 0, 0]}
       />
       <Environment preset="city" />
+      <EffectComposer>
+        <ChromaticAberration
+          blendFunction={BlendFunction.NORMAL}
+          offset={[0.0005, 0.0005]} // Slightly stronger effect
+        />
+        <Sepia intensity={0.5} /> {/* Warmer vintage tone */}
+        <Noise
+          premultiply={false} // More visible noise
+          blendFunction={BlendFunction.OVERLAY} // Makes it pop more
+        />
+        <Vignette eskil={false} offset={0.2} darkness={0.6} />
+      </EffectComposer>
     </Canvas>
   );
 }
