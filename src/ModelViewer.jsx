@@ -14,6 +14,26 @@ const easeOutCubic = (x) => {
 };
 
 const TVInterface = () => {
+  const [stream, setStream] = useState(null);
+  const [activeChannel, setActiveChannel] = useState(1);
+
+  useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((streamData) => {
+        setStream(streamData);
+      })
+      .catch((err) => {
+        console.error("Error accessing webcam:", err);
+      });
+
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, []);
+
   return (
     <Html
       transform
@@ -29,21 +49,42 @@ const TVInterface = () => {
       distanceFactor={1}
       occlude
     >
-      <div className="crt w-full h-full text-white border-none p-4 blur-[0.5px]">
-        <div>
-          <h1 className="text-2xl text-white w-full text-center">
-            This works way better than I expected
+      <div className="crt w-full h-full text-white border-none blur-[0.5px] relative">
+        {stream && (
+          <video
+            autoPlay
+            playsInline
+            className="absolute top-0 left-0 w-full h-full object-cover z-10 rotate-y-180 opacity-10 mix-blend-multiply"
+            ref={(video) => {
+              if (video && stream) {
+                video.srcObject = stream;
+              }
+            }}
+          />
+        )}
+        <div className="relative z-20 p-4">
+          <h1 className="text-2xl text-white w-full text-center mb-4">
+            Reflections
           </h1>
-        </div>
-        <div className="flex flex-col gap-2 items-center justify-center">
-          <div className="w-3/4 py-2 text-lg border-white text-white hover:bg-white/20 cursor-pointer flex items-center justify-center">
-            Channel 1
-          </div>
-          <div className="w-3/4 py-2 text-lg border-white text-white hover:bg-white/20 cursor-pointer flex items-center justify-center">
-            Channel 2
-          </div>
-          <div className="w-3/4 py-2 text-lg border-white text-white hover:bg-white/20 cursor-pointer flex items-center justify-center">
-            Channel 3
+          <div className="flex flex-col gap-2 items-center justify-center">
+            <div
+              className={`w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center`}
+              onClick={() => setActiveChannel(1)}
+            >
+              Channel 1
+            </div>
+            <div
+              className={`w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center`}
+              onClick={() => setActiveChannel(2)}
+            >
+              Channel 2
+            </div>
+            <div
+              className={`w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center`}
+              onClick={() => setActiveChannel(3)}
+            >
+              Channel 3
+            </div>
           </div>
         </div>
       </div>
