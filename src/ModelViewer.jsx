@@ -5,6 +5,7 @@ import {
   Environment,
   Center,
   Html,
+  MeshReflectorMaterial,
 } from "@react-three/drei";
 import { useRef, useEffect, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
@@ -56,6 +57,7 @@ const TVInterface = () => {
         overflow: "hidden",
       }}
       distanceFactor={1}
+      wrapperClass="tv-wrapper"
       occlude
     >
       <div className="crt w-full h-full text-white border-none blur-[0.5px] relative">
@@ -99,15 +101,13 @@ const TVInterface = () => {
           </div>
         )}
         {activeChannel === 1 && (
-          <>
-            <video
-              autoPlay
-              playsInline
-              className="absolute top-0 left-0 w-full h-full object-cover z-20 opacity-50"
-              src="./intro-vid.mp4"
-              onEnded={() => setActiveChannel(0)}
-            />
-          </>
+          <video
+            autoPlay
+            playsInline
+            className="z-20 video-effect absolute top-0 left-0 w-full h-full object-cover"
+            src="./intro-vid.mp4"
+            onEnded={() => setActiveChannel(0)}
+          />
         )}
       </div>
     </Html>
@@ -169,7 +169,7 @@ function Model() {
           rotation={[0, Math.PI, 0]}
           onLoad={() => setIsLoaded(true)}
         />
-        <TVInterface blendFunction={THREE.AdditiveBlending} />
+        <TVInterface />
       </group>
     </Center>
   );
@@ -177,28 +177,33 @@ function Model() {
 
 export default function ModelViewer() {
   return (
-    <Canvas camera={{ position: [0, 0, 8], fov: 45 }} className="w-full h-full">
-      <Model />
-      <OrbitControls
-        enablePan={false}
-        enableZoom={true}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI / 2}
-        target={[0, 0, 0]}
-      />
-      <Environment preset="city" />
-      <EffectComposer>
-        <ChromaticAberration
-          blendFunction={BlendFunction.NORMAL}
-          offset={[0.0005, 0.0005]} // Slightly stronger effect
+    <>
+      <Canvas
+        camera={{ position: [0, 0, 8], fov: 45 }}
+        className="w-full h-full"
+      >
+        <Model />
+        <OrbitControls
+          enablePan={false}
+          enableZoom={true}
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={Math.PI / 2}
+          target={[0, 0, 0]}
         />
-        <Sepia intensity={0.5} /> {/* Warmer vintage tone */}
-        <Noise
+        <Environment preset="city" />
+        <EffectComposer>
+          <ChromaticAberration
+            blendFunction={BlendFunction.NORMAL}
+            offset={[0.0005, 0.0005]} // Slightly stronger effect
+          />
+          <Sepia intensity={0.5} /> {/* Warmer vintage tone */}
+          {/* <Noise
           premultiply={false} // More visible noise
           blendFunction={BlendFunction.OVERLAY} // Makes it pop more
-        />
-        <Vignette eskil={false} offset={0.2} darkness={0.6} />
-      </EffectComposer>
-    </Canvas>
+        /> */}
+          <Vignette eskil={false} offset={0.2} darkness={0.6} />
+        </EffectComposer>
+      </Canvas>
+    </>
   );
 }
