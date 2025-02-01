@@ -244,7 +244,7 @@
 
 #grain-parent {
     content: "";
-    background-image: url("./assets/1k_Dissolve_Noise_Texture.jpg");
+    background-image: url("./1k_Dissolve_Noise_Texture.jpg");
     height: 300%;
     width: 300%;
     position: fixed;
@@ -292,7 +292,7 @@
 
 @font-face {
     font-family: "vcr";
-    src: url("./assets/VCR_OSD_MONO_1.001.ttf");
+    src: url("./VCR_OSD_MONO_1.001.ttf");
 }
 
 * {
