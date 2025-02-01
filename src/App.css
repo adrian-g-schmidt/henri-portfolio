@@ -289,3 +289,12 @@
         transform: translate(-15%, -20%);
     }
 }
+
+@font-face {
+    font-family: "vcr";
+    src: url("./assets/VCR_OSD_MONO_1.001.ttf");
+}
+
+* {
+    font-family: "vcr";
+}

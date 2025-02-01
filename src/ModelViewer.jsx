@@ -60,7 +60,7 @@ const TVInterface = () => {
       wrapperClass="tv-wrapper"
       occlude
     >
-      <div className="crt w-full h-full text-white border-none blur-[0.5px] relative">
+      <div className="bg-zinc-900 crt w-full h-full text-white border-none blur-[0.5px] relative">
         {stream && (
           <video
             autoPlay
@@ -76,26 +76,29 @@ const TVInterface = () => {
         {activeChannel === 0 && (
           <div className="relative z-20 p-4">
             <h1 className="text-2xl text-white w-full text-center mb-4">
-              Reflections
+              WELCOME
             </h1>
             <div className="flex flex-col gap-2 items-center justify-center">
               <div
-                className="w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center"
+                className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center"
                 onClick={() => setActiveChannel(1)}
               >
-                Click to Play Intro
+                <span className="w-4 opacity-0 group-hover:inline-block group-hover:opacity-100">
+                  ⏵{" "}
+                </span>
+                INTRO
               </div>
-              <div
-                className="w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center"
-                onClick={() => setActiveChannel(2)}
-              >
-                Channel 2
+              <div className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center">
+                <span className="w-4 opacity-0 group-hover:inline-block group-hover:opacity-100">
+                  ⏵{" "}
+                </span>
+                CHANNEL 2
               </div>
-              <div
-                className="w-3/4 py-2 text-lg text-white hover:bg-white/20 cursor-pointer flex items-center justify-center"
-                onClick={() => setActiveChannel(3)}
-              >
-                Channel 3
+              <div className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center">
+                <span className="w-4 opacity-0 group-hover:inline-block group-hover:opacity-100">
+                  ⏵{" "}
+                </span>
+                CHANNEL 3
               </div>
             </div>
           </div>
