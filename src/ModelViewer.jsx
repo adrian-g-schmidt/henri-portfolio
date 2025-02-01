@@ -47,13 +47,13 @@ const TVInterface = () => {
   return (
     <Html
       transform
-      position={[0, 1.95, 0.046]}
+      position={[0, 1.98, 0.001]}
       rotation={[0, 0, 0]}
       scale={4}
       style={{
         width: "320px",
         height: "240px",
-        borderRadius: "15px",
+        borderRadius: "5px",
         overflow: "hidden",
       }}
       distanceFactor={1}
@@ -115,7 +115,7 @@ const TVInterface = () => {
 };
 
 function Model() {
-  const tv = useGLTF(`${import.meta.env.BASE_URL}crt_tv.glb`);
+  const tv = useGLTF(`${import.meta.env.BASE_URL}flattened-screen-2.glb`);
   const modelRef = useRef();
   const { camera } = useThree();
   const [isLoaded, setIsLoaded] = useState(false);
