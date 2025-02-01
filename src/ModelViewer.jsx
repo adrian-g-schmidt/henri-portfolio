@@ -19,6 +19,7 @@ import {
   Bloom,
 } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
+import { CanvasWrapper } from "@isaac_ua/drei-html-fix";
 
 const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
@@ -180,7 +181,7 @@ function Model() {
 
 export default function ModelViewer() {
   return (
-    <>
+    <CanvasWrapper>
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
         className="w-full h-full canvas-parent"
@@ -207,6 +208,6 @@ export default function ModelViewer() {
           <Vignette eskil={false} offset={0.2} darkness={0.6} />
         </EffectComposer>
       </Canvas>
-    </>
+    </CanvasWrapper>
   );
 }
