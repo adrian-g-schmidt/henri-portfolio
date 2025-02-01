@@ -115,7 +115,7 @@ const TVInterface = () => {
 };
 
 function Model() {
-  const tv = useGLTF(`${import.meta.env.BASE_URL}flattened-screen-2.glb`);
+  const tv = useGLTF(`${import.meta.env.BASE_URL}crt_tv.glb`);
   const modelRef = useRef();
   const { camera } = useThree();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -180,7 +180,7 @@ export default function ModelViewer() {
     <>
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
-        className="w-full h-full"
+        className="w-full h-full canvas-parent"
       >
         <Model />
         <OrbitControls
