@@ -5,18 +5,14 @@ import {
   Environment,
   Center,
   Html,
-  MeshReflectorMaterial,
 } from "@react-three/drei";
 import { useRef, useEffect, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import * as THREE from "three";
 import {
   EffectComposer,
   ChromaticAberration,
-  Noise,
   Vignette,
   Sepia,
-  Bloom,
 } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import { CanvasWrapper } from "@isaac_ua/drei-html-fix";
@@ -25,7 +21,7 @@ const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
 };
 
-const TVInterface = () => {
+const TVInterface = ({ onSpin, onNod }) => {
   const [stream, setStream] = useState(null);
   const [activeChannel, setActiveChannel] = useState(0);
 
@@ -89,17 +85,23 @@ const TVInterface = () => {
                 </span>
                 INTRO
               </div>
-              <div className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center">
+              <div
+                className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center"
+                onClick={onSpin}
+              >
                 <span className="w-4 opacity-0 group-hover:inline-block group-hover:opacity-100">
                   ⏵{" "}
                 </span>
-                CHANNEL 2
+                SPIN
               </div>
-              <div className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center">
+              <div
+                className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center"
+                onClick={onNod}
+              >
                 <span className="w-4 opacity-0 group-hover:inline-block group-hover:opacity-100">
                   ⏵{" "}
                 </span>
-                CHANNEL 3
+                NOD
               </div>
             </div>
           </div>
@@ -124,13 +126,16 @@ function Model() {
   const { camera } = useThree();
   const [isLoaded, setIsLoaded] = useState(false);
   const animationStartTime = useRef(null);
+  const spinStartTime = useRef(null);
+  const nodStartTime = useRef(null);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [isNodding, setIsNodding] = useState(false);
 
   useEffect(() => {
     camera.lookAt(0, 0, 0);
   }, [camera]);
 
   useEffect(() => {
-    // Set initial position
     if (modelRef.current) {
       modelRef.current.position.z = -50;
       modelRef.current.position.y = -0.2;
@@ -139,6 +144,16 @@ function Model() {
     }
     setIsLoaded(true);
   }, []);
+
+  const handleSpin = () => {
+    setIsSpinning(true);
+    spinStartTime.current = null;
+  };
+
+  const handleNod = () => {
+    setIsNodding(true);
+    nodStartTime.current = null;
+  };
 
   useFrame((state) => {
     if (!isLoaded) return;
@@ -161,6 +176,45 @@ function Model() {
       modelRef.current.position.y = -0.2;
       modelRef.current.scale.setScalar(1.2);
     }
+
+    // Handle spin animation
+    if (isSpinning) {
+      if (spinStartTime.current === null) {
+        spinStartTime.current = state.clock.getElapsedTime();
+      }
+      const spinTime = state.clock.getElapsedTime() - spinStartTime.current;
+      const spinDuration = 2;
+
+      if (spinTime <= spinDuration) {
+        const progress = spinTime / spinDuration;
+        const eased = easeOutCubic(Math.sin((progress * Math.PI) / 2));
+        modelRef.current.rotation.y = Math.PI * 2 * eased;
+      } else {
+        modelRef.current.position.z = 0;
+        modelRef.current.position.x = 0;
+        modelRef.current.rotation.y = 0;
+        setIsSpinning(false);
+      }
+    }
+
+    // Handle nod animation
+    if (isNodding) {
+      if (nodStartTime.current === null) {
+        nodStartTime.current = state.clock.getElapsedTime();
+      }
+      const nodTime = state.clock.getElapsedTime() - nodStartTime.current;
+      const nodDuration = 0.8;
+      const nodNumber = 2;
+
+      if (nodTime <= nodNumber * nodDuration) {
+        const normalizedTime = nodTime / nodDuration;
+        const rotation = 1 - Math.cos(normalizedTime * Math.PI * 2);
+        modelRef.current.rotation.x = rotation * 0.2;
+      } else {
+        modelRef.current.rotation.x = 0;
+        setIsNodding(false);
+      }
+    }
   });
 
   return (
@@ -173,7 +227,7 @@ function Model() {
           rotation={[0, Math.PI, 0]}
           onLoad={() => setIsLoaded(true)}
         />
-        <TVInterface />
+        <TVInterface onSpin={handleSpin} onNod={handleNod} />
       </group>
     </Center>
   );
@@ -198,13 +252,9 @@ export default function ModelViewer() {
         <EffectComposer>
           <ChromaticAberration
             blendFunction={BlendFunction.NORMAL}
-            offset={[0.0005, 0.0005]} // Slightly stronger effect
+            offset={[0.0005, 0.0005]}
           />
-          <Sepia intensity={0.5} /> {/* Warmer vintage tone */}
-          {/* <Noise
-          premultiply={false} // More visible noise
-          blendFunction={BlendFunction.OVERLAY} // Makes it pop more
-        /> */}
+          <Sepia intensity={0.5} />
           <Vignette eskil={false} offset={0.2} darkness={0.6} />
         </EffectComposer>
       </Canvas>
