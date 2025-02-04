@@ -26,14 +26,14 @@ export default function What({ handleNavigate }) {
         </p>
         <div
           className="bg-cover cursor-pointer
- z-30 w-full flex items-end justify-start flex-shrink-0 h-[180px] bg-[url(./assets/showreel.jpg)] p-2"
+ z-30 w-full flex items-end justify-start flex-shrink-0 h-[180px] bg-[url(./showreel.jpg)] p-2"
           onClick={() => handleNavigate("showreel")}
         >
           <h2 className="text-xs">SHOWREEL [FEB 2025]</h2>
         </div>
         <div
           className="bg-cover cursor-pointer
- z-30 w-full flex items-end justify-start flex-shrink-0 h-[180px] bg-[url(./assets/running_joke.jpg)] p-2"
+ z-30 w-full flex items-end justify-start flex-shrink-0 h-[180px] bg-[url(./running_joke.jpg)] p-2"
           onClick={() => handleNavigate("running")}
         >
           <h2 className="text-xs">

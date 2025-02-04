@@ -23,7 +23,7 @@ export default function Showreel({ handleNavigate }) {
         <div className="col-span-3 flex flex-col gap-4">
           <div
             className="bg-cover
- z-30 w-full flex items-end justify-start flex-shrink-0 grow bg-[url(./assets/showreel.jpg)] p-2"
+ z-30 w-full flex items-end justify-start flex-shrink-0 grow bg-[url(./showreel.jpg)] p-2"
           ></div>
           <div className="flex justify-between w-full">
             <h2 className="text-[8px]">SHOWREEL [FEB 2025]</h2>
