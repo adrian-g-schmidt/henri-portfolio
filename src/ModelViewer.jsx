@@ -22,6 +22,9 @@ import Intro from "./screen_pages/Intro";
 import Who from "./screen_pages/Who";
 import When from "./screen_pages/When";
 import Why from "./screen_pages/Why";
+import What from "./screen_pages/What";
+import Showreel from "./screen_pages/Showreel";
+import Running from "./screen_pages/Running";
 
 const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
@@ -91,8 +94,14 @@ const TVInterface = ({ onSpin, onNod }) => {
               return <When handleNavigate={handleNavigate} />;
             case "why":
               return <Why handleNavigate={handleNavigate} />;
+            case "what":
+              return <What handleNavigate={handleNavigate} />;
             case "intro":
               return <Intro handleNavigate={handleNavigate} />;
+            case "showreel":
+              return <Showreel handleNavigate={handleNavigate} />;
+            case "running":
+              return <Running handleNavigate={handleNavigate} />;
             default:
               return (
                 <div>
