@@ -17,13 +17,19 @@ import {
 import { BlendFunction } from "postprocessing";
 import { CanvasWrapper } from "@isaac_ua/drei-html-fix";
 
+import Home from "./screen_pages/Home";
+import Intro from "./screen_pages/Intro";
+import Who from "./screen_pages/Who";
+import When from "./screen_pages/When";
+import Why from "./screen_pages/Why";
+
 const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
 };
 
 const TVInterface = ({ onSpin, onNod }) => {
   const [stream, setStream] = useState(null);
-  const [activeChannel, setActiveChannel] = useState(0);
+  const [currentPage, setCurrentPage] = useState("home");
 
   useEffect(() => {
     navigator.mediaDevices
@@ -41,6 +47,10 @@ const TVInterface = ({ onSpin, onNod }) => {
     };
   }, []);
 
+  const handleNavigate = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Html
       transform
@@ -52,6 +62,7 @@ const TVInterface = ({ onSpin, onNod }) => {
         height: "240px",
         borderRadius: "5px",
         overflow: "hidden",
+        backgroundColor: "#18181B",
       }}
       distanceFactor={1}
       wrapperClass="tv-wrapper"
@@ -70,51 +81,41 @@ const TVInterface = ({ onSpin, onNod }) => {
             }}
           />
         )}
-        {activeChannel === 0 && (
-          <div className="relative z-20 p-4">
-            <h1 className="text-2xl text-white w-full text-center mb-4">
-              WELCOME
-            </h1>
-            <div className="flex flex-col gap-2 items-center justify-center">
-              <div
-                className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center"
-                onClick={() => setActiveChannel(1)}
-              >
-                <span className="w-4 opacity-0 group-hover:inline-block group-hover:opacity-100">
-                  ⏵{" "}
-                </span>
-                INTRO
-              </div>
-              <div
-                className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center"
-                onClick={onSpin}
-              >
-                <span className="w-4 opacity-0 group-hover:inline-block group-hover:opacity-100">
-                  ⏵{" "}
-                </span>
-                SPIN
-              </div>
-              <div
-                className="pr-4 group w-3/4 py-2 text-lg text-white hover:text-green-400 cursor-pointer flex items-center justify-center"
-                onClick={onNod}
-              >
-                <span className="w-4 opacity-0 group-hover:inline-block group-hover:opacity-100">
-                  ⏵{" "}
-                </span>
-                NOD
-              </div>
-            </div>
-          </div>
-        )}
-        {activeChannel === 1 && (
-          <video
-            autoPlay
-            playsInline
-            className="z-20 video-effect absolute top-0 left-0 w-full h-full object-cover"
-            src="./intro-vid.mp4"
-            onEnded={() => setActiveChannel(0)}
-          />
-        )}
+        {(() => {
+          switch (currentPage) {
+            case "home":
+              return <Home handleNavigate={handleNavigate} />;
+            case "who":
+              return <Who handleNavigate={handleNavigate} />;
+            case "when":
+              return <When handleNavigate={handleNavigate} />;
+            case "why":
+              return <Why handleNavigate={handleNavigate} />;
+            case "intro":
+              return <Intro handleNavigate={handleNavigate} />;
+            default:
+              return (
+                <div>
+                  Doesnt exist yet
+                  <button
+                    className="h-6 w-6 group cursor-pointer"
+                    onClick={() => handleNavigate("home")}
+                  >
+                    <svg
+                      className="w-full h-full group-hover:text-red-500"
+                      viewBox="0 0 61 43"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10.8401 24.6782C11.5485 25.3951 12.4819 25.7541 13.4159 25.7541C14.3352 25.7541 15.2551 25.4061 15.9606 24.7089C17.3831 23.3034 17.3969 21.0108 15.9913 19.5883L13.1162 16.6784H42.3437C48.4794 16.6784 53.4712 21.6701 53.4712 27.8058V28.1037C53.4712 31.076 52.3137 33.8702 50.212 35.972C48.798 37.386 48.798 39.6786 50.212 41.0926C50.919 41.7996 51.8458 42.1532 52.7724 42.1532C53.699 42.1532 54.6257 41.7997 55.3327 41.0926C58.8022 37.6231 60.7129 33.0103 60.7129 28.1037V27.8057C60.7129 22.8991 58.8022 18.2862 55.3327 14.8168C51.8632 11.3473 47.2503 9.43657 42.3437 9.43657H13.0327L15.9466 6.55733C17.3691 5.15182 17.3829 2.85923 15.9773 1.43675C14.572 0.0143373 12.2794 0.00047519 10.8568 1.40606L1.78887 10.3661C1.10573 11.0411 0.718681 11.9597 0.712957 12.92C0.707163 13.8803 1.08311 14.8035 1.75811 15.4867L10.8401 24.6782Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              );
+          }
+        })()}
       </div>
     </Html>
   );
@@ -243,7 +244,7 @@ export default function ModelViewer() {
         <Model />
         <OrbitControls
           enablePan={false}
-          enableZoom={true}
+          enableZoom={false}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 2}
           target={[0, 0, 0]}
