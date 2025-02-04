@@ -25,6 +25,7 @@ import Why from "./screen_pages/Why";
 import What from "./screen_pages/What";
 import Showreel from "./screen_pages/Showreel";
 import Running from "./screen_pages/Running";
+import Bouncing from "./screen_pages/Bouncing";
 
 const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
@@ -32,7 +33,7 @@ const easeOutCubic = (x) => {
 
 const TVInterface = ({ onSpin, onNod }) => {
   const [stream, setStream] = useState(null);
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState("bouncing");
 
   useEffect(() => {
     navigator.mediaDevices
@@ -98,6 +99,9 @@ const TVInterface = ({ onSpin, onNod }) => {
               return <What handleNavigate={handleNavigate} />;
             case "intro":
               return <Intro handleNavigate={handleNavigate} />;
+            case "bouncing":
+              console.log("hello");
+              return <Bouncing handleNavigate={handleNavigate} />;
             case "showreel":
               return <Showreel handleNavigate={handleNavigate} />;
             case "running":
