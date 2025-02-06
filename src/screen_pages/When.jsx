@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 
 export default function When({ handleNavigate }) {
   const [timeRemaining, setTimeRemaining] = useState({
+    years: 0,
+    months: 0,
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
+    milliseconds: 0,
   });
 
   useEffect(() => {
@@ -17,22 +20,23 @@ export default function When({ handleNavigate }) {
         setTimeRemaining(null);
       } else {
         setTimeRemaining({
+          years: Math.floor(difference / (1000 * 60 * 60 * 24 * 365)),
+          months: Math.floor(difference / (1000 * 60 * 60 * 24 * 30.44)),
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor(
-            (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-          ),
-          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((difference % (1000 * 60)) / 1000),
+          hours: Math.floor(difference / (1000 * 60 * 60)),
+          minutes: Math.floor(difference / (1000 * 60)),
+          seconds: Math.floor(difference / 1000),
+          milliseconds: difference,
         });
       }
     };
-    const interval = setInterval(calculateTimeRemaining, 1000);
+    const interval = setInterval(calculateTimeRemaining, 1);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="z-20 flex justify-between flex-col p-2 h-full">
-      <header className="w-full uppercase text-xl pb-2 flex justify-between">
+    <div className="z-20 flex justify-between -my-1 flex-col p-2 h-full">
+      <header className="w-full uppercase text-xl pb-2 flex justify-between -my-1">
         <button
           className="h-6 w-6 group cursor-pointer"
           onClick={() => handleNavigate("home")}
@@ -50,23 +54,32 @@ export default function When({ handleNavigate }) {
         </button>
         3. When?
       </header>
-      <div className="w-full text-right text-3xl gap-2 flex flex-col">
-        <p className="text-xs w-full text-center">
+      <div className="w-full text-right text-xl gap-2 flex flex-col">
+        <p className="text-[1.2rem] w-full text-center">
           HENRI IS EXPECTED TO DIE IN
         </p>
         {timeRemaining ? (
           <div className="flex flex-col w-full">
-            <span className="flex justify-between">
+            <span className="flex justify-between -my-1">
+              <span>{timeRemaining.years}</span> <span>YEARS</span>
+            </span>
+            <span className="flex justify-between -my-1">
+              <span>{timeRemaining.months}</span> <span>MONTHS</span>
+            </span>
+            <span className="flex justify-between -my-1">
               <span>{timeRemaining.days}</span> <span>DAYS</span>
             </span>
-            <span className="flex justify-between">
+            <span className="flex justify-between -my-1">
               <span>{timeRemaining.hours}</span> <span>HOURS</span>
             </span>
-            <span className="flex justify-between">
+            <span className="flex justify-between -my-1">
               <span>{timeRemaining.minutes}</span> <span>MINUTES</span>
             </span>
-            <span className="flex justify-between">
+            <span className="flex justify-between -my-1">
               <span>{timeRemaining.seconds}</span> <span>SECONDS</span>
+            </span>
+            <span className="flex justify-between -my-1">
+              <span>{timeRemaining.milliseconds}</span> <span>MSECONDS</span>
             </span>
           </div>
         ) : (

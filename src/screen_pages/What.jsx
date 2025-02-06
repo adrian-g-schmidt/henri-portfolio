@@ -20,7 +20,7 @@ export default function What({ handleNavigate }) {
         2. What?
       </header>
       <div className="w-full text-3xl gap-2 flex flex-col items-center h-fit overflow-y-scroll [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-white">
-        <p className="text-xs w-2/3 text-center uppercase">
+        <p className="text-xl text-center uppercase">
           THE BELOW COLLECTION OF FILMMAKING PROJECTS WERE EITHER SPEARHEADED BY
           OR OTHERWISE INVOLVE HENRI SCOTT IN SOME CAPACITY.
         </p>

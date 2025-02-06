@@ -3,7 +3,7 @@ import ModelViewer from "./ModelViewer";
 
 function App() {
   return (
-    <div className="w-svw h-svh relative bg-zinc-950">
+    <div className="w-svw h-svh relative bg-zinc-900">
       <ModelViewer />
       <div
         className="w-full h-full z-50 absolute top-0 pointer-events-none"

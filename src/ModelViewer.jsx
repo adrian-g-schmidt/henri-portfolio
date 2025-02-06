@@ -262,7 +262,14 @@ export default function ModelViewer() {
           maxPolarAngle={Math.PI / 2}
           target={[0, 0, 0]}
         />
-        <Environment preset="city" />
+        <Environment
+          preset="city"
+          // ground={{
+          //   height: 15, // Height of the camera that was used to create the env map (Default: 15)
+          //   radius: 60, // Radius of the world. (Default 60)
+          //   scale: 1000, // Scale of the backside projected sphere that holds the env texture (Default: 1000)
+          // }}
+        />
         <EffectComposer>
           <ChromaticAberration
             blendFunction={BlendFunction.NORMAL}
