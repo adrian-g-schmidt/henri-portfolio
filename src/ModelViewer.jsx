@@ -58,7 +58,7 @@ const TVInterface = ({ onSpin, onNod }) => {
   return (
     <Html
       transform
-      position={[0, 1.98, 0.001]}
+      position={[0, 1.98, 0.0075]}
       rotation={[0, 0, 0]}
       scale={4}
       style={{
