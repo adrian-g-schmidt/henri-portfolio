@@ -135,7 +135,7 @@ const TVInterface = ({ onSpin, onNod }) => {
 };
 
 function Model() {
-  const tv = useGLTF(`${import.meta.env.BASE_URL}crt_altered.glb`);
+  const tv = useGLTF(`${import.meta.env.BASE_URL}crt_erased.glb`);
   const modelRef = useRef();
   const { camera } = useThree();
   const [isLoaded, setIsLoaded] = useState(false);
