@@ -144,9 +144,27 @@ function Model() {
   const nodStartTime = useRef(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [isNodding, setIsNodding] = useState(false);
+  const [isBored, setIsBored] = useState(false);
+  const lastInteractionTime = useRef(Date.now());
+  const boredPosition = useRef({ x: 0, y: 0.2, z: 0 });
+  const targetPosition = useRef({ x: 0, y: 0, z: 0 });
+  const velocity = useRef({ x: 0, y: 0, z: 0 });
+  const transitionProgress = useRef(0);
+  const returnAnimationStartTime = useRef(null);
+  const isReturning = useRef(false);
+  const returnStartPosition = useRef({ x: 0, y: 0, z: 0 });
+  const returnStartRotation = useRef({ x: 0, y: 0, z: 0 });
 
   useEffect(() => {
     camera.lookAt(0, 0, 0);
+
+    const checkBoredom = setInterval(() => {
+      if (Date.now() - lastInteractionTime.current > 8000) {
+        setIsBored(true);
+      }
+    }, 1000);
+
+    return () => clearInterval(checkBoredom);
   }, [camera]);
 
   useEffect(() => {
@@ -169,6 +187,25 @@ function Model() {
     nodStartTime.current = null;
   };
 
+  const handleInteraction = () => {
+    lastInteractionTime.current = Date.now();
+    if (isBored) {
+      setIsBored(false);
+      isReturning.current = true;
+      returnAnimationStartTime.current = null;
+      returnStartPosition.current = {
+        x: modelRef.current.position.x,
+        y: modelRef.current.position.y,
+        z: modelRef.current.position.z,
+      };
+      returnStartRotation.current = {
+        x: modelRef.current.rotation.x,
+        y: modelRef.current.rotation.y,
+        z: modelRef.current.rotation.z,
+      };
+    }
+  };
+
   useFrame((state) => {
     if (!isLoaded) return;
 
@@ -179,16 +216,124 @@ function Model() {
     const time = state.clock.getElapsedTime() - animationStartTime.current;
     const duration = 2;
 
+    // Update transition progress
+    if (!isReturning.current) {
+      transitionProgress.current += isBored ? 0.005 : -0.005;
+      transitionProgress.current = Math.max(
+        0,
+        Math.min(1, transitionProgress.current),
+      );
+    }
+
     if (time <= duration) {
       const progress = time / duration;
       const eased = easeOutCubic(progress);
       modelRef.current.position.z = -50 * (1 - eased);
       modelRef.current.position.y = -0.2;
       modelRef.current.scale.setScalar(1.2 * eased);
-    } else {
-      modelRef.current.position.z = 0;
-      modelRef.current.position.y = -0.2;
-      modelRef.current.scale.setScalar(1.2);
+    } else if (isReturning.current) {
+      if (returnAnimationStartTime.current === null) {
+        returnAnimationStartTime.current = state.clock.getElapsedTime();
+      }
+
+      const returnTime =
+        state.clock.getElapsedTime() - returnAnimationStartTime.current;
+      const returnDuration = 1.0;
+
+      if (returnTime <= returnDuration) {
+        const progress = easeOutCubic(returnTime / returnDuration);
+
+        // Interpolate position
+        modelRef.current.position.x =
+          returnStartPosition.current.x * (1 - progress);
+        modelRef.current.position.y =
+          returnStartPosition.current.y * (1 - progress) + -0.2 * progress;
+        modelRef.current.position.z =
+          returnStartPosition.current.z * (1 - progress);
+
+        // Interpolate rotation
+        modelRef.current.rotation.x =
+          returnStartRotation.current.x * (1 - progress);
+        modelRef.current.rotation.y =
+          returnStartRotation.current.y * (1 - progress);
+        modelRef.current.rotation.z =
+          returnStartRotation.current.z * (1 - progress);
+      } else {
+        modelRef.current.position.set(0, -0.2, 0);
+        modelRef.current.rotation.set(0, 0, 0);
+        isReturning.current = false;
+        transitionProgress.current = 0;
+      }
+    } else if (!isReturning.current) {
+      // Blend between normal and bored states
+      const hoverTime = state.clock.getElapsedTime();
+      const lookTime = state.clock.getElapsedTime();
+      const hoverHeight = Math.sin(hoverTime * 0.5) * 0.05;
+      const lookX = Math.sin(lookTime * 0.4) * 0.1;
+      const lookY = Math.sin(lookTime * 0.3) * 0.05;
+
+      // Calculate bored state positions and rotations
+      const boredHoverTime = state.clock.getElapsedTime() * 0.2;
+      targetPosition.current.x = Math.sin(boredHoverTime) * 3;
+      targetPosition.current.y = Math.cos(boredHoverTime * 0.7) * 0.5 - 0.2;
+      targetPosition.current.z = Math.cos(boredHoverTime) * 2 - 8;
+
+      // Calculate direction vector for bored state
+      const dx = targetPosition.current.x - modelRef.current.position.x;
+      const dy = targetPosition.current.y - modelRef.current.position.y;
+      const dz = targetPosition.current.z - modelRef.current.position.z;
+
+      // Update velocity with smooth acceleration
+      velocity.current.x += (dx - velocity.current.x) * 0.03;
+      velocity.current.y += (dy - velocity.current.y) * 0.03;
+      velocity.current.z += (dz - velocity.current.z) * 0.03;
+
+      // Calculate rotations for bored state
+      const targetRotationY = Math.atan2(
+        velocity.current.x,
+        velocity.current.z,
+      );
+      const targetRotationZ = -velocity.current.x * 0.2;
+      const targetRotationX = velocity.current.y * 0.2;
+
+      // Blend between normal and bored positions
+      const blendedX =
+        0 * (1 - transitionProgress.current) +
+        (modelRef.current.position.x + velocity.current.x * 0.02) *
+          transitionProgress.current;
+      const blendedY =
+        (-0.2 + hoverHeight) * (1 - transitionProgress.current) +
+        (modelRef.current.position.y + velocity.current.y * 0.02) *
+          transitionProgress.current;
+      const blendedZ =
+        0 * (1 - transitionProgress.current) +
+        (modelRef.current.position.z + velocity.current.z * 0.02) *
+          transitionProgress.current;
+
+      // Blend between normal and bored rotations
+      const blendedRotY =
+        lookX * (1 - transitionProgress.current) +
+        targetRotationY * transitionProgress.current;
+      const blendedRotX =
+        lookY * (1 - transitionProgress.current) +
+        targetRotationX * transitionProgress.current;
+      const blendedRotZ =
+        0 * (1 - transitionProgress.current) +
+        targetRotationZ * transitionProgress.current;
+
+      // Apply blended transformations
+      modelRef.current.position.x +=
+        (blendedX - modelRef.current.position.x) * 0.1;
+      modelRef.current.position.y +=
+        (blendedY - modelRef.current.position.y) * 0.1;
+      modelRef.current.position.z +=
+        (blendedZ - modelRef.current.position.z) * 0.1;
+      modelRef.current.rotation.y +=
+        (blendedRotY - modelRef.current.rotation.y) * 0.1;
+      modelRef.current.rotation.x +=
+        (blendedRotX - modelRef.current.rotation.x) * 0.1;
+      modelRef.current.rotation.z +=
+        (blendedRotZ - modelRef.current.rotation.z) * 0.1;
     }
 
     // Handle spin animation
@@ -204,8 +349,6 @@ function Model() {
         const eased = easeOutCubic(Math.sin((progress * Math.PI) / 2));
         modelRef.current.rotation.y = Math.PI * 2 * eased;
       } else {
-        modelRef.current.position.z = 0;
-        modelRef.current.position.x = 0;
         modelRef.current.rotation.y = 0;
         setIsSpinning(false);
       }
@@ -233,7 +376,13 @@ function Model() {
 
   return (
     <Center>
-      <group ref={modelRef} visible={false}>
+      <group
+        ref={modelRef}
+        visible={false}
+        onClick={handleInteraction}
+        onPointerOver={handleInteraction}
+        onWheel={handleInteraction}
+      >
         <primitive
           object={tv.scene}
           position={[0, -0.2, 0]}
@@ -262,14 +411,7 @@ export default function ModelViewer() {
           maxPolarAngle={Math.PI / 2}
           target={[0, 0, 0]}
         />
-        <Environment
-          preset="city"
-          // ground={{
-          //   height: 15, // Height of the camera that was used to create the env map (Default: 15)
-          //   radius: 60, // Radius of the world. (Default 60)
-          //   scale: 1000, // Scale of the backside projected sphere that holds the env texture (Default: 1000)
-          // }}
-        />
+        <Environment preset="city" />
         <EffectComposer>
           <ChromaticAberration
             blendFunction={BlendFunction.NORMAL}

@@ -14,4 +14,4 @@ type npm run dev to start the website locally.
 
 to push any changes, open github desktop, make sure to press fetch origin first, then in the bottom left leave a comment about what you did and press commit.
 
-Then go to the top right and press the push button.
+Then go to the top right and press the push origin button.
