@@ -14,7 +14,7 @@ export default function Home({ handleNavigate }) {
       <div className="grid grid-cols-2 p-4 ">
         <div className="flex flex-col items-start justify-center w-fit">
           <button
-            className="-my-1 uppercase text-xl text-white hover:text-red-600 cursor-pointer flex items-center justify-center"
+            className="-my-1 uppercase text-xl text-white hover:text-red-600 hover:[text-shadow:_0_0_15px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer flex items-center justify-center"
             onClick={() => handleNavigate("who")}
             onMouseEnter={() => setCurrentVideo("vin_spin.mp4")}
             onMouseLeave={() => setCurrentVideo("h_spin.mp4")}
@@ -22,7 +22,7 @@ export default function Home({ handleNavigate }) {
             1. Who?
           </button>
           <button
-            className="-my-1 uppercase text-xl text-white hover:text-red-600 cursor-pointer flex items-center justify-center"
+            className="-my-1 uppercase text-xl text-white hover:text-red-600 hover:[text-shadow:_0_0_15px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer flex items-center justify-center"
             onClick={() => handleNavigate("what")}
             onMouseEnter={() => setCurrentVideo("cam_spin.mp4")}
             onMouseLeave={() => setCurrentVideo("h_spin.mp4")}
@@ -30,8 +30,7 @@ export default function Home({ handleNavigate }) {
             2. What?
           </button>
           <button
-            className="-my-1 uppercase
-        text-xl text-white hover:text-red-500 cursor-pointer flex items-center justify-center"
+            className="-my-1 uppercase text-xl text-white hover:text-red-500 hover:[text-shadow:_0_0_15px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer flex items-center justify-center"
             onClick={() => handleNavigate("when")}
             onMouseEnter={() => setCurrentVideo("dionysis_spin.mp4")}
             onMouseLeave={() => setCurrentVideo("h_spin.mp4")}
@@ -39,7 +38,7 @@ export default function Home({ handleNavigate }) {
             3. When?
           </button>
           <button
-            className="-my-1 uppercase  text-xl text-white hover:text-red-500 cursor-pointer flex items-center justify-center"
+            className="-my-1 uppercase text-xl text-white hover:text-red-500 hover:[text-shadow:_0_0_15px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer flex items-center justify-center"
             onClick={() => handleNavigate("where")}
             onMouseEnter={() => setCurrentVideo("earth_spin.mp4")}
             onMouseLeave={() => setCurrentVideo("h_spin.mp4")}
@@ -47,7 +46,7 @@ export default function Home({ handleNavigate }) {
             4. Where?
           </button>
           <button
-            className="-my-1 uppercase  text-xl text-white hover:text-red-500 cursor-pointer flex items-center justify-center"
+            className="-my-1 uppercase text-xl text-white hover:text-red-500 hover:[text-shadow:_0_0_15px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer flex items-center justify-center"
             onClick={() => handleNavigate("why")}
             onMouseEnter={() => setCurrentVideo("cash_spin.mp4")}
             onMouseLeave={() => setCurrentVideo("h_spin.mp4")}
@@ -55,7 +54,7 @@ export default function Home({ handleNavigate }) {
             5. Why?
           </button>
           {/* <button
-            className="-my-1 uppercase  text-xl text-white hover:text-red-500 cursor-pointer flex items-center justify-center"
+            className="-my-1 uppercase text-xl text-white hover:text-red-500 hover:[text-shadow:_0_0_15px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer flex items-center justify-center"
             onClick={() => handleNavigate("how")}
             onMouseEnter={() => setCurrentVideo("vin_spin.mp4")}
             onMouseLeave={() => setCurrentVideo("vin_spin.mp4")}
