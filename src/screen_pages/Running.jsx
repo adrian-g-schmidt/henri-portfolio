@@ -1,6 +1,6 @@
 export default function Running({ handleNavigate }) {
   return (
-    <div className="z-20 flex justify-between flex-col p-2 h-full">
+    <div className="z-20 flex justify-between flex-col p-4 h-full">
       <header className="w-full uppercase text-xl pb-2 flex justify-between text-right">
         <button
           className="h-6 w-6 group cursor-pointer"

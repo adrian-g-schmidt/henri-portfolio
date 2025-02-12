@@ -72,7 +72,7 @@ const TVInterface = ({ onSpin, onNod }) => {
       wrapperClass="tv-wrapper"
       occlude
     >
-      <div className="bg-zinc-900 crt w-full h-full text-white border-none blur-[0.5px] relative">
+      <div className="bg-zinc-900 crt w-full h-full text-white border-none blur-[0.4px] relative">
         {stream && (
           <video
             autoPlay

@@ -11,7 +11,7 @@ export default function Home({ handleNavigate }) {
 
   return (
     <div className="flex items-center justify-center z-20 h-full bg-zinc-900">
-      <div className="grid grid-cols-2 p-4 ">
+      <div className="grid grid-cols-2 p-8 ">
         <div className="flex flex-col items-start justify-center w-fit">
           <button
             className="-my-1 uppercase text-xl text-white hover:text-red-600 hover:[text-shadow:_0_0_15px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer flex items-center justify-center"
@@ -54,6 +54,7 @@ export default function Home({ handleNavigate }) {
             5. Why?
           </button>
           {/* <button
+
             className="-my-1 uppercase text-xl text-white hover:text-red-500 hover:[text-shadow:_0_0_15px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer flex items-center justify-center"
             onClick={() => handleNavigate("how")}
             onMouseEnter={() => setCurrentVideo("vin_spin.mp4")}
