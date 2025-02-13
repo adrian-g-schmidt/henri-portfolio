@@ -195,7 +195,7 @@ function Model() {
     window.addEventListener("mousemove", handleMouseMove);
 
     const checkBoredom = setInterval(() => {
-      if (Date.now() - lastInteractionTime.current > 8000) {
+      if (Date.now() - lastInteractionTime.current > 100000) {
         setIsBored(true);
       }
     }, 1000);
