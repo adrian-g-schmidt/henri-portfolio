@@ -1,7 +1,7 @@
 export default function What({ handleNavigate }) {
   return (
-    <div className="z-20 flex justify-between flex-col p-4 h-full">
-      <header className="w-full uppercase text-xl pb-2 flex justify-between">
+    <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF]">
+      <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
         <button
           className="h-6 w-6 group cursor-pointer"
           onClick={() => handleNavigate("home")}
@@ -19,26 +19,111 @@ export default function What({ handleNavigate }) {
         </button>
         2. What?
       </header>
-      <div className="w-full text-3xl gap-2 flex flex-col items-center h-fit overflow-y-scroll [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-white">
-        <p className="text-xl text-center uppercase">
-          THE BELOW COLLECTION OF FILMMAKING PROJECTS WERE EITHER SPEARHEADED BY
-          OR OTHERWISE INVOLVE HENRI SCOTT IN SOME CAPACITY.
-        </p>
-        <div
-          className="bg-cover cursor-pointer
- z-30 w-full flex items-end justify-start flex-shrink-0 h-[180px] bg-[url(./showreel.jpg)] p-2"
-          onClick={() => handleNavigate("showreel")}
-        >
-          <h2 className="text-xs">SHOWREEL [FEB 2025]</h2>
+      <div className="w-full text-3xl h-fit overflow-y-scroll [&::-webkit-scrollbar]:hidden">
+        <div className="flex gap-4">
+          <p className="text-[11px] text-left uppercase mb-4 flex-1">
+            THE FOLLOWING COLLECTION OF FILMMAKING PROJECTS WERE EITHER
+            SPEARHEADED BY OR OTHERWISE INVOLVE HENRI SCOTT IN SOME CAPACITY.
+          </p>
+          <div className="flex flex-col flex-[0.7] mb-4">
+            <div
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./showreel.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              onClick={() => handleNavigate("showreel")}
+            >
+              <div className="absolute top-1 left-1 text-[#2160FF] text-[12px] bg-white px-1">
+                SHOWREEL
+              </div>
+              <div className="absolute bottom-1 left-1 text-[#2160FF] text-[12px] bg-white px-1">
+                [FEB 2025]
+              </div>
+            </div>
+          </div>
         </div>
-        <div
-          className="bg-cover cursor-pointer
- z-30 w-full flex items-end justify-start flex-shrink-0 h-[180px] bg-[url(./running_joke.jpg)] p-2"
-          onClick={() => handleNavigate("running")}
-        >
-          <h2 className="text-xs">
-            DOCUMENTARY | A LONG RUNNING JOKE [IN PRODUCTION]
-          </h2>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="flex flex-col">
+            <div
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./showreel.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              onClick={() => handleNavigate("showreel")}
+            >
+              <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                SHOWREEL
+              </div>
+              <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                [FEB 2025]
+              </div>
+            </div>
+            <h2 className="text-[10px] mt-2">DIRECTING AND DOP SHOWREEL</h2>
+          </div>
+          <div className="flex flex-col">
+            <div
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./running_joke.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              onClick={() => handleNavigate("running")}
+            >
+              <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                DOCUMENTARY
+              </div>
+              <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                [IN PRODUCTION]
+              </div>
+            </div>
+            <h2 className="text-[10px] mt-2">A LONG RUNNING JOKE</h2>
+          </div>
+          <div className="flex flex-col">
+            <div
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              onClick={() => handleNavigate("project3")}
+            >
+              <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                SHORT FILM
+              </div>
+              <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                [2024]
+              </div>
+            </div>
+            <h2 className="text-[10px] mt-2">PROJECT THREE</h2>
+          </div>
+          <div className="flex flex-col">
+            <div
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              onClick={() => handleNavigate("project4")}
+            >
+              <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                MUSIC VIDEO
+              </div>
+              <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                [2023]
+              </div>
+            </div>
+            <h2 className="text-[10px] mt-2">PROJECT FOUR</h2>
+          </div>
+          <div className="flex flex-col">
+            <div
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              onClick={() => handleNavigate("project5")}
+            >
+              <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                COMMERCIAL
+              </div>
+              <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                [2023]
+              </div>
+            </div>
+            <h2 className="text-[10px] mt-2">PROJECT FIVE</h2>
+          </div>
+          <div className="flex flex-col">
+            <div
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              onClick={() => handleNavigate("project6")}
+            >
+              <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                DOCUMENTARY
+              </div>
+              <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
+                [2022]
+              </div>
+            </div>
+            <h2 className="text-[10px] mt-2">PROJECT SIX</h2>
+          </div>
         </div>
       </div>
     </div>

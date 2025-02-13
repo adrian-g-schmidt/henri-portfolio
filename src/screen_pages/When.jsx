@@ -52,8 +52,8 @@ export default function When({ handleNavigate }) {
   const progressWidth = calculateProgress() * 100;
 
   return (
-    <div className="z-20 flex justify-between -my-1 flex-col p-4 h-full">
-      <header className="w-full uppercase text-xl pb-2 flex justify-between -my-1">
+    <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF]">
+      <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
         <button
           className="h-6 w-6 group cursor-pointer"
           onClick={() => handleNavigate("home")}
