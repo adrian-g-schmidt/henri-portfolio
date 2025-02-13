@@ -1,6 +1,6 @@
 export default function What({ handleNavigate }) {
   return (
-    <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF]">
+    <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF] overflow-visible">
       <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
         <button
           className="h-6 w-6 group cursor-pointer"
@@ -19,15 +19,18 @@ export default function What({ handleNavigate }) {
         </button>
         2. What?
       </header>
-      <div className="w-full text-3xl h-fit overflow-y-scroll [&::-webkit-scrollbar]:hidden">
-        <div className="flex gap-4">
-          <p className="text-[11px] text-left uppercase mb-4 flex-1">
-            THE FOLLOWING COLLECTION OF FILMMAKING PROJECTS WERE EITHER
-            SPEARHEADED BY OR OTHERWISE INVOLVE HENRI SCOTT IN SOME CAPACITY.
-          </p>
+      <div className="w-full text-3xl h-fit overflow-y-scroll [&::-webkit-scrollbar]:hidden snap-y snap-mandatory">
+        <div className="flex gap-4 snap-start">
+          <div className="flex-1">
+            <h1 className="text-xl font-bold mb-1">FILMMAKING PROJECTS</h1>
+            <p className="text-[10px] text-left uppercase mb-4">
+              THE FOLLOWING COLLECTION OF PROJECTS WERE EITHER SPEARHEADED BY OR
+              OTHERWISE INVOLVE HENRI SCOTT.
+            </p>
+          </div>
           <div className="flex flex-col flex-[0.7] mb-4">
             <div
-              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./showreel.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./showreel.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
               onClick={() => handleNavigate("showreel")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[12px] bg-white px-1">
@@ -39,10 +42,10 @@ export default function What({ handleNavigate }) {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 snap-start">
           <div className="flex flex-col">
             <div
-              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./showreel.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./showreel.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
               onClick={() => handleNavigate("showreel")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
@@ -56,7 +59,7 @@ export default function What({ handleNavigate }) {
           </div>
           <div className="flex flex-col">
             <div
-              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./running_joke.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./running_joke.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
               onClick={() => handleNavigate("running")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
@@ -70,7 +73,7 @@ export default function What({ handleNavigate }) {
           </div>
           <div className="flex flex-col">
             <div
-              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
               onClick={() => handleNavigate("project3")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
@@ -84,7 +87,7 @@ export default function What({ handleNavigate }) {
           </div>
           <div className="flex flex-col">
             <div
-              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
               onClick={() => handleNavigate("project4")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
@@ -98,7 +101,7 @@ export default function What({ handleNavigate }) {
           </div>
           <div className="flex flex-col">
             <div
-              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
               onClick={() => handleNavigate("project5")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
@@ -112,7 +115,7 @@ export default function What({ handleNavigate }) {
           </div>
           <div className="flex flex-col">
             <div
-              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)]"
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
               onClick={() => handleNavigate("project6")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">

@@ -41,11 +41,12 @@ export default function Bouncing({ handleNavigate }) {
   const handleClick = () => {
     const video = videoRef.current;
     if (!isPlaying) {
+      video.currentTime = 1; // Skip first second
       video.play();
       setIsPlaying(true);
 
       video.addEventListener("timeupdate", () => {
-        if (video.duration - video.currentTime <= 3) {
+        if (video.duration - video.currentTime <= 4.5) {
           video.pause();
           handleNavigate("home");
         }

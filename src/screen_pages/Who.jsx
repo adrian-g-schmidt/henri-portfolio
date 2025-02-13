@@ -19,7 +19,7 @@ export default function Who({ handleNavigate }) {
         </button>
         1. Who?
       </header>
-      <div className="grow w-full h-10 text-right text-xs grid grid-cols-[1fr_2fr_0px] gap-8">
+      <div className="grow w-full h-10 text-left text-xs grid grid-cols-[1fr_2fr_0px] gap-8">
         <div className="flex justify-between flex-col">
           <p className="text-[0.9rem]/3.5">
             HENRI
