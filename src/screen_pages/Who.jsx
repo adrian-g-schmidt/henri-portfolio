@@ -1,7 +1,7 @@
 export default function Who({ handleNavigate }) {
   return (
-    <div className="z-20 flex justify-between flex-col p-4 h-full">
-      <header className="w-full uppercase text-xl pb-2 flex justify-between">
+    <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF]">
+      <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
         <button
           className="h-6 w-6 group cursor-pointer"
           onClick={() => handleNavigate("home")}
@@ -19,7 +19,7 @@ export default function Who({ handleNavigate }) {
         </button>
         1. Who?
       </header>
-      <div className="grow w-full h-10 text-right text-xs grid grid-cols-2 gap-8">
+      <div className="grow w-full h-10 text-right text-xs grid grid-cols-[1fr_2fr_0px] gap-8">
         <div className="flex justify-between flex-col">
           <p className="text-[0.9rem]/3.5">
             HENRI
@@ -33,8 +33,8 @@ export default function Who({ handleNavigate }) {
                 Portfolio
               </div>
               <svg
-                className="h-5 w-auto"
-                viewBox="0 0 1625 2119"
+                className="h-5 w-3"
+                viewBox="0 01625 2119"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -60,9 +60,9 @@ export default function Who({ handleNavigate }) {
             </div>
           </div>
         </div>
-        <div className="overflow-y-scroll text-left [&::-webkit-scrollbar]:w-[2px] [&::-webkit-scrollbar-thumb]:bg-white text-[0.8rem]/3 text-pretty">
+        <div className="overflow-y-scroll scrollbar-hide text-left text-[0.8rem]/3 text-pretty pr-0">
           <p>
-            Henri’s FILMMAKING practice spans NARRATIVE and DOCUMENTARY,
+            Henri's FILMMAKING practice spans NARRATIVE and DOCUMENTARY,
             exploring contemplative internal struggles and contradictory
             characters who get in their own way.
             <img
@@ -78,6 +78,20 @@ export default function Who({ handleNavigate }) {
             Nothing motivates him more than seeing a great idea come to life.
           </p>
           <img src="./assets/henri_who.jpg" className="mt-2" />
+        </div>
+        <div className="flex flex-col w-[20px]">
+          <button
+            onClick={() => scrollContent("up")}
+            className="border border-white hover:bg-white hover:text-[#2160FF]"
+          >
+            ▲
+          </button>
+          <button
+            onClick={() => scrollContent("down")}
+            className="border border-white hover:bg-white hover:text-[#2160FF]"
+          >
+            ▼
+          </button>
         </div>
       </div>
     </div>
