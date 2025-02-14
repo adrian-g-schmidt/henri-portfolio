@@ -60,11 +60,18 @@ export default function Who({ handleNavigate }) {
             </div>
           </div>
         </div>
-        <div className="overflow-y-scroll scrollbar-hide text-left text-[0.8rem]/3 text-pretty pr-0">
+        <div className="overflow-y-scroll scrollbar\:has-visible-track::-webkit-scrollbar-hide text-right text-[0.8rem]/3 pr-0">
           <p>
-            Henri's FILMMAKING practice spans NARRATIVE and DOCUMENTARY,
-            exploring contemplative internal struggles and contradictory
-            characters who get in their own way.
+            <img
+              alt="a scan of henri's drivers licence with fake details"
+              src="assets/licence_edit_blue.jpg"
+              className="w-full mb-4"
+            />
+            Henri's FILMMAKING practice spans NARRATIVE and DOCUMENTARY.
+            <br />
+            <br />
+            His focus is on exploring contemplative internal struggles and
+            contradictory characters who get in their own way.
             <img
               alt="A venn diagram of law, filmmaking, and design intersecting at creative problem solving"
               src="./venn.jpg"
