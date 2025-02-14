@@ -1,65 +1,110 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function When({ handleNavigate }) {
-  const startDate = new Date("1997-12-01T00:00:00");
-  const targetDate = new Date("2081-02-15T12:01:00");
-  const totalTime = targetDate.getTime() - startDate.getTime();
-
-  const [timeRemaining, setTimeRemaining] = useState({
-    years: 61,
-    months: 750,
-    weeks: 900,
-    days: 20464,
-    hours: 7469360,
-    minutes: 44816160,
-    seconds: 2688969600,
-    milliseconds: 268896960000,
-  });
+  const [hoveredCell, setHoveredCell] = useState(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const canvasRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    const calculateTimeRemaining = () => {
-      const now = new Date();
-      const difference = targetDate.getTime() - now.getTime();
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    const ctx = canvas.getContext("2d");
+    const cellWidth = canvas.width / 30;
+    const cellHeight = cellWidth;
 
-      if (difference <= 0) {
-        setTimeRemaining(null);
-      } else {
-        setTimeRemaining({
-          years: Math.floor(difference / (1000 * 60 * 60 * 24 * 365)),
-          months: Math.floor(difference / (1000 * 60 * 60 * 24 * 30.44)),
-          weeks: Math.floor(difference / (1000 * 60 * 60 * 24 * 7)),
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor(difference / (1000 * 60 * 60)),
-          minutes: Math.floor(difference / (1000 * 60)),
-          seconds: Math.floor(difference / 1000),
-          milliseconds: difference,
-        });
+    canvas.height = cellWidth * Math.ceil(2000 / 30);
+
+    const drawVisibleArea = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = "#fff";
+
+      const containerRect = container.getBoundingClientRect();
+      const scrollTop = container.scrollTop;
+      const visibleHeight = containerRect.height;
+
+      const startRow = Math.max(0, Math.floor(scrollTop / cellHeight) - 5);
+      const endRow = Math.min(
+        Math.ceil((scrollTop + visibleHeight) / cellHeight) + 5,
+        Math.ceil(canvas.height / cellHeight),
+      );
+
+      // Draw only visible cells and their immediate surroundings
+      const visibleStartRow = Math.max(0, Math.floor(scrollTop / cellHeight));
+      const visibleEndRow = Math.min(
+        Math.ceil((scrollTop + visibleHeight) / cellHeight),
+        Math.ceil(canvas.height / cellHeight),
+      );
+
+      // Draw vertical lines for visible area
+      for (let i = 0; i <= 30; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * cellWidth, visibleStartRow * cellHeight);
+        ctx.lineTo(i * cellWidth, visibleEndRow * cellHeight);
+        ctx.stroke();
+      }
+
+      // Draw horizontal lines for visible area
+      for (let i = visibleStartRow; i <= visibleEndRow; i++) {
+        ctx.beginPath();
+        ctx.moveTo(0, i * cellHeight);
+        ctx.lineTo(canvas.width, i * cellHeight);
+        ctx.stroke();
+      }
+
+      if (hoveredCell) {
+        const cellY = hoveredCell.y;
+        if (cellY >= visibleStartRow && cellY <= visibleEndRow) {
+          ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+          ctx.fillRect(
+            hoveredCell.x * cellWidth,
+            hoveredCell.y * cellHeight,
+            cellWidth,
+            cellHeight,
+          );
+
+          const cellNumber = hoveredCell.y * 50 + hoveredCell.x + 1;
+
+          const boxHeight = 40;
+          const boxWidth = Math.max(60, cellNumber.toString().length * 20);
+          const boxX = hoveredCell.x * cellWidth + (cellWidth - boxWidth) / 2;
+          const boxY = hoveredCell.y * cellHeight - boxHeight - 5;
+
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+
+          ctx.fillStyle = "#2160FF";
+          ctx.font = "30px Crt";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(
+            cellNumber.toString(),
+            boxX + boxWidth / 2,
+            boxY + boxHeight / 2,
+          );
+        }
       }
     };
 
-    const interval = setInterval(calculateTimeRemaining, 1);
-    return () => clearInterval(interval);
-  }, []);
+    drawVisibleArea();
+    container.addEventListener("scroll", () => {
+      window.requestAnimationFrame(drawVisibleArea);
+    });
 
-  const calculateProgress = () => {
-    const now = new Date();
-    const totalDuration = targetDate.getTime() - startDate.getTime();
-    const elapsed = now.getTime() - startDate.getTime();
-    const progress = Math.min(Math.max(elapsed / totalDuration, 0), 1);
-    return progress;
-  };
-
-  const progressWidth = calculateProgress() * 100;
+    return () => {
+      container.removeEventListener("scroll", drawVisibleArea);
+    };
+  }, [hoveredCell, scrollPosition]);
 
   return (
-    <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF]">
+    <div className="z-20 flex justify-start flex-col p-4 h-full bg-[#2160FF]">
       <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
         <button
           className="h-6 w-6 group cursor-pointer"
           onClick={() => handleNavigate("home")}
         >
           <svg
-            className="w-full h-full group-hover:text-red-500"
+            className="h-6 w-6 group-hover:text-red-500"
             viewBox="0 0 61 43"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -71,79 +116,31 @@ export default function When({ handleNavigate }) {
         </button>
         3. When?
       </header>
-      <div className="w-full text-right gap-2 flex flex-col">
-        <p className="text-sm w-full text-center">
-          HENRI IS EXPECTED TO DIE IN
-        </p>
-        <div className="w-2/5 grid grid-cols-9 gap-1 -mb-10 items-end ml-2">
-          {Array.from({ length: 9 }).map((_, index) => {
-            const yearsPerBar = 10;
-            const totalYears = totalTime / (1000 * 60 * 60 * 24 * 365);
-            const remainderYears = totalYears - 80;
-            const barHeight =
-              index === 8
-                ? Math.floor((remainderYears / yearsPerBar) * 32)
-                : 32;
-
-            return (
-              <div
-                key={index}
-                className="bg-zinc-900 border border-white flex flex-col justify-end"
-                style={{ height: `${barHeight}px` }}
-              >
-                {index < Math.floor(progressWidth / (100 / 9)) && (
-                  <div className="bg-white" style={{ height: "100%" }} />
-                )}
-                {index === Math.floor(progressWidth / (100 / 9)) && (
-                  <div
-                    className="bg-white"
-                    style={{
-                      height: `${((((progressWidth / 100) * totalTime) % (10 * 365 * 24 * 60 * 60 * 1000)) / (10 * 365 * 24 * 60 * 60 * 1000)) * 32}px`,
-                    }}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
-        {timeRemaining ? (
-          <div className="grid grid-cols-4 w-full gap-2 text-xl">
-            <span className="text-right col-span-3 -my-2">
-              {timeRemaining.years}
-            </span>
-            <span className="text-left -my-2">YRS</span>
-            <span className="text-right col-span-3 -my-2">
-              {timeRemaining.months}
-            </span>
-            <span className="text-left -my-2">MTHS</span>
-            <span className="text-right col-span-3 -my-2">
-              {timeRemaining.weeks}
-            </span>
-            <span className="text-left -my-2">WKS</span>
-            <span className="text-right col-span-3 -my-2">
-              {timeRemaining.days}
-            </span>
-            <span className="text-left -my-2">DAYS</span>
-            <span className="text-right col-span-3 -my-2">
-              {timeRemaining.hours}
-            </span>
-            <span className="text-left -my-2">HRS</span>
-            <span className="text-right col-span-3 -my-2">
-              {timeRemaining.minutes}
-            </span>
-            <span className="text-left -my-2">MINS</span>
-            <span className="text-right col-span-3 -my-2">
-              {timeRemaining.seconds}
-            </span>
-            <span className="text-left -my-2">SECS</span>
-            <span className="text-right col-span-3 -my-2">
-              {timeRemaining.milliseconds}
-            </span>
-            <span className="text-left -my-2">MSECS</span>
-          </div>
-        ) : (
-          <div>GOODBYE!</div>
-        )}
+      <div
+        ref={containerRef}
+        className="overflow-y-scroll w-full h-full"
+        onScroll={(e) => setScrollPosition(e.target.scrollTop)}
+      >
+        <canvas
+          ref={canvasRef}
+          width="900"
+          height="900"
+          className="w-full border border-white"
+          onMouseMove={(e) => {
+            const canvas = canvasRef.current;
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+            const cellWidth = canvas.width / 30;
+            const cellHeight = cellWidth;
+            const cellX = Math.floor(x / cellWidth);
+            const cellY = Math.floor(y / cellHeight);
+            setHoveredCell({ x: cellX, y: cellY });
+          }}
+          onMouseLeave={() => setHoveredCell(null)}
+        />
       </div>
     </div>
   );
