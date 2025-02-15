@@ -10,6 +10,34 @@ export default function Who({ handleNavigate }) {
     }
   };
 
+  const startContinuousScroll = (direction) => {
+    const scrollableDiv = document.querySelector(".overflow-y-scroll");
+    if (scrollableDiv) {
+      const scrollAmount = direction === "up" ? -5 : 5;
+      const scroll = () => {
+        scrollableDiv.scrollBy({
+          top: scrollAmount,
+          behavior: "auto",
+        });
+        if (window.scrollInterval) {
+          requestAnimationFrame(scroll);
+        }
+      };
+      window.scrollInterval = true;
+      requestAnimationFrame(scroll);
+    }
+  };
+
+  const stopContinuousScroll = () => {
+    window.scrollInterval = false;
+  };
+
+  const preventScroll = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  };
+
   return (
     <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF]">
       <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
@@ -79,7 +107,12 @@ export default function Who({ handleNavigate }) {
             </div>
           </div>
         </div>
-        <div className="overflow-y-scroll scrollbar\:has-visible-track::-webkit-scrollbar-hide text-right text-[0.8rem]/3">
+        <div
+          className="overflow-y-scroll scrollbar-hide text-right text-[0.8rem]/3"
+          onWheel={preventScroll}
+          onTouchMove={preventScroll}
+          style={{ msOverflowStyle: "none", scrollbarWidth: "none" }}
+        >
           <p>
             <img
               alt="a scan of henri's drivers licence with fake details"
@@ -108,12 +141,18 @@ export default function Who({ handleNavigate }) {
         <div className="flex flex-col w-[40px] pr-5 gap-2">
           <button
             onClick={() => scrollContent("up")}
+            onMouseDown={() => startContinuousScroll("up")}
+            onMouseUp={stopContinuousScroll}
+            onMouseLeave={stopContinuousScroll}
             className="border border-white hover:bg-white hover:text-[#2160FF] h-8"
           >
             ▲
           </button>
           <button
             onClick={() => scrollContent("down")}
+            onMouseDown={() => startContinuousScroll("down")}
+            onMouseUp={stopContinuousScroll}
+            onMouseLeave={stopContinuousScroll}
             className="border border-white hover:bg-white hover:text-[#2160FF] h-9"
           >
             ▼
