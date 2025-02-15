@@ -1,4 +1,15 @@
 export default function Who({ handleNavigate }) {
+  const scrollContent = (direction) => {
+    const scrollableDiv = document.querySelector(".overflow-y-scroll");
+    if (scrollableDiv) {
+      const scrollAmount = direction === "up" ? -50 : 50;
+      scrollableDiv.scrollBy({
+        top: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF]">
       <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
