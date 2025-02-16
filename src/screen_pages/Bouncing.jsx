@@ -64,6 +64,7 @@ export default function Bouncing({ handleNavigate }) {
       <video
         ref={videoRef}
         src="./intro-vid.mp4"
+        playsInline
         className="absolute top-0 left-0 w-full h-full object-cover z-30"
         style={{ opacity: videoRef.current?.played.length ? 1 : 0 }}
       />
