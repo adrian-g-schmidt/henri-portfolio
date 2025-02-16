@@ -1,104 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
+
+const Square = ({ index, isHovered, onMouseEnter, onMouseLeave }) => {
+  return (
+    <div className="relative overflow-visible z-10">
+      {isHovered && (
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 bg-white text-[#2160FF] px-1 py-[0.125em] text-sm overflow-visible">
+          {index}
+        </div>
+      )}
+      <div
+        className="w-2 h-2 border border-white hover:bg-white/20 cursor-pointer"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      />
+    </div>
+  );
+};
 
 export default function When({ handleNavigate }) {
-  const [hoveredCell, setHoveredCell] = useState(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const canvasRef = useRef(null);
-  const containerRef = useRef(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    const ctx = canvas.getContext("2d");
-    const cellWidth = canvas.width / 30;
-    const cellHeight = cellWidth;
-
-    canvas.height = cellWidth * Math.ceil(2000 / 30);
-
-    const drawVisibleArea = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "#fff";
-
-      const containerRect = container.getBoundingClientRect();
-      const scrollTop = container.scrollTop;
-      const visibleHeight = containerRect.height;
-
-      const startRow = Math.max(0, Math.floor(scrollTop / cellHeight) - 5);
-      const endRow = Math.min(
-        Math.ceil((scrollTop + visibleHeight) / cellHeight) + 5,
-        Math.ceil(canvas.height / cellHeight),
-      );
-
-      // Draw only visible cells and their immediate surroundings
-      const visibleStartRow = Math.max(0, Math.floor(scrollTop / cellHeight));
-      const visibleEndRow = Math.min(
-        Math.ceil((scrollTop + visibleHeight) / cellHeight),
-        Math.ceil(canvas.height / cellHeight),
-      );
-
-      // Draw vertical lines for visible area
-      for (let i = 0; i <= 30; i++) {
-        ctx.beginPath();
-        ctx.moveTo(i * cellWidth, visibleStartRow * cellHeight);
-        ctx.lineTo(i * cellWidth, visibleEndRow * cellHeight);
-        ctx.stroke();
-      }
-
-      // Draw horizontal lines for visible area
-      for (let i = visibleStartRow; i <= visibleEndRow; i++) {
-        ctx.beginPath();
-        ctx.moveTo(0, i * cellHeight);
-        ctx.lineTo(canvas.width, i * cellHeight);
-        ctx.stroke();
-      }
-
-      if (hoveredCell) {
-        const cellY = hoveredCell.y;
-        if (cellY >= visibleStartRow && cellY <= visibleEndRow) {
-          ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
-          ctx.fillRect(
-            hoveredCell.x * cellWidth,
-            hoveredCell.y * cellHeight,
-            cellWidth,
-            cellHeight,
-          );
-
-          const cellNumber = hoveredCell.y * 50 + hoveredCell.x + 1;
-
-          const boxHeight = 40;
-          const boxWidth = Math.max(60, cellNumber.toString().length * 20);
-          const boxX = hoveredCell.x * cellWidth + (cellWidth - boxWidth) / 2;
-          const boxY = hoveredCell.y * cellHeight - boxHeight - 5;
-
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
-
-          ctx.fillStyle = "#2160FF";
-          ctx.font = "30px Crt";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText(
-            cellNumber.toString(),
-            boxX + boxWidth / 2,
-            boxY + boxHeight / 2,
-          );
-        }
-      }
-    };
-
-    drawVisibleArea();
-    container.addEventListener("scroll", () => {
-      window.requestAnimationFrame(drawVisibleArea);
-    });
-
-    return () => {
-      container.removeEventListener("scroll", drawVisibleArea);
-    };
-  }, [hoveredCell, scrollPosition]);
+  const squares = Array.from({ length: 2000 }, (_, i) => i);
 
   return (
     <div className="z-20 flex justify-start flex-col p-4 h-full bg-[#2160FF]">
-      <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
+      <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF]">
         <button
           className="h-6 w-6 group cursor-pointer"
           onClick={() => handleNavigate("home")}
@@ -116,31 +42,18 @@ export default function When({ handleNavigate }) {
         </button>
         3. When?
       </header>
-      <div
-        ref={containerRef}
-        className="overflow-y-scroll w-full h-full"
-        onScroll={(e) => setScrollPosition(e.target.scrollTop)}
-      >
-        <canvas
-          ref={canvasRef}
-          width="900"
-          height="900"
-          className="w-full border border-white"
-          onMouseMove={(e) => {
-            const canvas = canvasRef.current;
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            const x = (e.clientX - rect.left) * scaleX;
-            const y = (e.clientY - rect.top) * scaleY;
-            const cellWidth = canvas.width / 30;
-            const cellHeight = cellWidth;
-            const cellX = Math.floor(x / cellWidth);
-            const cellY = Math.floor(y / cellHeight);
-            setHoveredCell({ x: cellX, y: cellY });
-          }}
-          onMouseLeave={() => setHoveredCell(null)}
-        />
+      <div className="overflow-y-scroll w-full h-full relative pt-6 px-6">
+        <div className="grid grid-cols-30 gap-0 border border-white">
+          {squares.map((index) => (
+            <Square
+              key={index}
+              index={index + 1}
+              isHovered={hoveredIndex === index}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
