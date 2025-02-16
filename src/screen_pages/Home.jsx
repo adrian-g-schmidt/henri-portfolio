@@ -77,6 +77,7 @@ export default function Home({ handleNavigate }) {
             autoPlay
             loop
             muted
+            playsInline
             className={`z-0 transition-all duration-300 ${isVideoTransitioning ? "opacity-0 translate-x-full" : "opacity-100 translate-x-0"}`}
           >
             <source src={`./home_videos/${currentVideo}`} type="video/mp4" />
