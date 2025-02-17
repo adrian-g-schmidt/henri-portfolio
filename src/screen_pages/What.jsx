@@ -45,17 +45,17 @@ export default function What({ handleNavigate }) {
         <div className="grid grid-cols-3 gap-4 snap-start">
           <div className="flex flex-col">
             <div
-              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./showreel.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
-              onClick={() => handleNavigate("showreel")}
+              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(./vicarious.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
+              onClick={() => handleNavigate("vicarious")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                SHOWREEL
+                SHORT FILM
               </div>
               <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                [FEB 2025]
+                [IN PRODUCTION]
               </div>
             </div>
-            <h2 className="text-[10px] mt-2">DIRECTING AND DOP SHOWREEL</h2>
+            <h2 className="text-[10px] mt-2">VICARIOUS</h2>
           </div>
           <div className="flex flex-col">
             <div
@@ -77,13 +77,13 @@ export default function What({ handleNavigate }) {
               onClick={() => handleNavigate("project3")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                SHORT FILM
+                MUSIC VIDEO
               </div>
               <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
                 [2024]
               </div>
             </div>
-            <h2 className="text-[10px] mt-2">PROJECT THREE</h2>
+            <h2 className="text-[10px] mt-2">TERMS AND CONDITIONS</h2>
           </div>
           <div className="flex flex-col">
             <div
@@ -91,13 +91,13 @@ export default function What({ handleNavigate }) {
               onClick={() => handleNavigate("project4")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                MUSIC VIDEO
+                SHORT FILM
               </div>
               <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                [2023]
+                [IN PRODUCTION]
               </div>
             </div>
-            <h2 className="text-[10px] mt-2">PROJECT FOUR</h2>
+            <h2 className="text-[10px] mt-2">STRINGS ATTACHED</h2>
           </div>
           <div className="flex flex-col">
             <div
@@ -105,27 +105,13 @@ export default function What({ handleNavigate }) {
               onClick={() => handleNavigate("project5")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                COMMERCIAL
+                SHORT FILM
               </div>
               <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                [2023]
+                [DEVELOPMENT]
               </div>
             </div>
-            <h2 className="text-[10px] mt-2">PROJECT FIVE</h2>
-          </div>
-          <div className="flex flex-col">
-            <div
-              className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-white relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
-              onClick={() => handleNavigate("project6")}
-            >
-              <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                DOCUMENTARY
-              </div>
-              <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                [2022]
-              </div>
-            </div>
-            <h2 className="text-[10px] mt-2">PROJECT SIX</h2>
+            <h2 className="text-[10px] mt-2">JUST FUCKING BREATHE</h2>
           </div>
         </div>
       </div>

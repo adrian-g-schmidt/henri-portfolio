@@ -20,7 +20,7 @@ const Square = ({ index, isHovered, onMouseEnter, onMouseLeave }) => {
 export default function When({ handleNavigate }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const squares = Array.from({ length: 2000 }, (_, i) => i);
+  const squares = Array.from({ length: 30000 }, (_, i) => i);
 
   return (
     <div className="z-20 flex justify-start flex-col p-4 h-full bg-[#2160FF]">
