@@ -126,7 +126,7 @@ export default function Who({ handleNavigate }) {
             contradictory characters who get in their own way.
             <img
               alt="A venn diagram of law, filmmaking, and design intersecting at creative problem solving"
-              src="./venn.jpg"
+              src="assets/venn.jpg"
               className="w-full my-4"
             />
             With a professional and educational background in design, law, and
