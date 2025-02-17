@@ -1,8 +1,8 @@
 export default function What({ handleNavigate }) {
   return (
     <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF] overflow-visible">
-      <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
-        <button
+      <hdr className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
+        <btn
           className="h-6 w-6 group cursor-pointer"
           onClick={() => handleNavigate("home")}
         >
@@ -16,17 +16,226 @@ export default function What({ handleNavigate }) {
               fill="currentColor"
             />
           </svg>
-        </button>
+        </btn>
         2. What?
-      </header>
+      </hdr>
       <div className="w-full text-3xl h-fit overflow-y-scroll [&::-webkit-scrollbar]:hidden snap-y snap-mandatory">
         <div className="flex gap-4 snap-start">
           <div className="flex-1">
-            <h1 className="text-xl font-bold mb-1">FILMMAKING PROJECTS</h1>
-            <p className="text-[10px] text-left uppercase mb-4">
-              THE FOLLOWING COLLECTION OF PROJECTS WERE EITHER SPEARHEADED BY OR
-              OTHERWISE INVOLVE HENRI SCOTT.
+            <h2 className="text-lg font-bold mb-2 leading-none">
+              FILMMAKING PROJECTS
+            </h2>
+            <p className="text-[8px] text-left uppercase mb-3">
+              THE FOLLOWING FILMS WERE EITHER SPEARHEADED BY OR OTHERWISE
+              INVOLVE HENRI SCOTT.
             </p>
+            <div
+              className="flex gap-1 overflow-visible mt-1 mb-4 flex-wrap"
+              data-active-tag=""
+            >
+              <span
+                onClick={(e) => {
+                  const projectsContainer = document.querySelector(".grid");
+                  if (e.target.classList.contains("bg-white")) {
+                    // If active, deactivate
+                    e.target.classList.remove("bg-white", "text-[#2160FF]");
+                    e.target.classList.add("text-white");
+                    e.target.parentElement.dataset.activeTag = "";
+                    // Show all projects
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        project.style.display = "flex";
+                      });
+                  } else {
+                    // If inactive, activate
+                    e.target.parentElement
+                      .querySelectorAll("span")
+                      .forEach((span) => {
+                        span.classList.remove("bg-white", "text-[#2160FF]");
+                        span.classList.add("text-white");
+                      });
+                    e.target.classList.add("bg-white", "text-[#2160FF]");
+                    e.target.classList.remove("text-white");
+                    e.target.parentElement.dataset.activeTag = "Dir";
+
+                    // Filter projects
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        const hasDirTag =
+                          project
+                            .querySelector(".flex.gap-1.mt-1 span")
+                            ?.textContent.trim() === "Dir";
+                        project.style.display = hasDirTag ? "flex" : "none";
+                      });
+                  }
+                }}
+                className="text-[8px] bg-transparent text-white px-1 cursor-pointer hover:bg-white hover:text-[#2160FF] border border-white"
+              >
+                DIRECTOR
+              </span>
+              <span
+                onClick={(e) => {
+                  const projectsContainer = document.querySelector(".grid");
+                  if (e.target.classList.contains("bg-white")) {
+                    e.target.classList.remove("bg-white", "text-[#2160FF]");
+                    e.target.classList.add("text-white");
+                    e.target.parentElement.dataset.activeTag = "";
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        project.style.display = "flex";
+                      });
+                  } else {
+                    e.target.parentElement
+                      .querySelectorAll("span")
+                      .forEach((span) => {
+                        span.classList.remove("bg-white", "text-[#2160FF]");
+                        span.classList.add("text-white");
+                      });
+                    e.target.classList.add("bg-white", "text-[#2160FF]");
+                    e.target.classList.remove("text-white");
+                    e.target.parentElement.dataset.activeTag = "Wtr";
+
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        const spans = project.querySelectorAll(
+                          ".flex.gap-1.mt-1 span",
+                        );
+                        const hasWtrTag = Array.from(spans).some(
+                          (span) => span.textContent.trim() === "Wtr",
+                        );
+                        project.style.display = hasWtrTag ? "flex" : "none";
+                      });
+                  }
+                }}
+                className="text-[8px] bg-transparent text-white px-1 cursor-pointer hover:bg-white hover:text-[#2160FF] border border-white"
+              >
+                WRITER
+              </span>
+              <span
+                onClick={(e) => {
+                  const projectsContainer = document.querySelector(".grid");
+                  if (e.target.classList.contains("bg-white")) {
+                    e.target.classList.remove("bg-white", "text-[#2160FF]");
+                    e.target.classList.add("text-white");
+                    e.target.parentElement.dataset.activeTag = "";
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        project.style.display = "flex";
+                      });
+                  } else {
+                    e.target.parentElement
+                      .querySelectorAll("span")
+                      .forEach((span) => {
+                        span.classList.remove("bg-white", "text-[#2160FF]");
+                        span.classList.add("text-white");
+                      });
+                    e.target.classList.add("bg-white", "text-[#2160FF]");
+                    e.target.classList.remove("text-white");
+                    e.target.parentElement.dataset.activeTag = "Prod";
+
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        const spans = project.querySelectorAll(
+                          ".flex.gap-1.mt-1 span",
+                        );
+                        const hasProdTag = Array.from(spans).some(
+                          (span) => span.textContent.trim() === "Prod",
+                        );
+                        project.style.display = hasProdTag ? "flex" : "none";
+                      });
+                  }
+                }}
+                className="text-[8px] bg-transparent text-white px-1 cursor-pointer hover:bg-white hover:text-[#2160FF] border border-white"
+              >
+                PRODUCER
+              </span>
+              <span
+                onClick={(e) => {
+                  const projectsContainer = document.querySelector(".grid");
+                  if (e.target.classList.contains("bg-white")) {
+                    e.target.classList.remove("bg-white", "text-[#2160FF]");
+                    e.target.classList.add("text-white");
+                    e.target.parentElement.dataset.activeTag = "";
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        project.style.display = "flex";
+                      });
+                  } else {
+                    e.target.parentElement
+                      .querySelectorAll("span")
+                      .forEach((span) => {
+                        span.classList.remove("bg-white", "text-[#2160FF]");
+                        span.classList.add("text-white");
+                      });
+                    e.target.classList.add("bg-white", "text-[#2160FF]");
+                    e.target.classList.remove("text-white");
+                    e.target.parentElement.dataset.activeTag = "DoP";
+
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        const spans = project.querySelectorAll(
+                          ".flex.gap-1.mt-1 span",
+                        );
+                        const hasDoPTag = Array.from(spans).some(
+                          (span) => span.textContent.trim() === "DoP",
+                        );
+                        project.style.display = hasDoPTag ? "flex" : "none";
+                      });
+                  }
+                }}
+                className="text-[8px] bg-transparent text-white px-1 cursor-pointer hover:bg-white hover:text-[#2160FF] border border-white"
+              >
+                CINEMATOGRAPHER
+              </span>
+              <span
+                onClick={(e) => {
+                  const projectsContainer = document.querySelector(".grid");
+                  if (e.target.classList.contains("bg-white")) {
+                    e.target.classList.remove("bg-white", "text-[#2160FF]");
+                    e.target.classList.add("text-white");
+                    e.target.parentElement.dataset.activeTag = "";
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        project.style.display = "flex";
+                      });
+                  } else {
+                    e.target.parentElement
+                      .querySelectorAll("span")
+                      .forEach((span) => {
+                        span.classList.remove("bg-white", "text-[#2160FF]");
+                        span.classList.add("text-white");
+                      });
+                    e.target.classList.add("bg-white", "text-[#2160FF]");
+                    e.target.classList.remove("text-white");
+                    e.target.parentElement.dataset.activeTag = "Edit";
+
+                    projectsContainer
+                      .querySelectorAll(".flex-col")
+                      .forEach((project) => {
+                        const spans = project.querySelectorAll(
+                          ".flex.gap-1.mt-1 span",
+                        );
+                        const hasEditTag = Array.from(spans).some(
+                          (span) => span.textContent.trim() === "Edit",
+                        );
+                        project.style.display = hasEditTag ? "flex" : "none";
+                      });
+                  }
+                }}
+                className="text-[8px] bg-transparent text-white px-1 cursor-pointer hover:bg-white hover:text-[#2160FF] border border-white"
+              >
+                EDITOR
+              </span>
+            </div>
           </div>
           <div className="flex flex-col flex-[0.7] mb-4">
             <div
@@ -40,6 +249,7 @@ export default function What({ handleNavigate }) {
                 [FEB 2025]
               </div>
             </div>
+            <div className="flex gap-1 mt-2 flex-wrap"></div>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4 snap-start">
@@ -56,6 +266,17 @@ export default function What({ handleNavigate }) {
               </div>
             </div>
             <h2 className="text-[10px] mt-2">VICARIOUS</h2>
+            <div className="flex gap-1 mt-1 flex-wrap">
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Dir
+              </span>
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Wtr
+              </span>
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Prod
+              </span>
+            </div>
           </div>
           <div className="flex flex-col">
             <div
@@ -66,10 +287,27 @@ export default function What({ handleNavigate }) {
                 DOCUMENTARY
               </div>
               <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                [IN PRODUCTION]
+                [IN PROD]
               </div>
             </div>
             <h2 className="text-[10px] mt-2">A LONG RUNNING JOKE</h2>
+            <div className="flex gap-1 mt-1 flex-wrap">
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Dir
+              </span>
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Wtr
+              </span>
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                DoP
+              </span>
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Prod
+              </span>
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Edit
+              </span>
+            </div>
           </div>
           <div className="flex flex-col">
             <div
@@ -84,6 +322,17 @@ export default function What({ handleNavigate }) {
               </div>
             </div>
             <h2 className="text-[10px] mt-2">TERMS AND CONDITIONS</h2>
+            <div className="flex gap-1 mt-1 flex-wrap">
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Dir
+              </span>
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Wtr
+              </span>
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                DoP
+              </span>
+            </div>
           </div>
           <div className="flex flex-col">
             <div
@@ -94,10 +343,15 @@ export default function What({ handleNavigate }) {
                 SHORT FILM
               </div>
               <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                [IN PRODUCTION]
+                [IN PROD]
               </div>
             </div>
             <h2 className="text-[10px] mt-2">STRINGS ATTACHED</h2>
+            <div className="flex gap-1 mt-1 flex-wrap">
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                DoP
+              </span>
+            </div>
           </div>
           <div className="flex flex-col">
             <div
@@ -108,10 +362,18 @@ export default function What({ handleNavigate }) {
                 SHORT FILM
               </div>
               <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                [DEVELOPMENT]
+                [DEV]
               </div>
             </div>
             <h2 className="text-[10px] mt-2">JUST F$#!@*G BREATHE</h2>
+            <div className="flex gap-1 mt-1 flex-wrap">
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Wtr
+              </span>
+              <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                Prod
+              </span>
+            </div>
           </div>
         </div>
       </div>

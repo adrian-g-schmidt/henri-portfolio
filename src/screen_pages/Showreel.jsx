@@ -19,8 +19,8 @@ export default function Showreel({ handleNavigate }) {
         </button>
         SHOWREEL [FEB 2025]
       </header>
-      <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-8">
-        <div className="col-span-3 flex flex-col gap-4">
+      <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-1">
+        <div className="col-span-3 flex flex-col gap-3">
           <div
             className="bg-cover
  z-30 w-full flex items-end justify-start flex-shrink-0 grow bg-[url(./showreel.jpg)] p-2"
