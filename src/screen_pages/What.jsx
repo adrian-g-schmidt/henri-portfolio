@@ -256,6 +256,7 @@ export default function What({ handleNavigate }) {
           <div className="flex flex-col">
             <div
               className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(assets/vicarious.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
+              to="/src/screen_pages/Vicarious.jsx"
               onClick={() => handleNavigate("vicarious")}
             >
               <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">

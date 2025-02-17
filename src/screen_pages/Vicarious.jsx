@@ -1,4 +1,4 @@
-export default function Showreel({ handleNavigate }) {
+export default function Vicarious({ handleNavigate }) {
   return (
     <div className="z-20 flex justify-between flex-col p-4 h-full">
       <header className="w-full uppercase text-xl pb-2 flex justify-between">
@@ -17,7 +17,7 @@ export default function Showreel({ handleNavigate }) {
             />
           </svg>
         </button>
-        SHOWREEL [FEB 2025]
+        VICARIOUS [IN PRODUCTION]
       </header>
       <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-1">
         <div className="col-span-3 flex flex-col gap-3">

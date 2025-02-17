@@ -73,7 +73,7 @@ export default function Who({ handleNavigate }) {
               </div>
               <svg
                 className="h-5 w-3"
-                viewBox="0 01625 2119"
+                viewBox="0 0 1625 2119"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
