@@ -21,19 +21,37 @@ export default function Showreel({ handleNavigate }) {
       </header>
       <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-1">
         <div className="col-span-3 flex flex-col gap-3">
-          <div
-            className="bg-cover
- z-30 w-full flex items-end justify-start flex-shrink-0 grow bg-[url(./showreel.jpg)] p-2"
-          ></div>
+          <div className="bg-cover relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(assets/showreel_banner.jpg)] p-2 hover:scale-105 transition-transform duration-300">
+            <div className="text-white text-6xl drop-shadow-lg -translate-y-[8px]">
+              ▶
+            </div>
+          </div>
           <div className="flex justify-between w-full">
             <h2 className="text-[8px]">SHOWREEL [FEB 2025]</h2>
-            <h2 className="text-[8px]">RUNTIME: 00:05:35</h2>
+            <h2 className="text-[8px] text-right">RUNTIME: 00:05:35</h2>
           </div>
         </div>
-        <div className="flex col-span-2">
+        <div className="flex flex-col col-span-2 gap-2">
+          <div className="flex flex-wrap gap-1 justify-end">
+            <span className="bg-white text-[#18181B] text-[8px] px-1">
+              DIRECTOR
+            </span>
+            <span className="bg-white text-[#18181B] text-[8px] px-1">
+              WRITER
+            </span>
+            <span className="bg-white text-[#18181B] text-[8px] px-1">
+              PRODUCER
+            </span>
+            <span className="bg-white text-[#18181B] text-[8px] px-1">
+              CINEMATOGRAPHER
+            </span>
+            <span className="bg-white text-[#18181B] text-[8px] px-1">
+              EDITOR
+            </span>
+          </div>
           <span className="text-[8px] text-right">
-            A showcase of my work as a writer, director, and DOP across various
-            narrative and documentary projects.
+            A showcase of my work across various narrative and documentary
+            projects.
           </span>
         </div>
       </div>

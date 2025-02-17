@@ -362,7 +362,7 @@ export default function What({ handleNavigate }) {
                 SHORT FILM
               </div>
               <div className="absolute bottom-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
-                [DEV]
+                [DEVELOPMENT]
               </div>
             </div>
             <h2 className="text-[10px] mt-2">JUST F$#!@*G BREATHE</h2>
