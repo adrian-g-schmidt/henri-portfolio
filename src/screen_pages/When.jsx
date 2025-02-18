@@ -99,7 +99,6 @@ export default function When({ handleNavigate }) {
 
   const importantSquares = {
     0: { text: "Birth" },
-    237: { text: "First Laugh" },
     592: { text: "Discovered Chocolate" },
     1028: {
       text: "First Steps",
@@ -131,7 +130,7 @@ export default function When({ handleNavigate }) {
     8502: { text: "Became a Master of Disguise" },
     9003: { text: "Learned to Fly" },
     9501: { text: "Became a World Champion in Hide and Seek" },
-    9940: { text: "Discovered the Secret to Eternal Happiness" },
+    30391: { text: "Expected Death" },
   };
 
   const importantSquareIndices = Object.keys(importantSquares)
@@ -139,33 +138,50 @@ export default function When({ handleNavigate }) {
     .sort((a, b) => a - b);
 
   const scrollUp = () => {
-    setStartIndex((prevIndex) => Math.max(0, prevIndex - SQUARES_PER_ROW));
+    setStartIndex((prevIndex) => Math.max(0, prevIndex - SQUARES_PER_ROW * 2));
   };
 
   const scrollDown = () => {
     const maxIndex =
-      Math.ceil((TOTAL_SQUARES - VISIBLE_SQUARES) / SQUARES_PER_ROW) *
-      SQUARES_PER_ROW;
+      Math.ceil(
+        (TOTAL_SQUARES - VISIBLE_SQUARES + SQUARES_PER_ROW) / SQUARES_PER_ROW,
+      ) * SQUARES_PER_ROW;
     setStartIndex((prevIndex) =>
-      Math.min(maxIndex, prevIndex + SQUARES_PER_ROW),
+      Math.min(maxIndex, prevIndex + SQUARES_PER_ROW * 2),
     );
   };
 
   const startScrolling = (direction) => {
     if (scrollIntervalRef.current) return;
 
+    let scrollMultiplier = 2;
+    const scrollStartTime = Date.now();
+
     scrollIntervalRef.current = setInterval(() => {
+      const scrollDuration = Date.now() - scrollStartTime;
+
+      if (scrollDuration >= 1000) {
+        scrollMultiplier = 12;
+      } else if (scrollDuration >= 500) {
+        scrollMultiplier = 6;
+      }
+
       setStartIndex((prevIndex) => {
         if (direction === "up") {
-          return Math.max(0, prevIndex - SQUARES_PER_ROW);
+          return Math.max(0, prevIndex - SQUARES_PER_ROW * scrollMultiplier);
         } else {
+          const maxIndex =
+            Math.ceil(
+              (TOTAL_SQUARES - VISIBLE_SQUARES + SQUARES_PER_ROW) /
+                SQUARES_PER_ROW,
+            ) * SQUARES_PER_ROW;
           return Math.min(
-            TOTAL_SQUARES - VISIBLE_SQUARES,
-            prevIndex + SQUARES_PER_ROW,
+            maxIndex,
+            prevIndex + SQUARES_PER_ROW * scrollMultiplier,
           );
         }
       });
-    }, 50);
+    }, 25);
   };
 
   const stopScrolling = () => {
@@ -182,14 +198,17 @@ export default function When({ handleNavigate }) {
     const y = e.clientY - rect.top;
     const percentage = y / rect.height;
     const newStartIndex = Math.round(
-      percentage * (TOTAL_SQUARES - VISIBLE_SQUARES),
+      percentage * (TOTAL_SQUARES - VISIBLE_SQUARES + SQUARES_PER_ROW),
     );
     const adjustedStartIndex =
       Math.round(newStartIndex / SQUARES_PER_ROW) * SQUARES_PER_ROW;
     setStartIndex(
       Math.max(
         0,
-        Math.min(adjustedStartIndex, TOTAL_SQUARES - VISIBLE_SQUARES),
+        Math.min(
+          adjustedStartIndex,
+          TOTAL_SQUARES - VISIBLE_SQUARES + SQUARES_PER_ROW,
+        ),
       ),
     );
   };
@@ -213,7 +232,10 @@ export default function When({ handleNavigate }) {
       const newIndex = Math.round(currentRow * SQUARES_PER_ROW);
 
       setStartIndex(
-        Math.max(0, Math.min(newIndex, TOTAL_SQUARES - VISIBLE_SQUARES)),
+        Math.max(
+          0,
+          Math.min(newIndex, TOTAL_SQUARES - VISIBLE_SQUARES + SQUARES_PER_ROW),
+        ),
       );
 
       if (progress < 1) {
@@ -231,40 +253,22 @@ export default function When({ handleNavigate }) {
   };
 
   const navigateToImportantSquare = (direction) => {
-    const currentVisibleSquares = squares;
-    const visibleImportantSquares = importantSquareIndices.filter(
-      (index) =>
-        index >= currentVisibleSquares[0] &&
-        index <= currentVisibleSquares[currentVisibleSquares.length - 1],
-    );
+    const midPoint = hoveredIndex || startIndex + VISIBLE_SQUARES / 2;
 
     let targetSquare;
-    if (visibleImportantSquares.length === 0) {
-      // If no important squares are visible, find the nearest one
-      const midPoint = startIndex + VISIBLE_SQUARES / 2;
-      if (direction === "next") {
-        targetSquare =
-          importantSquareIndices.find((index) => index > midPoint) ||
-          importantSquareIndices[0];
-      } else {
-        targetSquare =
-          importantSquareIndices.reverse().find((index) => index < midPoint) ||
-          importantSquareIndices[importantSquareIndices.length - 1];
+    if (direction === "next") {
+      targetSquare = importantSquareIndices.find((index) => index > midPoint);
+      if (!targetSquare) {
+        targetSquare = importantSquareIndices[0]; // Wrap to beginning
       }
     } else {
-      // Find the next/prev important square relative to the visible ones
-      const currentIndex = visibleImportantSquares[0];
-      const currentPosition = importantSquareIndices.indexOf(currentIndex);
-      let nextPosition;
-
-      if (direction === "next") {
-        nextPosition = (currentPosition + 1) % importantSquareIndices.length;
-      } else {
-        nextPosition = currentPosition - 1;
-        if (nextPosition < 0) nextPosition = importantSquareIndices.length - 1;
+      targetSquare = [...importantSquareIndices]
+        .reverse()
+        .find((index) => index < midPoint);
+      if (!targetSquare) {
+        targetSquare =
+          importantSquareIndices[importantSquareIndices.length - 1]; // Wrap to end
       }
-
-      targetSquare = importantSquareIndices[nextPosition];
     }
 
     const targetRow = Math.floor(targetSquare / SQUARES_PER_ROW);
@@ -382,7 +386,7 @@ export default function When({ handleNavigate }) {
               onMouseLeave={() => (isDraggingRef.current = false)}
             >
               <div
-                className="w-3 h-1.5 bg-white cursor-grab transition-transform duration-300"
+                className="w-3 h-1.5 bg-white cursor-grab transition-transform duration-100"
                 style={{
                   transform: `translateY(${(startIndex / TOTAL_SQUARES) * 57}px)`,
                 }}
