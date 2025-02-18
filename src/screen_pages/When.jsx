@@ -23,12 +23,14 @@ const Square = ({
   return (
     <div className="relative overflow-visible z-10">
       {isHovered && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 bg-white text-[#2160FF] px-1 py-[0.125em] text-sm overflow-visible">
-          {importantText || index}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 bg-white text-[#2160FF] px-1 py-[0.125em] text-sm overflow-visible flex flex-col items-center">
+          <div>{index}</div>
+          {importantText && <div className="text-xs">{importantText}</div>}
+          {isCurrentDay && <div className="text-xs">TODAY</div>}
         </div>
       )}
       <div
-        className={`w-2 h-2 border border-white hover:bg-white/20 cursor-pointer relative
+        className={`w-2 h-2 border border-white hover:bg-white/20 cursor-pointer relative transition-all duration-300
           ${isFilled || (isCurrentDay && isFlashing) ? "bg-white outline-1 outline-offset-[-2px] outline-[#2160FF]" : ""}`}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -45,6 +47,7 @@ const Square = ({
 
 export default function When({ handleNavigate }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isAnimating, setIsAnimating] = useState(false);
   const SQUARES_PER_ROW = 30;
   const TOTAL_SQUARES = 30392;
   const VISIBLE_SQUARES = 630;
@@ -52,6 +55,7 @@ export default function When({ handleNavigate }) {
   const gridRef = useRef(null);
   const scrollVisRef = useRef(null);
   const isDraggingRef = useRef(false);
+  const animationRef = useRef(null);
 
   const startDate = new Date("1997-12-01T00:00:00");
   const currentDate = new Date();
@@ -66,6 +70,8 @@ export default function When({ handleNavigate }) {
     (rowWithCurrentDay - 10) * SQUARES_PER_ROW,
   );
   const [startIndex, setStartIndex] = useState(initialStartIndex);
+  const [currentImportantSquareIndex, setCurrentImportantSquareIndex] =
+    useState(0);
 
   const squares = Array.from(
     { length: VISIBLE_SQUARES },
@@ -96,6 +102,10 @@ export default function When({ handleNavigate }) {
     9501: "Became a World Champion in Hide and Seek",
     9940: "Discovered the Secret to Eternal Happiness",
   };
+
+  const importantSquareIndices = Object.keys(importantSquares)
+    .map(Number)
+    .sort((a, b) => a - b);
 
   const scrollUp = () => {
     setStartIndex((prevIndex) => Math.max(0, prevIndex - SQUARES_PER_ROW));
@@ -153,6 +163,64 @@ export default function When({ handleNavigate }) {
     );
   };
 
+  const animateToIndex = (targetIndex) => {
+    setIsAnimating(true);
+    const startRow = Math.floor(startIndex / SQUARES_PER_ROW);
+    const targetRow = Math.floor(targetIndex / SQUARES_PER_ROW);
+    const distance = targetRow - startRow;
+    const duration = 500; // ms
+    const startTime = performance.now();
+    const startValue = startIndex;
+
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Easing function
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      const currentRow = startRow + distance * eased;
+      const newIndex = Math.round(currentRow * SQUARES_PER_ROW);
+
+      setStartIndex(
+        Math.max(0, Math.min(newIndex, TOTAL_SQUARES - VISIBLE_SQUARES)),
+      );
+
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      } else {
+        setIsAnimating(false);
+      }
+    };
+
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+
+    animationRef.current = requestAnimationFrame(animate);
+  };
+
+  const navigateToImportantSquare = (direction) => {
+    let nextIndex;
+    if (direction === "next") {
+      nextIndex = currentImportantSquareIndex + 1;
+      if (nextIndex >= importantSquareIndices.length) nextIndex = 0;
+    } else {
+      nextIndex = currentImportantSquareIndex - 1;
+      if (nextIndex < 0) nextIndex = importantSquareIndices.length - 1;
+    }
+
+    const targetSquare = importantSquareIndices[nextIndex];
+    setCurrentImportantSquareIndex(nextIndex);
+    // Only set hovered index after animation completes
+    const targetRow = Math.floor(targetSquare / SQUARES_PER_ROW);
+    const targetIndex = Math.max(0, (targetRow - 10) * SQUARES_PER_ROW);
+    animateToIndex(targetIndex);
+    setTimeout(() => {
+      setHoveredIndex(targetSquare);
+    }, 500);
+  };
+
   useEffect(() => {
     const handleWheel = (e) => {
       if (e.deltaY > 0) {
@@ -170,6 +238,9 @@ export default function When({ handleNavigate }) {
     return () => {
       if (gridElement) {
         gridElement.removeEventListener("wheel", handleWheel);
+      }
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
       }
     };
   }, []);
@@ -206,8 +277,8 @@ export default function When({ handleNavigate }) {
             <Square
               key={index}
               index={index + 1}
-              isHovered={hoveredIndex === index}
-              onMouseEnter={() => setHoveredIndex(index)}
+              isHovered={!isAnimating && hoveredIndex === index}
+              onMouseEnter={() => !isAnimating && setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               importantText={importantSquares[index]}
               isFilled={index < daysSinceStartDate}
@@ -222,9 +293,17 @@ export default function When({ handleNavigate }) {
               Math.min(startIndex + VISIBLE_SQUARES, TOTAL_SQUARES),
             ).padStart(5, "0")}
           </div>
-          <div className="flex flex-row gap-2 mt-[-7px]">
+          <div className="flex flex-row gap-1 mt-[-10px]">
+            <button className="border border-white hover:bg-white hover:text-[#2160FF] h-3 px-1 text-xs flex items-center justify-center">
+              -
+            </button>
+            <button className="border border-white hover:bg-white hover:text-[#2160FF] h-3 px-1 text-xs flex items-center justify-center">
+              +
+            </button>
+          </div>
+          <div className="flex flex-row gap-2 mt-[-10px]">
             <div
-              className="border border-white h-19 relative"
+              className="border border-white h-18 relative"
               id="scroll-vis"
               ref={scrollVisRef}
               onMouseMove={handleScrub}
@@ -233,13 +312,13 @@ export default function When({ handleNavigate }) {
               onMouseLeave={() => (isDraggingRef.current = false)}
             >
               <div
-                className="w-2 h-2 bg-white cursor-grab"
+                className="w-3 h-2 bg-white cursor-grab transition-transform duration-300"
                 style={{
-                  transform: `translateY(${(startIndex / TOTAL_SQUARES) * 68}px)`,
+                  transform: `translateY(${(startIndex / TOTAL_SQUARES) * 64}px)`,
                 }}
               ></div>
             </div>
-            <div className="flex flex-col w-[20px] gap-2 text-xs">
+            <div className="flex flex-col w-4 gap-2 text-xs">
               <button
                 onMouseDown={() => startScrolling("up")}
                 onMouseUp={stopScrolling}
@@ -254,11 +333,28 @@ export default function When({ handleNavigate }) {
                 onMouseUp={stopScrolling}
                 onMouseLeave={stopScrolling}
                 onClick={scrollDown}
-                className="border border-white hover:bg-white hover:text-[#2160FF] h-9"
+                className="border border-white hover:bg-white hover:text-[#2160FF] h-8"
               >
                 ▼
               </button>
             </div>
+          </div>
+          <div className="flex flex-row gap-1 mt-[-10px] items-center">
+            <button
+              onClick={() => navigateToImportantSquare("prev")}
+              className="border border-white hover:bg-white hover:text-[#2160FF] h-3 w-3 flex items-center justify-center text-[0.6rem]"
+            >
+              <span className="h-[14px]">&lt;</span>
+            </button>
+            <div className="w-2 h-2 flex items-center justify-center">
+              <div className="w-2 h-2 bg-yellow-400 "></div>
+            </div>
+            <button
+              onClick={() => navigateToImportantSquare("next")}
+              className="border border-white hover:bg-white hover:text-[#2160FF] h-3 w-3 flex items-center justify-center text-[0.6rem]"
+            >
+              <span className="h-[14px]">&gt;</span>
+            </button>
           </div>
         </div>
       </div>
