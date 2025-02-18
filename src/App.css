@@ -216,10 +216,8 @@
     left: 0;
     bottom: 0;
     right: 0;
-    background: linear-gradient(
-            rgba(18, 16, 16, 0) 50%,
-            rgba(0, 0, 0, 0.25) 50%
-        ),
+    background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
         linear-gradient(
             90deg,
             rgba(255, 0, 0, 0.06),
@@ -282,7 +280,7 @@
 
 #grain-parent {
     content: "";
-    background-image: url("./1k_Dissolve_Noise_Texture.jpg");
+    background-image: url("/assets/1k_Dissolve_Noise_Texture.jpg");
     height: 300%;
     width: 300%;
     position: fixed;

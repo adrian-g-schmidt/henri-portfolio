@@ -25,7 +25,7 @@ export default function Running({ handleNavigate }) {
         <div className="col-span-3 flex flex-col gap-4">
           <div
             className="bg-cover
- z-30 w-full flex items-end justify-start flex-shrink-0 grow bg-[url(/assets/running_joke.jpg)] p-2"
+ z-30 w-full flex items-end justify-start flex-shrink-0 grow bg-[url(assets/running_joke.jpg)] p-2"
           ></div>
           <div className="flex justify-between w-full">
             <h2 className="text-[8px] uppercase">Documentary</h2>
@@ -40,7 +40,7 @@ export default function Running({ handleNavigate }) {
           </span>
           <div className="text-xs border border-white flex p-[2px] uppercase z-10 w-fit gap-1">
             <div className="w-fit">Treatment</div>
-            <img className="h-4" src="./assets/download_icon.png" />
+            <img className="h-4" src="assets/download_icon.png" />
           </div>
         </div>
       </div>

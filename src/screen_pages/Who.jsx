@@ -127,7 +127,7 @@ export default function Who({ handleNavigate }) {
             <br />
             Nothing motivates him more than seeing a great idea come to life.
           </p>
-          <img src="./assets/henri_who.jpg" className="mt-3" />
+          <img src="assets/henri_who.jpg" className="mt-3" />
         </div>
         <div className="flex flex-col gap-2 pl-9">
           <button

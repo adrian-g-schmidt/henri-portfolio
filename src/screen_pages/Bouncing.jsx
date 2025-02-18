@@ -72,14 +72,14 @@ export default function Bouncing({ handleNavigate }) {
         <DvdScreensaver speed={0.4} impactCallback={handleImpact}>
           <div className="relative w-[44px] h-[34px] z-10">
             <img
-              src="./assets/logo.png"
+              src="assets/logo.png"
               className="absolute w-full h-full object-contain mix-blend-screen"
             />
             <div
               style={{
                 backgroundColor: logoColor,
-                maskImage: "url('./assets/logo.png')",
-                WebkitMaskImage: "url('./assets/logo.png')",
+                maskImage: "url('assets/logo.png')",
+                WebkitMaskImage: "url('assets/logo.png')",
                 maskSize: "contain",
                 WebkitMaskSize: "contain",
               }}
