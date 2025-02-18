@@ -7,19 +7,7 @@ const Square = ({
   onMouseLeave,
   importantText,
   isFilled,
-  isCurrentDay,
 }) => {
-  const [isFlashing, setIsFlashing] = useState(true);
-
-  useEffect(() => {
-    if (isCurrentDay) {
-      const interval = setInterval(() => {
-        setIsFlashing((prev) => !prev);
-      }, 500);
-      return () => clearInterval(interval);
-    }
-  }, [isCurrentDay]);
-
   return (
     <div className="relative overflow-visible z-10">
       {isHovered && (
@@ -28,8 +16,7 @@ const Square = ({
         </div>
       )}
       <div
-        className={`w-2 h-2 border border-white hover:bg-white/20 cursor-pointer relative
-          ${isFilled || (isCurrentDay && isFlashing) ? "bg-white outline-1 outline-offset-[-2px] outline-[#2160FF]" : ""}`}
+        className={`w-2 h-2 border border-white hover:bg-white/20 cursor-pointer relative ${isFilled ? "bg-white outline-1 outline-offset-[-2px] outline-[#2160FF]" : ""}`}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
@@ -45,6 +32,7 @@ const Square = ({
 
 export default function When({ handleNavigate }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [startIndex, setStartIndex] = useState(0);
   const SQUARES_PER_ROW = 30;
   const TOTAL_SQUARES = 30392;
   const VISIBLE_SQUARES = 630;
@@ -58,14 +46,6 @@ export default function When({ handleNavigate }) {
   const daysSinceStartDate = Math.floor(
     (currentDate - startDate) / (1000 * 60 * 60 * 24),
   );
-
-  // Calculate initial start index
-  const rowWithCurrentDay = Math.floor(daysSinceStartDate / SQUARES_PER_ROW);
-  const initialStartIndex = Math.max(
-    0,
-    (rowWithCurrentDay - 10) * SQUARES_PER_ROW,
-  );
-  const [startIndex, setStartIndex] = useState(initialStartIndex);
 
   const squares = Array.from(
     { length: VISIBLE_SQUARES },
@@ -195,12 +175,7 @@ export default function When({ handleNavigate }) {
         3. When?
       </header>
 
-      <div className="w-full text-[#FFFFFF] p-1 text-center text-[0.6rem] whitespace-nowrap">
-        HENRI IS EXPECTED TO LIVE FOR ANOTHER{" "}
-        {TOTAL_SQUARES - daysSinceStartDate} DAYS
-      </div>
-
-      <div className="w-full h-full relative flex pt-0.5">
+      <div className="w-full h-full relative flex pt-2">
         <div ref={gridRef} className="grid grid-cols-30">
           {squares.map((index) => (
             <Square
@@ -211,54 +186,51 @@ export default function When({ handleNavigate }) {
               onMouseLeave={() => setHoveredIndex(null)}
               importantText={importantSquares[index]}
               isFilled={index < daysSinceStartDate}
-              isCurrentDay={index === daysSinceStartDate}
             />
           ))}
         </div>
-        <div className="ml-auto flex flex-col items-center gap-4 h-full">
+        <div className="ml-1 flex flex-col items-center justify-between h-full">
           <div className="border border-white text-[0.6rem]/2 text-center p-1">
             {String(startIndex + 1).padStart(5, "0")} <br />- <br />
             {String(
               Math.min(startIndex + VISIBLE_SQUARES, TOTAL_SQUARES),
             ).padStart(5, "0")}
           </div>
-          <div className="flex flex-row gap-2 mt-[-7px]">
-            <div
-              className="border border-white h-19 relative"
-              id="scroll-vis"
-              ref={scrollVisRef}
-              onMouseMove={handleScrub}
-              onMouseDown={() => (isDraggingRef.current = true)}
-              onMouseUp={() => (isDraggingRef.current = false)}
-              onMouseLeave={() => (isDraggingRef.current = false)}
+          <div className="flex flex-col w-[20px] gap-2 text-xs">
+            <button
+              onMouseDown={() => startScrolling("up")}
+              onMouseUp={stopScrolling}
+              onMouseLeave={stopScrolling}
+              onClick={scrollUp}
+              className="border border-white hover:bg-white hover:text-[#2160FF] h-8"
             >
-              <div
-                className="w-2 h-2 bg-white cursor-grab"
-                style={{
-                  transform: `translateY(${(startIndex / TOTAL_SQUARES) * 68}px)`,
-                }}
-              ></div>
-            </div>
-            <div className="flex flex-col w-[20px] gap-2 text-xs">
-              <button
-                onMouseDown={() => startScrolling("up")}
-                onMouseUp={stopScrolling}
-                onMouseLeave={stopScrolling}
-                onClick={scrollUp}
-                className="border border-white hover:bg-white hover:text-[#2160FF] h-8"
-              >
-                ▲
-              </button>
-              <button
-                onMouseDown={() => startScrolling("down")}
-                onMouseUp={stopScrolling}
-                onMouseLeave={stopScrolling}
-                onClick={scrollDown}
-                className="border border-white hover:bg-white hover:text-[#2160FF] h-9"
-              >
-                ▼
-              </button>
-            </div>
+              ▲
+            </button>
+            <button
+              onMouseDown={() => startScrolling("down")}
+              onMouseUp={stopScrolling}
+              onMouseLeave={stopScrolling}
+              onClick={scrollDown}
+              className="border border-white hover:bg-white hover:text-[#2160FF] h-9"
+            >
+              ▼
+            </button>
+          </div>
+          <div
+            className="border border-white h-12 relative"
+            id="scroll-vis"
+            ref={scrollVisRef}
+            onMouseMove={handleScrub}
+            onMouseDown={() => (isDraggingRef.current = true)}
+            onMouseUp={() => (isDraggingRef.current = false)}
+            onMouseLeave={() => (isDraggingRef.current = false)}
+          >
+            <div
+              className="w-2 h-2 bg-white cursor-grab"
+              style={{
+                transform: `translateY(${(startIndex / TOTAL_SQUARES) * 40}px)`,
+              }}
+            ></div>
           </div>
         </div>
       </div>
