@@ -117,7 +117,7 @@ export default function When({ handleNavigate }) {
     },
     2504: { text: "Built a Rocketship" },
     2998: { text: "Learned to Juggle" },
-    3502: { text: "Became a Ninja" },
+    3502: { text: "Farted" },
     4005: { text: "Mastered the Art of Sandwich Making" },
     4503: { text: "Discovered a New Planet" },
     5007: { text: "Became a Time Traveler" },
