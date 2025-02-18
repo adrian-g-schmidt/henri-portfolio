@@ -367,7 +367,7 @@ export default function When({ handleNavigate }) {
           </div>
           <div className="flex flex-row gap-2 mt-[-10px]">
             <div
-              className="border border-white h-18 relative"
+              className="border border-white h-16 relative"
               id="scroll-vis"
               ref={scrollVisRef}
               onMouseMove={handleScrub}
@@ -376,9 +376,9 @@ export default function When({ handleNavigate }) {
               onMouseLeave={() => (isDraggingRef.current = false)}
             >
               <div
-                className="w-3 h-2 bg-white cursor-grab transition-transform duration-300"
+                className="w-3 h-1.5 bg-white cursor-grab transition-transform duration-300"
                 style={{
-                  transform: `translateY(${(startIndex / TOTAL_SQUARES) * 64}px)`,
+                  transform: `translateY(${(startIndex / TOTAL_SQUARES) * 57}px)`,
                 }}
               ></div>
             </div>
@@ -388,7 +388,7 @@ export default function When({ handleNavigate }) {
                 onMouseUp={stopScrolling}
                 onMouseLeave={stopScrolling}
                 onClick={scrollUp}
-                className="border border-white hover:bg-white hover:text-[#2160FF] h-8"
+                className="border border-white hover:bg-white hover:text-[#2160FF] h-7"
               >
                 ▲
               </button>
@@ -397,7 +397,7 @@ export default function When({ handleNavigate }) {
                 onMouseUp={stopScrolling}
                 onMouseLeave={stopScrolling}
                 onClick={scrollDown}
-                className="border border-white hover:bg-white hover:text-[#2160FF] h-8"
+                className="border border-white hover:bg-white hover:text-[#2160FF] h-7"
               >
                 ▼
               </button>
@@ -422,7 +422,7 @@ export default function When({ handleNavigate }) {
           </div>
           <button
             onClick={scrollToToday}
-            className="border border-white hover:bg-white hover:text-[#2160FF] text-[0.4rem] h-2.5 w-10 mt-[-10px] flex items-center justify-center"
+            className="border border-white hover:bg-white hover:text-[#2160FF] text-[0.4rem] h-3 w-10 mt-[-10px] flex items-center justify-center"
           >
             TODAY
           </button>

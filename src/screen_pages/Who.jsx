@@ -58,7 +58,7 @@ export default function Who({ handleNavigate }) {
         </button>
         1. Who?
       </header>
-      <div className="grow w-full h-12 text-left text-xs grid grid-cols-[1fr_5fr_1.25rem] px-0 gap-3">
+      <div className="grow w-full h-12 text-left text-xs grid grid-cols-[1fr_5fr_1.25rem_1.25rem] px-0 gap-3">
         <div className="flex justify-between flex-col">
           <p className="text-[0.9rem]/3.5">
             HENRI
@@ -66,10 +66,10 @@ export default function Who({ handleNavigate }) {
             SCOTT is a FILMMAKER and multi-disciplinary CREATIVE.
           </p>
           <div className="flex flex-col justify-between gap-1 text-left">
-            <div className="mt-auto text-xs border border-white hover:bg-white hover:text-[#18181b] flex p-[2px] uppercase z-10 w-fit gap-1 group">
+            <div className="mt-auto text-xs border border-white hover:bg-white hover:text-[#2160FF] flex p-[2px] uppercase z-10 w-fit gap-1 group">
               <div className="w-fit">Portfolio</div>
               <svg
-                className="h-4 fill-white group-hover:fill-[#18181b]"
+                className="h-4 fill-white group-hover:fill-[#2160FF]"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -93,7 +93,7 @@ export default function Who({ handleNavigate }) {
           </div>
         </div>
         <div
-          className="overflow-y-scroll scrollbar-hide text-right text-[0.8rem]/3"
+          className="overflow-y-scroll scrollbar-hide text-right text-[0.8rem]/3 mr-[-35px]"
           onWheel={preventScroll}
           onTouchMove={preventScroll}
           style={{ msOverflowStyle: "none", scrollbarWidth: "none" }}
@@ -121,27 +121,82 @@ export default function Who({ handleNavigate }) {
             <br />
             Nothing motivates him more than seeing a great idea come to life.
           </p>
-          <img src="./assets/henri_who.jpg" className="mt-2" />
+          <img src="./assets/henri_who.jpg" className="mt-3" />
         </div>
-        <div className="flex flex-col w-[40px] pr-5 gap-2">
+        <div className="flex flex-col gap-2 pl-9">
           <button
-            onClick={() => scrollContent("up")}
             onMouseDown={() => startContinuousScroll("up")}
             onMouseUp={stopContinuousScroll}
             onMouseLeave={stopContinuousScroll}
-            className="border border-white hover:bg-white hover:text-[#2160FF] h-8"
+            className="border border-white hover:bg-white hover:text-[#2160FF] h-9 w-[17px]"
           >
             ▲
           </button>
           <button
-            onClick={() => scrollContent("down")}
             onMouseDown={() => startContinuousScroll("down")}
             onMouseUp={stopContinuousScroll}
             onMouseLeave={stopContinuousScroll}
-            className="border border-white hover:bg-white hover:text-[#2160FF] h-9"
+            className="border border-white hover:bg-white hover:text-[#2160FF] h-9 w-[17px]"
           >
             ▼
           </button>
+          <div
+            className="border border-white w-[17px] h-19 cursor-grab active:cursor-grabbing relative"
+            onMouseDown={(e) => {
+              const scrollableDiv =
+                document.querySelector(".overflow-y-scroll");
+              const startY = e.clientY;
+              const startScroll = scrollableDiv.scrollTop;
+
+              const handleMouseMove = (e) => {
+                const delta = e.clientY - startY;
+                const scrollRatio = delta / scrollableDiv.clientHeight;
+                const scrollAmount = scrollRatio * scrollableDiv.scrollHeight;
+                scrollableDiv.scrollTop = startScroll + scrollAmount;
+              };
+
+              const handleMouseUp = () => {
+                document.removeEventListener("mousemove", handleMouseMove);
+                document.removeEventListener("mouseup", handleMouseUp);
+              };
+
+              document.addEventListener("mousemove", handleMouseMove);
+              document.addEventListener("mouseup", handleMouseUp);
+            }}
+          >
+            <div
+              className="absolute bg-white w-full h-[10px] left-0"
+              style={{
+                top: (() => {
+                  const scrollableDiv =
+                    document.querySelector(".overflow-y-scroll");
+                  if (!scrollableDiv) return "0%";
+                  const scrollPercentage =
+                    (scrollableDiv.scrollTop /
+                      (scrollableDiv.scrollHeight -
+                        scrollableDiv.clientHeight)) *
+                    100;
+                  return `${Math.min(Math.max(scrollPercentage, 0), 87)}%`;
+                })(),
+              }}
+              ref={(el) => {
+                if (el) {
+                  const scrollableDiv =
+                    document.querySelector(".overflow-y-scroll");
+                  const updatePosition = () => {
+                    const scrollPercentage =
+                      (scrollableDiv.scrollTop /
+                        (scrollableDiv.scrollHeight -
+                          scrollableDiv.clientHeight)) *
+                      100;
+                    el.style.top = `${Math.min(Math.max(scrollPercentage, 0), 87)}%`;
+                    requestAnimationFrame(updatePosition);
+                  };
+                  requestAnimationFrame(updatePosition);
+                }
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
