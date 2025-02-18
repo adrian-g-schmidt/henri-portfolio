@@ -221,6 +221,15 @@ export default function When({ handleNavigate }) {
     }, 500);
   };
 
+  const scrollToToday = () => {
+    const targetRow = Math.floor(daysSinceStartDate / SQUARES_PER_ROW);
+    const targetIndex = Math.max(0, (targetRow - 10) * SQUARES_PER_ROW);
+    animateToIndex(targetIndex);
+    setTimeout(() => {
+      setHoveredIndex(daysSinceStartDate);
+    }, 500);
+  };
+
   useEffect(() => {
     const handleWheel = (e) => {
       if (e.deltaY > 0) {
@@ -356,6 +365,12 @@ export default function When({ handleNavigate }) {
               <span className="h-[14px]">&gt;</span>
             </button>
           </div>
+          <button
+            onClick={scrollToToday}
+            className="border border-white hover:bg-white hover:text-[#2160FF] text-[0.4rem] h-2.5 w-10 mt-[-10px] flex items-center justify-center"
+          >
+            TODAY
+          </button>
         </div>
       </div>
     </div>
