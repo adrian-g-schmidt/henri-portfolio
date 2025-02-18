@@ -17,18 +17,26 @@ export default function Vicarious({ handleNavigate }) {
             />
           </svg>
         </button>
-        VICARIOUS [IN PRODUCTION]
+        <div className="text-right">VICARIOUS</div>
       </header>
       <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-1">
         <div className="col-span-3 flex flex-col gap-3">
-          <div className="bg-cover relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(/assets/showreel_banner.jpg)] p-2 hover:scale-105 transition-transform duration-300">
+          <div className="bg-cover relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(/assets/vicarious_banner.jpg)] p-2 hover:scale-105 transition-transform duration-300">
             <div className="text-white text-6xl drop-shadow-lg -translate-y-[8px]">
               ▶
             </div>
           </div>
           <div className="flex justify-between w-full">
-            <h2 className="text-[8px]">SHOWREEL [FEB 2025]</h2>
-            <h2 className="text-[8px] text-right">RUNTIME: 00:05:35</h2>
+            <h2 className="text-[8px]">
+              VICARIOUS
+              <br />
+              [IN PRODUCTION]
+            </h2>
+            <h2 className="text-[8px] text-right">
+              RUNTIME:
+              <br />
+              00:05:35
+            </h2>
           </div>
         </div>
         <div className="flex flex-col col-span-2 gap-2">
@@ -42,17 +50,55 @@ export default function Vicarious({ handleNavigate }) {
             <span className="bg-white text-[#18181B] text-[8px] px-1">
               PRODUCER
             </span>
-            <span className="bg-white text-[#18181B] text-[8px] px-1">
-              CINEMATOGRAPHER
-            </span>
-            <span className="bg-white text-[#18181B] text-[8px] px-1">
-              EDITOR
+          </div>
+          <div className="flex flex-col">
+            <span
+              className="text-[7px] text-left h-[105px] overflow-y-auto scrollbar-hide hide-scrollbar block"
+              style={{
+                msOverflowStyle: "none",
+                scrollbarWidth: "none",
+                "::-webkit-scrollbar": { display: "none" },
+              }}
+            >
+              <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
+                ABOUT
+              </span>
+              A near-future scifi short about free-will, obsession, and the
+              anxiety of being in charge of your own life.
+              <br /> <br />
+              <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
+                LOGLINE
+              </span>
+              <br />
+              In a world where people can outsource their free will to a service
+              that takes control of their bodies and minds via a computer
+              terminal, one jaded operator's views are challenged when he
+              becomes dangerously obsessed with his client's girlfriend.
+              <br /> <br />
+              <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
+                CREDITS
+              </span>
+              <span className="text-white text-[7px] !text-left">
+                <u>DIRECTOR</u>: Henri Scott
+                <br />
+                <u>WRITER</u>: Henri Scott
+                <br />
+                <u>PRODUCERS</u>: Henri Scott, Sebastian Zizza
+                <br />
+                <u>1ST AD</u>: Sebastian Zizza
+                <br />
+                <u>DOP</u>: Rhavin Banda
+                <br />
+                <u>1ST AC</u>: Naren G-J, Gianluca Cascone
+                <br />
+                <u>ART DEPT</u>: Amelia Leach
+                <br />
+                <u>SOUND</u>: Tyrone Lawrence
+                <br />
+                <u>DIRECTORS ASSISTANT</u>: Naren G-J
+              </span>
             </span>
           </div>
-          <span className="text-[8px] text-right">
-            A showcase of my work across various narrative and documentary
-            projects.
-          </span>
           <div className="mt-auto text-xs border border-white hover:bg-white hover:text-[#18181b] flex p-[2px] uppercase z-10 w-fit gap-1 ml-auto group">
             <div className="w-fit">Treatment</div>
             <svg
