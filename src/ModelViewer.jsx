@@ -23,10 +23,13 @@ import Who from "./screen_pages/Who";
 import When from "./screen_pages/When";
 import Why from "./screen_pages/Why";
 import What from "./screen_pages/What";
-import Showreel from "./screen_pages/Showreel";
-import Running from "./screen_pages/Running";
+import Showreel from "./screen_pages/Project Pages/Showreel.jsx";
+import LongRunningJoke from "./screen_pages/Project Pages/LongRunningJoke.jsx";
+import Strings from "./screen_pages/Project Pages/Strings.jsx";
 import Bouncing from "./screen_pages/Bouncing";
-import Vicarious from "./screen_pages/Vicarious";
+import Vicarious from "./screen_pages/Project Pages/Vicarious.jsx";
+import Breathe from "./screen_pages/Project Pages/Breathe.jsx";
+import Terms from "./screen_pages/Project Pages/Terms.jsx";
 
 const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
@@ -104,8 +107,14 @@ const TVInterface = ({ onSpin, onNod }) => {
               return <Bouncing handleNavigate={handleNavigate} />;
             case "showreel":
               return <Showreel handleNavigate={handleNavigate} />;
-            case "running":
-              return <Running handleNavigate={handleNavigate} />;
+            case "longrunningjoke":
+              return <LongRunningJoke handleNavigate={handleNavigate} />;
+            case "strings":
+              return <Strings handleNavigate={handleNavigate} />;
+            case "terms":
+              return <Terms handleNavigate={handleNavigate} />;
+            case "breathe":
+              return <Breathe handleNavigate={handleNavigate} />;
             case "vicarious":
               return <Vicarious handleNavigate={handleNavigate} />;
             default:

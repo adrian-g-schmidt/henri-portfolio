@@ -282,7 +282,7 @@ export default function What({ handleNavigate }) {
             <div className="flex flex-col">
               <div
                 className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(/assets/running_hug_square.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
-                onClick={() => handleNavigate("running")}
+                onClick={() => handleNavigate("longrunningjoke")}
               >
                 <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
                   DOCUMENTARY
@@ -313,7 +313,7 @@ export default function What({ handleNavigate }) {
             <div className="flex flex-col">
               <div
                 className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(/assets/terms.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
-                onClick={() => handleNavigate("project3")}
+                onClick={() => handleNavigate("terms")}
               >
                 <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
                   MUSIC VIDEO
@@ -338,7 +338,7 @@ export default function What({ handleNavigate }) {
             <div className="flex flex-col">
               <div
                 className="bg-cover bg-center cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(/assets/strings.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
-                onClick={() => handleNavigate("project4")}
+                onClick={() => handleNavigate("strings")}
               >
                 <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
                   SHORT FILM
@@ -357,7 +357,7 @@ export default function What({ handleNavigate }) {
             <div className="flex flex-col">
               <div
                 className="bg-cover cursor-pointer z-30 flex-shrink-0 aspect-square bg-[url(/assets/JFB.jpg)] relative transition-transform hover:scale-110 hover:shadow-[3px_3px_3px_rgba(0,0,0,0.3)] origin-center"
-                onClick={() => handleNavigate("project5")}
+                onClick={() => handleNavigate("breathe")}
               >
                 <div className="absolute top-1 left-1 text-[#2160FF] text-[8px] bg-white px-1">
                   SHORT FILM

@@ -1,4 +1,4 @@
-export default function Vicarious({ handleNavigate }) {
+export default function Breathe({ handleNavigate }) {
   return (
     <div className="z-20 flex justify-between flex-col p-4 h-full">
       <header className="w-full uppercase text-xl pb-2 flex justify-between">
@@ -21,14 +21,17 @@ export default function Vicarious({ handleNavigate }) {
       </header>
       <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-1">
         <div className="col-span-3 flex flex-col gap-3">
-          <div className="bg-cover relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(/assets/vicarious_banner.jpg)] p-2 hover:scale-105 transition-transform duration-300">
-            <div className="text-white text-6xl drop-shadow-lg -translate-y-[8px]">
+          <div className="bg-cover bg-center relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(/assets/vicarious_banner.jpg)] p-2">
+            <button className="absolute left-2 text-white text-2xl drop-shadow-lg hover:scale-110 transition-transform">
+              ◀
+            </button>
+            <button className="absolute right-2 text-white text-2xl drop-shadow-lg hover:scale-110 transition-transform">
               ▶
-            </div>
+            </button>
           </div>
           <div className="flex justify-between w-full">
             <h2 className="text-[8px]">
-              VICARIOUS
+              SHORT FILM
               <br />
               [IN PRODUCTION]
             </h2>
