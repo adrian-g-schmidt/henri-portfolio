@@ -8,6 +8,7 @@ const Square = ({
   importantText,
   isFilled,
   isCurrentDay,
+  media,
 }) => {
   const [isFlashing, setIsFlashing] = useState(true);
 
@@ -23,10 +24,30 @@ const Square = ({
   return (
     <div className="relative overflow-visible z-10">
       {isHovered && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 bg-white text-[#2160FF] px-1 py-[0.125em] text-sm overflow-visible flex flex-col items-center">
-          <div>{index}</div>
-          {importantText && <div className="text-xs">{importantText}</div>}
-          {isCurrentDay && <div className="text-xs">TODAY</div>}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 bg-white text-[#2160FF] px-1 py-[0.125em] text-sm overflow-visible flex flex-row items-start gap-2">
+          <div className="flex flex-col items-center">
+            <div>{index}</div>
+            {importantText && (
+              <div className="text-[0.6rem]">{importantText}</div>
+            )}
+            {isCurrentDay && <div className="text-xs">TODAY</div>}
+          </div>
+          {media && media.type === "image" && (
+            <img
+              src={media.url}
+              alt={importantText}
+              className="max-w-[100px] max-h-[80px] object-contain"
+            />
+          )}
+          {media && media.type === "video" && (
+            <video
+              src={media.url}
+              className="max-w-[100px] max-h-[80px] object-contain"
+              autoPlay
+              muted
+              loop
+            />
+          )}
         </div>
       )}
       <div
@@ -70,8 +91,6 @@ export default function When({ handleNavigate }) {
     (rowWithCurrentDay - 10) * SQUARES_PER_ROW,
   );
   const [startIndex, setStartIndex] = useState(initialStartIndex);
-  const [currentImportantSquareIndex, setCurrentImportantSquareIndex] =
-    useState(0);
 
   const squares = Array.from(
     { length: VISIBLE_SQUARES },
@@ -79,28 +98,40 @@ export default function When({ handleNavigate }) {
   ).filter((index) => index < TOTAL_SQUARES);
 
   const importantSquares = {
-    0: "Birth",
-    237: "First Laugh",
-    592: "Discovered Chocolate",
-    1028: "First Steps",
-    1497: "Invented a New Dance Move",
-    2003: "Became a Dinosaur Expert",
-    2504: "Built a Rocketship",
-    2998: "Learned to Juggle",
-    3502: "Became a Ninja",
-    4005: "Mastered the Art of Sandwich Making",
-    4503: "Discovered a New Planet",
-    5007: "Became a Time Traveler",
-    5501: "Won a Staring Contest with a Cat",
-    6002: "Became a Professional Pillow Fort Architect",
-    6503: "Learned to Speak Dolphin",
-    7001: "Invented a New Ice Cream Flavor",
-    7504: "Became a Superhero",
-    8006: "Traveled to the Center of the Earth",
-    8502: "Became a Master of Disguise",
-    9003: "Learned to Fly",
-    9501: "Became a World Champion in Hide and Seek",
-    9940: "Discovered the Secret to Eternal Happiness",
+    0: { text: "Birth" },
+    237: { text: "First Laugh" },
+    592: { text: "Discovered Chocolate" },
+    1028: {
+      text: "First Steps",
+      media: {
+        type: "image",
+        url: "assets/JFB.jpg",
+      },
+    },
+    1497: { text: "Invented a New Dance Move" },
+    2003: {
+      text: "Became a Dinosaur Expert",
+      media: {
+        type: "video",
+        url: "./intro-vid.mp4",
+      },
+    },
+    2504: { text: "Built a Rocketship" },
+    2998: { text: "Learned to Juggle" },
+    3502: { text: "Became a Ninja" },
+    4005: { text: "Mastered the Art of Sandwich Making" },
+    4503: { text: "Discovered a New Planet" },
+    5007: { text: "Became a Time Traveler" },
+    5501: { text: "Won a Staring Contest with a Cat" },
+    6002: { text: "Became a Professional Pillow Fort Architect" },
+    6503: { text: "Learned to Speak Dolphin" },
+    7001: { text: "Invented a New Ice Cream Flavor" },
+    7504: { text: "Became a Superhero" },
+    8006: { text: "Traveled to the Center of the Earth" },
+    8502: { text: "Became a Master of Disguise" },
+    9003: { text: "Learned to Fly" },
+    9501: { text: "Became a World Champion in Hide and Seek" },
+    9940: { text: "Discovered the Secret to Eternal Happiness" },
   };
 
   const importantSquareIndices = Object.keys(importantSquares)
@@ -170,7 +201,6 @@ export default function When({ handleNavigate }) {
     const distance = targetRow - startRow;
     const duration = 500; // ms
     const startTime = performance.now();
-    const startValue = startIndex;
 
     const animate = (currentTime) => {
       const elapsed = currentTime - startTime;
@@ -201,18 +231,42 @@ export default function When({ handleNavigate }) {
   };
 
   const navigateToImportantSquare = (direction) => {
-    let nextIndex;
-    if (direction === "next") {
-      nextIndex = currentImportantSquareIndex + 1;
-      if (nextIndex >= importantSquareIndices.length) nextIndex = 0;
+    const currentVisibleSquares = squares;
+    const visibleImportantSquares = importantSquareIndices.filter(
+      (index) =>
+        index >= currentVisibleSquares[0] &&
+        index <= currentVisibleSquares[currentVisibleSquares.length - 1],
+    );
+
+    let targetSquare;
+    if (visibleImportantSquares.length === 0) {
+      // If no important squares are visible, find the nearest one
+      const midPoint = startIndex + VISIBLE_SQUARES / 2;
+      if (direction === "next") {
+        targetSquare =
+          importantSquareIndices.find((index) => index > midPoint) ||
+          importantSquareIndices[0];
+      } else {
+        targetSquare =
+          importantSquareIndices.reverse().find((index) => index < midPoint) ||
+          importantSquareIndices[importantSquareIndices.length - 1];
+      }
     } else {
-      nextIndex = currentImportantSquareIndex - 1;
-      if (nextIndex < 0) nextIndex = importantSquareIndices.length - 1;
+      // Find the next/prev important square relative to the visible ones
+      const currentIndex = visibleImportantSquares[0];
+      const currentPosition = importantSquareIndices.indexOf(currentIndex);
+      let nextPosition;
+
+      if (direction === "next") {
+        nextPosition = (currentPosition + 1) % importantSquareIndices.length;
+      } else {
+        nextPosition = currentPosition - 1;
+        if (nextPosition < 0) nextPosition = importantSquareIndices.length - 1;
+      }
+
+      targetSquare = importantSquareIndices[nextPosition];
     }
 
-    const targetSquare = importantSquareIndices[nextIndex];
-    setCurrentImportantSquareIndex(nextIndex);
-    // Only set hovered index after animation completes
     const targetRow = Math.floor(targetSquare / SQUARES_PER_ROW);
     const targetIndex = Math.max(0, (targetRow - 10) * SQUARES_PER_ROW);
     animateToIndex(targetIndex);
@@ -289,7 +343,8 @@ export default function When({ handleNavigate }) {
               isHovered={!isAnimating && hoveredIndex === index}
               onMouseEnter={() => !isAnimating && setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              importantText={importantSquares[index]}
+              importantText={importantSquares[index]?.text}
+              media={importantSquares[index]?.media}
               isFilled={index < daysSinceStartDate}
               isCurrentDay={index === daysSinceStartDate}
             />
