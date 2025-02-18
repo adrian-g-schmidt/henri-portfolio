@@ -26,6 +26,7 @@ import What from "./screen_pages/What";
 import Showreel from "./screen_pages/Showreel";
 import Running from "./screen_pages/Running";
 import Bouncing from "./screen_pages/Bouncing";
+import Vicarious from "./screen_pages/Vicarious";
 
 const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
@@ -105,6 +106,8 @@ const TVInterface = ({ onSpin, onNod }) => {
               return <Showreel handleNavigate={handleNavigate} />;
             case "running":
               return <Running handleNavigate={handleNavigate} />;
+            case "vicarious":
+              return <Vicarious handleNavigate={handleNavigate} />;
             default:
               return (
                 <div>
