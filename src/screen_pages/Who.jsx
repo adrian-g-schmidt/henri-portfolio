@@ -2,7 +2,7 @@ export default function Who({ handleNavigate }) {
   const scrollContent = (direction) => {
     const scrollableDiv = document.querySelector(".overflow-y-scroll");
     if (scrollableDiv) {
-      const scrollAmount = direction === "up" ? -50 : 50;
+      const scrollAmount = direction === "up" ? -5 : 5;
       scrollableDiv.scrollBy({
         top: scrollAmount,
         behavior: "smooth",
@@ -32,10 +32,16 @@ export default function Who({ handleNavigate }) {
     window.scrollInterval = false;
   };
 
-  const preventScroll = (e) => {
+  const handleScroll = (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    return false;
+    const scrollableDiv = document.querySelector(".overflow-y-scroll");
+    if (scrollableDiv) {
+      const delta = e.deltaY || e.touches?.[0]?.clientY || 0;
+      scrollableDiv.scrollBy({
+        top: delta * 0.5,
+        behavior: "auto",
+      });
+    }
   };
 
   return (
@@ -94,8 +100,8 @@ export default function Who({ handleNavigate }) {
         </div>
         <div
           className="overflow-y-scroll scrollbar-hide text-right text-[0.8rem]/3 mr-[-35px]"
-          onWheel={preventScroll}
-          onTouchMove={preventScroll}
+          onWheel={handleScroll}
+          onTouchMove={handleScroll}
           style={{ msOverflowStyle: "none", scrollbarWidth: "none" }}
         >
           <p>
