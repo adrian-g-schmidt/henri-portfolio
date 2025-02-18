@@ -105,7 +105,7 @@ export default function When({ handleNavigate }) {
       text: "First Steps",
       media: {
         type: "image",
-        url: "assets/JFB.jpg",
+        url: "JFB.jpg",
       },
     },
     1497: { text: "Invented a New Dance Move" },
