@@ -21,7 +21,7 @@ export default function Showreel({ handleNavigate }) {
       </header>
       <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-1">
         <div className="col-span-3 flex flex-col gap-3">
-          <div className="bg-cover relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(assets/showreel_banner.jpg)] p-2 hover:scale-105 transition-transform duration-300">
+          <div className="bg-cover relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(/assets/showreel_banner.jpg)] p-2 hover:scale-105 transition-transform duration-300">
             <div className="text-white text-6xl drop-shadow-lg -translate-y-[8px]">
               ▶
             </div>
