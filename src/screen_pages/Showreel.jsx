@@ -49,19 +49,21 @@ export default function Showreel({ handleNavigate }) {
               EDITOR
             </span>
           </div>
-          <span className="text-[8px] text-right">
-            A showcase of my work across various narrative and documentary
-            projects.
-          </span>
-          <div className="mt-auto text-xs border border-white hover:bg-white hover:text-[#18181b] flex p-[2px] uppercase z-10 w-fit gap-1 ml-auto group">
-            <div className="w-fit">Treatment</div>
-            <svg
-              className="h-4 fill-white group-hover:fill-[#18181b]"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
+          <div className="flex flex-col">
+            <span
+              className="text-[7px] text-left h-[60px] overflow-y-auto scrollbar-hide hide-scrollbar block"
+              style={{
+                msOverflowStyle: "none",
+                scrollbarWidth: "none",
+                "::-webkit-scrollbar": { display: "none" },
+              }}
             >
-              <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" />
-            </svg>
+              <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
+                ABOUT
+              </span>
+              A Showcase of my work as a filmmaker spanning Narrative and
+              Documentary.
+            </span>
           </div>
         </div>
       </div>
