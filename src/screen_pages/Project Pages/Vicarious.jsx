@@ -1,4 +1,4 @@
-export default function Breathe({ handleNavigate }) {
+export default function Vicarious({ handleNavigate }) {
   return (
     <div className="z-20 flex justify-between flex-col p-4 h-full">
       <header className="w-full uppercase text-xl pb-2 flex justify-between">
@@ -21,13 +21,10 @@ export default function Breathe({ handleNavigate }) {
       </header>
       <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-1">
         <div className="col-span-3 flex flex-col gap-3">
-          <div className="bg-cover bg-center relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(/assets/vicarious_banner.jpg)] p-2">
-            <button className="absolute left-2 text-white text-2xl drop-shadow-lg hover:scale-110 transition-transform">
-              ◀
-            </button>
-            <button className="absolute right-2 text-white text-2xl drop-shadow-lg hover:scale-110 transition-transform">
+          <div className="bg-cover bg-left relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(public/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/vicarious_banner_2.jpg)] p-2 hover:scale-105 transition-transform duration-300">
+            <div className="text-white text-6xl drop-shadow-lg -translate-y-[8px]">
               ▶
-            </button>
+            </div>
           </div>
           <div className="flex justify-between w-full">
             <h2 className="text-[8px]">
@@ -55,52 +52,115 @@ export default function Breathe({ handleNavigate }) {
             </span>
           </div>
           <div className="flex flex-col">
-            <span
-              className="text-[7px] text-left h-[105px] overflow-y-auto scrollbar-hide hide-scrollbar block"
-              style={{
-                msOverflowStyle: "none",
-                scrollbarWidth: "none",
-                "::-webkit-scrollbar": { display: "none" },
-              }}
-            >
-              <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
-                ABOUT
+            <div className="flex">
+              <span
+                className="text-[7px] text-left h-[105px] overflow-y-auto scrollbar-hide hide-scrollbar block flex-grow mr-[5px]"
+                style={{
+                  msOverflowStyle: "none",
+                  scrollbarWidth: "none",
+                  "::-webkit-scrollbar": { display: "none" },
+                }}
+                ref={(el) => {
+                  if (el) {
+                    window.scrollableText = el;
+                  }
+                }}
+              >
+                <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
+                  ABOUT
+                </span>
+                A near-future scifi short about free-will, obsession, and the
+                anxiety of being in charge of your own life.
+                <br /> <br />
+                <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
+                  LOGLINE
+                </span>
+                <br />
+                In a world where people can outsource their free will to a
+                service that takes control of their bodies and minds via a
+                computer terminal, one jaded operator's views are challenged
+                when he becomes dangerously obsessed with his client's
+                girlfriend.
+                <br /> <br />
+                <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
+                  CREDITS
+                </span>
+                <span className="text-white text-[7px] !text-left">
+                  <u>DIRECTOR</u>: Henri Scott
+                  <br />
+                  <u>WRITER</u>: Henri Scott
+                  <br />
+                  <u>PRODUCERS</u>: Henri Scott, Sebastian Zizza
+                  <br />
+                  <u>1ST AD</u>: Sebastian Zizza
+                  <br />
+                  <u>DOP</u>: Rhavin Banda
+                  <br />
+                  <u>1ST AC</u>: Naren G-J, Gianluca Cascone
+                  <br />
+                  <u>ART DEPT</u>: Amelia Leach
+                  <br />
+                  <u>SOUND</u>: Tyrone Lawrence
+                  <br />
+                  <u>DIRECTORS ASSISTANT</u>: Naren G-J
+                </span>
               </span>
-              A near-future scifi short about free-will, obsession, and the
-              anxiety of being in charge of your own life.
-              <br /> <br />
-              <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
-                LOGLINE
-              </span>
-              <br />
-              In a world where people can outsource their free will to a service
-              that takes control of their bodies and minds via a computer
-              terminal, one jaded operator's views are challenged when he
-              becomes dangerously obsessed with his client's girlfriend.
-              <br /> <br />
-              <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
-                CREDITS
-              </span>
-              <span className="text-white text-[7px] !text-left">
-                <u>DIRECTOR</u>: Henri Scott
-                <br />
-                <u>WRITER</u>: Henri Scott
-                <br />
-                <u>PRODUCERS</u>: Henri Scott, Sebastian Zizza
-                <br />
-                <u>1ST AD</u>: Sebastian Zizza
-                <br />
-                <u>DOP</u>: Rhavin Banda
-                <br />
-                <u>1ST AC</u>: Naren G-J, Gianluca Cascone
-                <br />
-                <u>ART DEPT</u>: Amelia Leach
-                <br />
-                <u>SOUND</u>: Tyrone Lawrence
-                <br />
-                <u>DIRECTORS ASSISTANT</u>: Naren G-J
-              </span>
-            </span>
+              <div
+                className="border border-white w-[90px] h-[105px] cursor-grab active:cursor-grabbing relative"
+                onMouseDown={(e) => {
+                  let lastY = e.clientY;
+
+                  const mouseMoveHandler = (e) => {
+                    const delta = e.clientY - lastY;
+                    window.scrollableText.scrollTop += delta;
+                    lastY = e.clientY;
+                    const scrollPercentage =
+                      (window.scrollableText.scrollTop /
+                        (window.scrollableText.scrollHeight -
+                          window.scrollableText.clientHeight)) *
+                      100;
+                    e.target.nextElementSibling.style.top = `${Math.min(Math.max(scrollPercentage, 0), 91)}%`;
+                  };
+
+                  const mouseUpHandler = () => {
+                    document.removeEventListener("mousemove", mouseMoveHandler);
+                    document.removeEventListener("mouseup", mouseUpHandler);
+                  };
+
+                  document.addEventListener("mousemove", mouseMoveHandler);
+                  document.addEventListener("mouseup", mouseUpHandler);
+                }}
+              >
+                <div
+                  className="absolute bg-white w-full h-[9px] left-0"
+                  style={{
+                    top: (() => {
+                      if (!window.scrollableText) return "0%";
+                      const scrollPercentage =
+                        (window.scrollableText.scrollTop /
+                          (window.scrollableText.scrollHeight -
+                            window.scrollableText.clientHeight)) *
+                        100;
+                      return `${Math.min(Math.max(scrollPercentage, 0), 91)}%`;
+                    })(),
+                  }}
+                  ref={(el) => {
+                    if (el) {
+                      const updatePosition = () => {
+                        const scrollPercentage =
+                          (window.scrollableText.scrollTop /
+                            (window.scrollableText.scrollHeight -
+                              window.scrollableText.clientHeight)) *
+                          100;
+                        el.style.top = `${Math.min(Math.max(scrollPercentage, 0), 91)}%`;
+                        requestAnimationFrame(updatePosition);
+                      };
+                      requestAnimationFrame(updatePosition);
+                    }
+                  }}
+                />
+              </div>
+            </div>
           </div>
           <div className="mt-auto text-xs border border-white hover:bg-white hover:text-[#18181b] flex p-[2px] uppercase z-10 w-fit gap-1 ml-auto group">
             <div className="w-fit">Treatment</div>

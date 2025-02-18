@@ -300,10 +300,10 @@ export default function What({ handleNavigate }) {
                   Wtr
                 </span>
                 <span className="text-[8px] bg-white text-[#2160FF] px-1">
-                  DoP
+                  Prod
                 </span>
                 <span className="text-[8px] bg-white text-[#2160FF] px-1">
-                  Prod
+                  DoP
                 </span>
                 <span className="text-[8px] bg-white text-[#2160FF] px-1">
                   Edit
@@ -329,6 +329,9 @@ export default function What({ handleNavigate }) {
                 </span>
                 <span className="text-[8px] bg-white text-[#2160FF] px-1">
                   Wtr
+                </span>
+                <span className="text-[8px] bg-white text-[#2160FF] px-1">
+                  Prod
                 </span>
                 <span className="text-[8px] bg-white text-[#2160FF] px-1">
                   DoP
@@ -447,7 +450,7 @@ export default function What({ handleNavigate }) {
             }}
           >
             <div
-              className="absolute bg-white w-full h-[10px] left-0"
+              className="absolute bg-white w-full h-[30px] left-0"
               style={{
                 top: (() => {
                   const scrollableDiv =
@@ -457,8 +460,8 @@ export default function What({ handleNavigate }) {
                     (scrollableDiv.scrollTop /
                       (scrollableDiv.scrollHeight -
                         scrollableDiv.clientHeight)) *
-                    100;
-                  return `${Math.min(Math.max(scrollPercentage, 0), 87)}%`;
+                    87;
+                  return `${Math.min(Math.max(scrollPercentage, 0), 62)}%`;
                 })(),
               }}
               ref={(el) => {
@@ -470,8 +473,8 @@ export default function What({ handleNavigate }) {
                       (scrollableDiv.scrollTop /
                         (scrollableDiv.scrollHeight -
                           scrollableDiv.clientHeight)) *
-                      100;
-                    el.style.top = `${Math.min(Math.max(scrollPercentage, 0), 87)}%`;
+                      87;
+                    el.style.top = `${Math.min(Math.max(scrollPercentage, 0), 62)}%`;
                     requestAnimationFrame(updatePosition);
                   };
                   requestAnimationFrame(updatePosition);

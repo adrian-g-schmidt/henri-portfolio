@@ -171,7 +171,7 @@ export default function Who({ handleNavigate }) {
             }}
           >
             <div
-              className="absolute bg-white w-full h-[10px] left-0"
+              className="absolute bg-white w-full h-[25px] left-0"
               style={{
                 top: (() => {
                   const scrollableDiv =
@@ -182,7 +182,7 @@ export default function Who({ handleNavigate }) {
                       (scrollableDiv.scrollHeight -
                         scrollableDiv.clientHeight)) *
                     100;
-                  return `${Math.min(Math.max(scrollPercentage, 0), 87)}%`;
+                  return `${Math.min(Math.max(scrollPercentage, 0), 66)}%`;
                 })(),
               }}
               ref={(el) => {
@@ -195,7 +195,7 @@ export default function Who({ handleNavigate }) {
                         (scrollableDiv.scrollHeight -
                           scrollableDiv.clientHeight)) *
                       100;
-                    el.style.top = `${Math.min(Math.max(scrollPercentage, 0), 87)}%`;
+                    el.style.top = `${Math.min(Math.max(scrollPercentage, 0), 66)}%`;
                     requestAnimationFrame(updatePosition);
                   };
                   requestAnimationFrame(updatePosition);
