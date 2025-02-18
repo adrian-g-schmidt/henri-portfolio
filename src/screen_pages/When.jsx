@@ -1,26 +1,158 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-const Square = ({ index, isHovered, onMouseEnter, onMouseLeave }) => {
+const Square = ({
+  index,
+  isHovered,
+  onMouseEnter,
+  onMouseLeave,
+  importantText,
+  isFilled,
+}) => {
   return (
     <div className="relative overflow-visible z-10">
       {isHovered && (
         <div className="absolute bottom-full left-1/2 -translate-x-1/2 bg-white text-[#2160FF] px-1 py-[0.125em] text-sm overflow-visible">
-          {index}
+          {importantText || index}
         </div>
       )}
       <div
-        className="w-2 h-2 border border-white hover:bg-white/20 cursor-pointer"
+        className={`w-2 h-2 border border-white hover:bg-white/20 cursor-pointer relative ${isFilled ? "bg-white outline-1 outline-offset-[-2px] outline-[#2160FF]" : ""}`}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-      />
+      >
+        {importantText && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-1 h-1 rounded-full bg-yellow-400"></div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
 export default function When({ handleNavigate }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [startIndex, setStartIndex] = useState(0);
+  const SQUARES_PER_ROW = 30;
+  const TOTAL_SQUARES = 30392;
+  const VISIBLE_SQUARES = 630;
+  const scrollIntervalRef = useRef(null);
+  const gridRef = useRef(null);
+  const scrollVisRef = useRef(null);
+  const isDraggingRef = useRef(false);
 
-  const squares = Array.from({ length: 30000 }, (_, i) => i);
+  const startDate = new Date("1997-12-01T00:00:00");
+  const currentDate = new Date();
+  const daysSinceStartDate = Math.floor(
+    (currentDate - startDate) / (1000 * 60 * 60 * 24),
+  );
+
+  const squares = Array.from(
+    { length: VISIBLE_SQUARES },
+    (_, i) => i + startIndex,
+  ).filter((index) => index < TOTAL_SQUARES);
+
+  const importantSquares = {
+    0: "Birth",
+    237: "First Laugh",
+    592: "Discovered Chocolate",
+    1028: "First Steps",
+    1497: "Invented a New Dance Move",
+    2003: "Became a Dinosaur Expert",
+    2504: "Built a Rocketship",
+    2998: "Learned to Juggle",
+    3502: "Became a Ninja",
+    4005: "Mastered the Art of Sandwich Making",
+    4503: "Discovered a New Planet",
+    5007: "Became a Time Traveler",
+    5501: "Won a Staring Contest with a Cat",
+    6002: "Became a Professional Pillow Fort Architect",
+    6503: "Learned to Speak Dolphin",
+    7001: "Invented a New Ice Cream Flavor",
+    7504: "Became a Superhero",
+    8006: "Traveled to the Center of the Earth",
+    8502: "Became a Master of Disguise",
+    9003: "Learned to Fly",
+    9501: "Became a World Champion in Hide and Seek",
+    9940: "Discovered the Secret to Eternal Happiness",
+  };
+
+  const scrollUp = () => {
+    setStartIndex((prevIndex) => Math.max(0, prevIndex - SQUARES_PER_ROW));
+  };
+
+  const scrollDown = () => {
+    const maxIndex =
+      Math.ceil((TOTAL_SQUARES - VISIBLE_SQUARES) / SQUARES_PER_ROW) *
+      SQUARES_PER_ROW;
+    setStartIndex((prevIndex) =>
+      Math.min(maxIndex, prevIndex + SQUARES_PER_ROW),
+    );
+  };
+
+  const startScrolling = (direction) => {
+    if (scrollIntervalRef.current) return;
+
+    scrollIntervalRef.current = setInterval(() => {
+      setStartIndex((prevIndex) => {
+        if (direction === "up") {
+          return Math.max(0, prevIndex - SQUARES_PER_ROW);
+        } else {
+          return Math.min(
+            TOTAL_SQUARES - VISIBLE_SQUARES,
+            prevIndex + SQUARES_PER_ROW,
+          );
+        }
+      });
+    }, 50);
+  };
+
+  const stopScrolling = () => {
+    if (scrollIntervalRef.current) {
+      clearInterval(scrollIntervalRef.current);
+      scrollIntervalRef.current = null;
+    }
+  };
+
+  const handleScrub = (e) => {
+    if (!isDraggingRef.current) return;
+    const scrollVis = scrollVisRef.current;
+    const rect = scrollVis.getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    const percentage = y / rect.height;
+    const newStartIndex = Math.round(
+      percentage * (TOTAL_SQUARES - VISIBLE_SQUARES),
+    );
+    const adjustedStartIndex =
+      Math.round(newStartIndex / SQUARES_PER_ROW) * SQUARES_PER_ROW;
+    setStartIndex(
+      Math.max(
+        0,
+        Math.min(adjustedStartIndex, TOTAL_SQUARES - VISIBLE_SQUARES),
+      ),
+    );
+  };
+
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (e.deltaY > 0) {
+        scrollDown();
+      } else {
+        scrollUp();
+      }
+    };
+
+    const gridElement = gridRef.current;
+    if (gridElement) {
+      gridElement.addEventListener("wheel", handleWheel);
+    }
+
+    return () => {
+      if (gridElement) {
+        gridElement.removeEventListener("wheel", handleWheel);
+      }
+    };
+  }, []);
 
   return (
     <div className="z-20 flex justify-start flex-col p-4 h-full bg-[#2160FF]">
@@ -42,8 +174,9 @@ export default function When({ handleNavigate }) {
         </button>
         3. When?
       </header>
-      <div className="overflow-y-scroll w-full h-full relative pt-6 px-6">
-        <div className="grid grid-cols-30 gap-0 border border-white">
+
+      <div className="w-full h-full relative flex pt-2">
+        <div ref={gridRef} className="grid grid-cols-30">
           {squares.map((index) => (
             <Square
               key={index}
@@ -51,8 +184,54 @@ export default function When({ handleNavigate }) {
               isHovered={hoveredIndex === index}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
+              importantText={importantSquares[index]}
+              isFilled={index < daysSinceStartDate}
             />
           ))}
+        </div>
+        <div className="ml-1 flex flex-col items-center justify-between h-full">
+          <div className="border border-white text-[0.6rem]/2 text-center p-1">
+            {String(startIndex + 1).padStart(5, "0")} <br />- <br />
+            {String(
+              Math.min(startIndex + VISIBLE_SQUARES, TOTAL_SQUARES),
+            ).padStart(5, "0")}
+          </div>
+          <div className="flex flex-col w-[20px] gap-2 text-xs">
+            <button
+              onMouseDown={() => startScrolling("up")}
+              onMouseUp={stopScrolling}
+              onMouseLeave={stopScrolling}
+              onClick={scrollUp}
+              className="border border-white hover:bg-white hover:text-[#2160FF] h-8"
+            >
+              ▲
+            </button>
+            <button
+              onMouseDown={() => startScrolling("down")}
+              onMouseUp={stopScrolling}
+              onMouseLeave={stopScrolling}
+              onClick={scrollDown}
+              className="border border-white hover:bg-white hover:text-[#2160FF] h-9"
+            >
+              ▼
+            </button>
+          </div>
+          <div
+            className="border border-white h-12 relative"
+            id="scroll-vis"
+            ref={scrollVisRef}
+            onMouseMove={handleScrub}
+            onMouseDown={() => (isDraggingRef.current = true)}
+            onMouseUp={() => (isDraggingRef.current = false)}
+            onMouseLeave={() => (isDraggingRef.current = false)}
+          >
+            <div
+              className="w-2 h-2 bg-white cursor-grab"
+              style={{
+                transform: `translateY(${(startIndex / TOTAL_SQUARES) * 40}px)`,
+              }}
+            ></div>
+          </div>
         </div>
       </div>
     </div>

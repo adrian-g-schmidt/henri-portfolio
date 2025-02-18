@@ -100,7 +100,6 @@ const TVInterface = ({ onSpin, onNod }) => {
             case "intro":
               return <Intro handleNavigate={handleNavigate} />;
             case "bouncing":
-              console.log("hello");
               return <Bouncing handleNavigate={handleNavigate} />;
             case "showreel":
               return <Showreel handleNavigate={handleNavigate} />;
@@ -501,6 +500,7 @@ export default function ModelViewer() {
         <OrbitControls
           enablePan={false}
           enableZoom={false}
+          enableRotate={false}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 2}
           target={[0, 0, 0]}
