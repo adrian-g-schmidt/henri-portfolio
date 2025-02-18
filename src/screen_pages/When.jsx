@@ -335,7 +335,13 @@ export default function When({ handleNavigate }) {
       </div>
 
       <div className="w-full h-full relative flex pt-0.5">
-        <div ref={gridRef} className="grid grid-cols-30">
+        <div
+          ref={gridRef}
+          style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${SQUARES_PER_ROW}, minmax(0, 1fr))`,
+          }}
+        >
           {squares.map((index) => (
             <Square
               key={index}
