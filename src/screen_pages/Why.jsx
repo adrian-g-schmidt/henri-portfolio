@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { memo, useState, useEffect } from "react";
 
-export default function Why({ handleNavigate }) {
+const Why = memo(({ handleNavigate }) => {
   const options = [
     { text: "Money", size: "text-6xl" },
     { text: "Happy", size: "text-5xl" },
@@ -60,4 +60,8 @@ export default function Why({ handleNavigate }) {
       </div>
     </div>
   );
-}
+});
+
+Why.displayName = "Why";
+
+export default Why;

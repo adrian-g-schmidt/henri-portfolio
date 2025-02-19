@@ -1,28 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
-import VideoWrapper from "../VideoWrapper";
+import { memo, useCallback, useRef } from "react";
+import VideoJS from "../VideoJS";
+import videojs from "video.js";
 
-export default function Where({ handleNavigate }) {
-  const playerRef = React.useRef(null);
+// Move options outside component to prevent recreation on each render
+const videoJsOptions = {
+  autoplay: false,
+  controls: true,
+  responsive: true,
+  fluid: true,
+  controlBar: { pictureInPictureToggle: false },
+  sources: [
+    {
+      src: "./assets/240208_HENRI_SCOTT_MUSIC_VIDEO.mp4",
+      type: "video/mp4",
+    },
+  ],
+};
 
-  const videoJsOptions = {
-    autoplay: false,
-    controls: true,
-    responsive: true,
-    fluid: true,
-    techOrder: ["youtube"],
-    controlBar: { pictureInPictureToggle: false },
-    sources: [
-      {
-        src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        type: "video/youtube",
-      },
-    ],
-  };
+const Where = memo(({ handleNavigate }) => {
+  const playerRef = useRef(null);
 
-  const handlePlayerReady = (player) => {
+  // Memoize the player ready handler
+  const handlePlayerReady = useCallback((player) => {
     playerRef.current = player;
 
-    // You can handle player events here, for example:
     player.on("waiting", () => {
       videojs.log("player is waiting");
     });
@@ -30,14 +31,19 @@ export default function Where({ handleNavigate }) {
     player.on("dispose", () => {
       videojs.log("player will dispose");
     });
-  };
+  }, []);
+
+  // Memoize the navigation handler
+  const handleBackClick = useCallback(() => {
+    handleNavigate("home");
+  }, [handleNavigate]);
 
   return (
     <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF]">
       <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
         <button
           className="h-6 w-6 group cursor-pointer"
-          onClick={() => handleNavigate("home")}
+          onClick={handleBackClick}
         >
           <svg
             className="w-full h-full group-hover:text-red-500"
@@ -52,7 +58,15 @@ export default function Where({ handleNavigate }) {
         </button>
         4. Where?
       </header>
-      <VideoWrapper options={videoJsOptions} onReady={handlePlayerReady} />
+      <div className="flex justify-center">
+        <div className="w-[80%]">
+          <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
+        </div>
+      </div>
     </div>
   );
-}
+});
+
+Where.displayName = "Where";
+
+export default Where;

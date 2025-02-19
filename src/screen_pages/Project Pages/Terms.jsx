@@ -131,7 +131,7 @@ export default function Terms({ handleNavigate }) {
                 style={{
                   msOverflowStyle: "none",
                   scrollbarWidth: "none",
-                  "::-webkit-scrollbar": { display: "none" },
+                  WebkitScrollbar: { display: "none" },
                 }}
                 ref={(el) => {
                   if (el) {

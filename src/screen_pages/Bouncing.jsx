@@ -1,5 +1,5 @@
 import { DvdScreensaver } from "react-dvd-screensaver";
-import { useState, useRef, useEffect } from "react";
+import { memo, useState, useRef } from "react";
 
 const COLORS = [
   "#ff0000",
@@ -29,7 +29,7 @@ const COLORS = [
   "#ff0000",
 ];
 
-export default function Bouncing({ handleNavigate }) {
+const Bouncing = memo(({ handleNavigate }) => {
   const [logoColor, setLogoColor] = useState(COLORS[0]);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
@@ -66,7 +66,7 @@ export default function Bouncing({ handleNavigate }) {
         src="./intro-vid.mp4"
         playsInline
         className="absolute top-0 left-0 w-full h-full object-cover z-30"
-        style={{ opacity: videoRef.current?.played.length ? 1 : 0 }}
+        style={{ opacity: isPlaying ? 1 : 0 }}
       />
       {!isPlaying && (
         <DvdScreensaver speed={0.4} impactCallback={handleImpact}>
@@ -90,4 +90,8 @@ export default function Bouncing({ handleNavigate }) {
       )}
     </div>
   );
-}
+});
+
+Bouncing.displayName = "Bouncing";
+
+export default Bouncing;

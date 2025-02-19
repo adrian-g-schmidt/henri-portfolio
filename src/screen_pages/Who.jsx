@@ -1,15 +1,6 @@
-export default function Who({ handleNavigate }) {
-  const scrollContent = (direction) => {
-    const scrollableDiv = document.querySelector(".overflow-y-scroll");
-    if (scrollableDiv) {
-      const scrollAmount = direction === "up" ? -5 : 5;
-      scrollableDiv.scrollBy({
-        top: scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+import { memo } from "react";
 
+const Who = memo(({ handleNavigate }) => {
   const startContinuousScroll = (direction) => {
     const scrollableDiv = document.querySelector(".overflow-y-scroll");
     if (scrollableDiv) {
@@ -115,7 +106,8 @@ export default function Who({ handleNavigate }) {
               src="assets/licence_edit_blue.jpg"
               className="w-full mb-4"
             />
-            Henri's FILMMAKING practice spans NARRATIVE and DOCUMENTARY.
+            Henri{`&apos;`}s FILMMAKING practice spans NARRATIVE and
+            DOCUMENTARY.
             <br />
             <br />
             His focus is on exploring contemplative internal struggles and
@@ -212,4 +204,8 @@ export default function Who({ handleNavigate }) {
       </div>
     </div>
   );
-}
+});
+
+Who.displayName = "Who";
+
+export default Who;

@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { memo, useState, useRef, useEffect } from "react";
 
-export default function Home({ handleNavigate }) {
+const Home = memo(({ handleNavigate }) => {
   const [currentVideo, setCurrentVideo] = useState("h_spin.mp4");
   const [showContent, setShowContent] = useState(false);
   const [isVideoTransitioning, setIsVideoTransitioning] = useState(false);
@@ -9,10 +9,13 @@ export default function Home({ handleNavigate }) {
   useEffect(() => {
     if (videoRef.current) {
       setIsVideoTransitioning(true);
-      setTimeout(() => {
-        videoRef.current.load();
+      const timer = setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.load();
+        }
         setIsVideoTransitioning(false);
       }, 300);
+      return () => clearTimeout(timer);
     }
   }, [currentVideo]);
 
@@ -86,4 +89,8 @@ export default function Home({ handleNavigate }) {
       </div>
     </div>
   );
-}
+});
+
+Home.displayName = "Home";
+
+export default Home;

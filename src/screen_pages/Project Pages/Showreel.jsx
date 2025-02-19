@@ -134,7 +134,7 @@ export default function Showreel({ handleNavigate }) {
               style={{
                 msOverflowStyle: "none",
                 scrollbarWidth: "none",
-                "::-webkit-scrollbar": { display: "none" },
+                WebkitScrollbar: { display: "none" },
               }}
             >
               <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">

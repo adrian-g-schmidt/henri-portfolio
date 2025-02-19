@@ -1,8 +1,8 @@
 export default function What({ handleNavigate }) {
   return (
     <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF] overflow-visible">
-      <hdr className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
-        <btn
+      <div className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
+        <button
           className="h-6 w-6 group cursor-pointer"
           onClick={() => handleNavigate("home")}
         >
@@ -16,9 +16,9 @@ export default function What({ handleNavigate }) {
               fill="currentColor"
             />
           </svg>
-        </btn>
+        </button>
         2. What?
-      </hdr>
+      </div>
       <div className="flex h-[calc(100%-3rem)]">
         <div className="w-full text-3xl overflow-y-auto [&::-webkit-scrollbar]:hidden">
           <div className="flex gap-1 snap-start">
