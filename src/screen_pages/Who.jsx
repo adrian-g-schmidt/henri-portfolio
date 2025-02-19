@@ -44,6 +44,10 @@ export default function Who({ handleNavigate }) {
     }
   };
 
+  const handlePortfolioClick = () => {
+    window.location.href = "/assets/HENRI SCOTT_PORTFOLIO_2025.pdf";
+  };
+
   return (
     <div className="z-20 flex justify-between flex-col p-4 h-full bg-[#2160FF]">
       <header className="w-full uppercase text-xl h-2 p-4 flex justify-between items-center bg-white text-[#2160FF] mb-3">
@@ -64,15 +68,18 @@ export default function Who({ handleNavigate }) {
         </button>
         1. Who?
       </header>
-      <div className="grow w-full h-12 text-left text-xs grid grid-cols-[1fr_5fr_1.25rem_1.25rem] px-0 gap-3">
+      <div className="grow w-full h-12 text-left text-xs grid grid-cols-[1fr_5fr_1.25rem_1.25rem] px-0 gap-2.5">
         <div className="flex justify-between flex-col">
           <p className="text-[0.9rem]/3.5">
             HENRI
             <br />
             SCOTT is a FILMMAKER and multi-disciplinary CREATIVE.
           </p>
-          <div className="flex flex-col justify-between gap-1 text-left">
-            <div className="mt-auto text-xs border border-white hover:bg-white hover:text-[#2160FF] flex p-[2px] uppercase z-10 w-fit gap-1 group">
+          <div className="flex flex-col justify-between gap-4 text-left">
+            <div
+              onClick={handlePortfolioClick}
+              className="mt-auto text-xs border border-white hover:bg-white hover:text-[#2160FF] flex p-[2px] uppercase z-10 w-fit gap-1 group cursor-pointer"
+            >
               <div className="w-fit">Portfolio</div>
               <svg
                 className="h-4 fill-white group-hover:fill-[#2160FF]"
