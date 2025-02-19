@@ -31,17 +31,17 @@ export default function Vicarious({ handleNavigate }) {
               el._slideshowInitialized = true;
 
               const images = [
-                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_2.jpg",
+                "/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_2.jpg",
                 "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_3.jpg",
                 "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_4.jpg",
-                "public/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_1.jpg",
-                "public/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_6.jpg",
-                "public/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_7.jpg",
-                "public/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_8.jpg",
-                "public/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_9.jpg",
-                "public/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_10.jpg",
-                "public/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_11.jpg",
-                "public/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_12.jpg",
+                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_1.jpg",
+                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_6.jpg",
+                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_7.jpg",
+                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_8.jpg",
+                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_9.jpg",
+                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_10.jpg",
+                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_11.jpg",
+                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_12.jpg",
               ];
 
               // Create two layers for the crossfade effect.
