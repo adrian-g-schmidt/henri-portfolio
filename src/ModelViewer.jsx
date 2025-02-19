@@ -22,6 +22,7 @@ import Intro from "./screen_pages/Intro";
 import Who from "./screen_pages/Who";
 import When from "./screen_pages/When";
 import Why from "./screen_pages/Why";
+import Where from "./screen_pages/Where";
 import What from "./screen_pages/What";
 import Showreel from "./screen_pages/Project Pages/Showreel.jsx";
 import LongRunningJoke from "./screen_pages/Project Pages/LongRunningJoke.jsx";
@@ -99,6 +100,8 @@ const TVInterface = ({ onSpin, onNod }) => {
               return <When handleNavigate={handleNavigate} />;
             case "why":
               return <Why handleNavigate={handleNavigate} />;
+            case "where":
+              return <Where handleNavigate={handleNavigate} />;
             case "what":
               return <What handleNavigate={handleNavigate} />;
             case "intro":

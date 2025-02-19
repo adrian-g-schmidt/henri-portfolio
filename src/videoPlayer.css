@@ -1,0 +1,184 @@
+/* Base player styles */
+.video-js {
+    font-family: "vcr";
+}
+.vjs-time-tooltip {
+    font-family: "vcr" !important;
+    background-color: transparent !important;
+    margin-bottom: 0px;
+}
+.vjs-play-progress .vjs-time-tooltip {
+    display: none !important;
+}
+/* Control bar - both normal and fullscreen */
+.video-js .vjs-control-bar,
+.video-js.vjs-fullscreen .vjs-control-bar {
+    background: none;
+    height: 4em;
+    display: flex;
+    align-items: center;
+    display: none; /* Hide controls initially */
+}
+.video-js.vjs-has-started .vjs-control-bar,
+.video-js.vjs-has-started.vjs-fullscreen .vjs-control-bar {
+    display: flex; /* Show controls when video has started */
+}
+/* Play/Pause button */
+.video-js .vjs-play-control {
+    color: white;
+}
+.video-js .vjs-play-control:hover {
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+}
+
+/* Progress bar */
+.video-js .vjs-progress-control {
+    position: absolute;
+    width: 100%;
+    top: -1em;
+    height: 0.3em;
+    display: block !important;
+    display: none; /* Hide progress bar initially */
+}
+.video-js.vjs-has-started .vjs-progress-control {
+    display: block !important; /* Show progress bar when video has started */
+}
+
+.video-js .vjs-progress-control .vjs-progress-holder {
+    margin: 0;
+    border-radius: 10px;
+    width: 80%;
+    background: rgba(255, 255, 255, 0.2);
+    height: 2px;
+    margin-left: 36px;
+}
+
+.video-js.vjs-fullscreen .vjs-progress-control .vjs-progress-holder {
+    height: 4px;
+}
+
+.vjs-progress-control {
+    top: 14px !important;
+}
+
+.vjs-fullscreen .vjs-progress-control {
+    top: 44px !important;
+}
+
+.vjs-load-progress {
+    display: none !important;
+}
+
+.vjs-play-progress::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.vjs-fullscreen .vjs-play-progress::after {
+    width: 20px;
+    height: 20px;
+}
+
+.video-js .vjs-progress-control:hover {
+    height: 0.3em;
+}
+
+.video-js .vjs-play-progress {
+    background-color: white;
+    border-radius: 0;
+}
+
+.video-js .vjs-progress-holder .vjs-play-progress::before {
+    display: none;
+}
+
+/* Volume control */
+.video-js .vjs-volume-panel {
+    color: white;
+    display: none; /* Hide volume control initially */
+    transition: none !important; /* Ensure no transition */
+}
+.video-js.vjs-has-started .vjs-volume-panel {
+    display: block; /* Show volume control when video has started */
+    transition: none !important; /* Ensure no transition */
+}
+
+.video-js .vjs-volume-panel:hover {
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+    transition: none !important; /* Ensure no transition */
+}
+
+/* All control buttons */
+.video-js .vjs-control {
+    color: white;
+}
+
+.video-js .vjs-control:hover {
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+}
+
+/* Time display */
+.video-js .vjs-time-control {
+    display: none; /* Hide time display initially */
+}
+
+/* Big play button in the center */
+.video-js .vjs-big-play-button {
+    border: none;
+    background: none !important;
+    color: white;
+    width: 3em;
+    top: 35%;
+    height: 3em;
+    line-height: 3em;
+    transform: scale(2);
+    border-radius: 50%;
+}
+
+.video-js .vjs-big-play-button:hover {
+    background: none !important;
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+}
+
+/* Loading spinner */
+.video-js .vjs-loading-spinner {
+    border: 3px solid rgba(255, 255, 255, 0.7);
+}
+
+/* Hide unwanted controls */
+.video-js .vjs-remaining-time,
+.video-js .vjs-chromecast-button {
+    display: none !important;
+}
+
+/* Fullscreen specific styles */
+.video-js.vjs-fullscreen {
+    font-size: 32px;
+}
+
+.video-js.vjs-fullscreen .vjs-big-play-button {
+    font-size: 1.5em;
+}
+
+/* Fullscreen button positioning */
+.video-js .vjs-fullscreen-control {
+    order: 999;
+    margin-left: auto;
+}
+
+/* Disable pointer events on video element */
+.vjs-tech {
+    pointer-events: none;
+}
+
+.vjs-progress-control {
+    width: 60% !important;
+    margin-left: 20% !important;
+}
