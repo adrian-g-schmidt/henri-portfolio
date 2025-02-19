@@ -127,7 +127,7 @@ export default function When({ handleNavigate }) {
     9302: { text: "Started Film School" },
     9821: { text: "Started Filming on Vicarious" },
     9874: { text: "Graduated Film School" },
-    30391: { text: "Expected Death" },
+    30392: { text: "Expected Death" },
   };
 
   const importantSquareIndices = Object.keys(importantSquares)
