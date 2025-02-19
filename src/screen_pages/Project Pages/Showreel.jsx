@@ -31,10 +31,21 @@ export default function Showreel({ handleNavigate }) {
               el._slideshowInitialized = true;
 
               const images = [
-                "public/assets/showreel.jpg",
-                "public/assets/showreel_banner.jpg",
-                "public/assets/vicarious_banner.jpg",
-                "public/assets/vicarious.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_1.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_2.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_3.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_4.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_5.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_6.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_7.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_8.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_9.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_10.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_11.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_12.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_13.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_14.jpg",
+                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_1.jpg",
               ];
 
               // Create two layers for the crossfade effect.
@@ -48,7 +59,7 @@ export default function Showreel({ handleNavigate }) {
               });
 
               playButton.className =
-                "absolute top-2 left-2 transform transition-all hover:scale-110 z-40";
+                "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all hover:scale-110 z-40";
               playButton.innerHTML = `
                 <div class="w-8 h-8 border border-white transition-colors hover:bg-white flex items-center justify-center">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="white" class="transition-all hover:fill-[#18181b]">
