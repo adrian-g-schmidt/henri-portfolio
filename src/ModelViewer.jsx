@@ -320,33 +320,70 @@ export default function ModelViewer() {
     };
   }, []);
 
+  var isSafari =
+    navigator.vendor &&
+    navigator.vendor.indexOf("Apple") > -1 &&
+    navigator.userAgent &&
+    navigator.userAgent.indexOf("CriOS") == -1 &&
+    navigator.userAgent.indexOf("FxiOS") == -1;
+
   return (
-    <CanvasWrapper>
-      <Canvas
-        camera={{ position: cameraPosition, fov: 45 }}
-        className="w-full h-full canvas-parent"
-      >
-        <Model />
-        <OrbitControls
-          enablePan={false}
-          enableZoom={false}
-          enableRotate={false}
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={Math.PI / 2}
-          target={[0, 0, 0]}
-          onChange={handleCameraChange}
-          onEnd={handleMouseUp}
-        />
-        <Environment preset="city" />
-        <EffectComposer>
-          <ChromaticAberration
-            blendFunction={BlendFunction.NORMAL}
-            offset={[0.0005, 0.0005]}
+    <>
+      {isSafari ? (
+        <Canvas
+          camera={{ position: cameraPosition, fov: 45 }}
+          className="w-full h-full canvas-parent"
+        >
+          <Model />
+          <OrbitControls
+            enablePan={false}
+            enableZoom={false}
+            enableRotate={false}
+            minPolarAngle={Math.PI / 4}
+            maxPolarAngle={Math.PI / 2}
+            target={[0, 0, 0]}
+            onChange={handleCameraChange}
+            onEnd={handleMouseUp}
           />
-          <Sepia intensity={0.5} />
-          <Vignette eskil={false} offset={0.2} darkness={0.6} />
-        </EffectComposer>
-      </Canvas>
-    </CanvasWrapper>
+          <Environment preset="city" />
+          <EffectComposer>
+            <ChromaticAberration
+              blendFunction={BlendFunction.NORMAL}
+              offset={[0.0005, 0.0005]}
+            />
+            <Sepia intensity={0.5} />
+            <Vignette eskil={false} offset={0.2} darkness={0.6} />
+          </EffectComposer>
+        </Canvas>
+      ) : (
+        <CanvasWrapper>
+          <Canvas
+            camera={{ position: cameraPosition, fov: 45 }}
+            className="w-full h-full canvas-parent"
+          >
+            <Model />
+            <OrbitControls
+              enablePan={false}
+              enableZoom={false}
+              enableRotate={false}
+              minPolarAngle={Math.PI / 4}
+              maxPolarAngle={Math.PI / 2}
+              target={[0, 0, 0]}
+              onChange={handleCameraChange}
+              onEnd={handleMouseUp}
+            />
+            <Environment preset="city" />
+            <EffectComposer>
+              <ChromaticAberration
+                blendFunction={BlendFunction.NORMAL}
+                offset={[0.0005, 0.0005]}
+              />
+              <Sepia intensity={0.5} />
+              <Vignette eskil={false} offset={0.2} darkness={0.6} />
+            </EffectComposer>
+          </Canvas>
+        </CanvasWrapper>
+      )}
+    </>
   );
 }
