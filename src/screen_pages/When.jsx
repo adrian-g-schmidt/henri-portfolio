@@ -99,37 +99,34 @@ export default function When({ handleNavigate }) {
 
   const importantSquares = {
     0: { text: "Birth" },
-    592: { text: "Discovered Chocolate" },
-    1028: {
-      text: "First Steps",
+    1131: { text: "Sister was Born" },
+    3588: { text: "First Day of School" },
+    5933: { text: "Started First Job at Event Cinemas" },
+    6501: {
+      text: "High School Graduation",
       media: {
         type: "image",
         url: "assets/JFB.jpg",
       },
     },
-    1497: { text: "Invented a New Dance Move" },
-    2003: {
-      text: "Became a Dinosaur Expert",
+    6644: { text: "Moved to Canberra for Uni" },
+    7002: { text: "First Job as Paralegal" },
+    7374: { text: "Went to Paris for First Time" },
+    7439: {
+      text: "Started Dating Elisa",
       media: {
         type: "video",
         url: "./intro-vid.mp4",
       },
     },
-    2504: { text: "Built a Rocketship" },
-    2998: { text: "Learned to Juggle" },
-    3502: { text: "Farted" },
-    4005: { text: "Mastered the Art of Sandwich Making" },
-    4503: { text: "Discovered a New Planet" },
-    5007: { text: "Became a Time Traveler" },
-    5501: { text: "Won a Staring Contest with a Cat" },
-    6002: { text: "Became a Professional Pillow Fort Architect" },
-    6503: { text: "Learned to Speak Dolphin" },
-    7001: { text: "Invented a New Ice Cream Flavor" },
-    7504: { text: "Became a Superhero" },
-    8006: { text: "Traveled to the Center of the Earth" },
-    8502: { text: "Became a Master of Disguise" },
-    9003: { text: "Learned to Fly" },
-    9501: { text: "Became a World Champion in Hide and Seek" },
+    7671: { text: "First Share House" },
+    7890: { text: "Began role as Project Lead for Software Dev Project" },
+    8422: { text: "Graduated ANU" },
+    8700: { text: "Started My Own Consultancy Business" },
+    9003: { text: "Shoulder Reconstruction" },
+    9302: { text: "Started Film School" },
+    9821: { text: "Started Filming on Vicarious" },
+    9874: { text: "Graduated Film School" },
     30391: { text: "Expected Death" },
   };
 
