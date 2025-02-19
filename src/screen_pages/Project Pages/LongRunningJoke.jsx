@@ -264,7 +264,7 @@ export default function LongRunningJoke({ handleNavigate }) {
             className="mt-auto text-xs border border-white hover:bg-white hover:text-[#18181b] flex p-[2px] uppercase z-10 w-fit gap-1 ml-auto group cursor-pointer"
             onClick={() =>
               window.open(
-                "public/assets/A Long Running Joke TREATMENT V2-compressed.pdf",
+                "assets/A Long Running Joke TREATMENT V2-compressed.pdf",
                 "_blank",
               )
             }

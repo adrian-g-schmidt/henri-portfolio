@@ -66,7 +66,7 @@ const Who = memo(({ handleNavigate }) => {
             <div
               className="mt-auto text-xs border border-white hover:bg-white hover:text-[#2160FF] flex p-[2px] uppercase z-10 w-fit gap-1 group cursor-pointer"
               onClick={() =>
-                window.open("public/assets/HENRI SCOTT_CV_2025.pdf", "_blank")
+                window.open("assets/HENRI SCOTT_CV_2025.pdf", "_blank")
               }
             >
               <div className="w-fit">Portfolio</div>
