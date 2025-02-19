@@ -128,7 +128,7 @@ export default function LongRunningJoke({ handleNavigate }) {
           <div className="flex flex-col">
             <div className="flex">
               <span
-                className="text-[7px] text-left h-[90px] overflow-y-auto scrollbar-hide hide-scrollbar block flex-grow mr-[5px]"
+                className="text-[7px] w-[1100px] text-left h-[90px] overflow-y-auto scrollbar-hide hide-scrollbar block flex-grow mr-[5px]"
                 style={{
                   msOverflowStyle: "none",
                   scrollbarWidth: "none",
@@ -190,20 +190,31 @@ export default function LongRunningJoke({ handleNavigate }) {
                 </span>
               </span>
               <div
-                className="border border-white w-[90px] h-[90px] cursor-grab active:cursor-grabbing relative"
+                className="border border-white w-full h-[90px] cursor-grab active:cursor-grabbing relative"
                 onMouseDown={(e) => {
                   let lastY = e.clientY;
 
                   const mouseMoveHandler = (e) => {
                     const delta = e.clientY - lastY;
-                    window.scrollableText.scrollTop += delta;
+                    const newScrollTop =
+                      window.scrollableText.scrollTop + delta * 2;
+                    const maxScroll =
+                      window.scrollableText.scrollHeight -
+                      window.scrollableText.clientHeight;
+
+                    window.scrollableText.scrollTop = Math.max(
+                      0,
+                      Math.min(newScrollTop, maxScroll),
+                    );
                     lastY = e.clientY;
+
+                    const availableScrollSpace =
+                      e.target.clientHeight -
+                      e.target.nextElementSibling.clientHeight;
                     const scrollPercentage =
-                      (window.scrollableText.scrollTop /
-                        (window.scrollableText.scrollHeight -
-                          window.scrollableText.clientHeight)) *
-                      100;
-                    e.target.nextElementSibling.style.top = `${Math.min(Math.max(scrollPercentage, 0), 91)}%`;
+                      (window.scrollableText.scrollTop / maxScroll) *
+                      availableScrollSpace;
+                    e.target.nextElementSibling.style.top = `${Math.min(Math.max(scrollPercentage, 0), availableScrollSpace)}px`;
                   };
 
                   const mouseUpHandler = () => {
@@ -216,27 +227,30 @@ export default function LongRunningJoke({ handleNavigate }) {
                 }}
               >
                 <div
-                  className="absolute bg-white w-full h-[9px] left-0"
+                  className="absolute bg-white w-full h-[20px] left-0"
                   style={{
                     top: (() => {
-                      if (!window.scrollableText) return "0%";
+                      if (!window.scrollableText) return "0px";
+                      const availableScrollSpace = 90 - 20; // container height - handle height
                       const scrollPercentage =
                         (window.scrollableText.scrollTop /
                           (window.scrollableText.scrollHeight -
                             window.scrollableText.clientHeight)) *
-                        100;
-                      return `${Math.min(Math.max(scrollPercentage, 0), 91)}%`;
+                        availableScrollSpace;
+                      return `${Math.min(Math.max(scrollPercentage, 0), availableScrollSpace)}px`;
                     })(),
                   }}
                   ref={(el) => {
                     if (el) {
                       const updatePosition = () => {
+                        const availableScrollSpace =
+                          el.parentElement.clientHeight - el.clientHeight;
                         const scrollPercentage =
                           (window.scrollableText.scrollTop /
                             (window.scrollableText.scrollHeight -
                               window.scrollableText.clientHeight)) *
-                          100;
-                        el.style.top = `${Math.min(Math.max(scrollPercentage, 0), 91)}%`;
+                          availableScrollSpace;
+                        el.style.top = `${Math.min(Math.max(scrollPercentage, 0), availableScrollSpace)}px`;
                         requestAnimationFrame(updatePosition);
                       };
                       requestAnimationFrame(updatePosition);
@@ -246,7 +260,15 @@ export default function LongRunningJoke({ handleNavigate }) {
               </div>
             </div>
           </div>
-          <div className="mt-auto text-xs border border-white hover:bg-white hover:text-[#18181b] flex p-[2px] uppercase z-10 w-fit gap-1 ml-auto group">
+          <div
+            className="mt-auto text-xs border border-white hover:bg-white hover:text-[#18181b] flex p-[2px] uppercase z-10 w-fit gap-1 ml-auto group cursor-pointer"
+            onClick={() =>
+              window.open(
+                "public/assets/A Long Running Joke TREATMENT V2-compressed.pdf",
+                "_blank",
+              )
+            }
+          >
             <div className="w-fit">Treatment</div>
             <svg
               className="h-4 fill-white group-hover:fill-[#18181b]"

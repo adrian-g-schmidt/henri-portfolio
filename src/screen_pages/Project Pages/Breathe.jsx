@@ -50,7 +50,7 @@ export default function Breathe({ handleNavigate }) {
           <div className="flex flex-col">
             <div className="flex">
               <span
-                className="text-[7px] text-left h-[120px] overflow-y-auto scrollbar-hide hide-scrollbar block flex-grow mr-[5px]"
+                className="text-[7px] text-left w-[1000px] h-[120px] overflow-y-auto scrollbar-hide hide-scrollbar block flex-grow mr-[5px]"
                 style={{
                   msOverflowStyle: "none",
                   scrollbarWidth: "none",
@@ -89,20 +89,31 @@ export default function Breathe({ handleNavigate }) {
                 </span>
               </span>
               <div
-                className="border border-white w-[90px] h-[120Px] cursor-grab active:cursor-grabbing relative"
+                className="border border-white w-full h-[120px] cursor-grab active:cursor-grabbing relative"
                 onMouseDown={(e) => {
                   let lastY = e.clientY;
 
                   const mouseMoveHandler = (e) => {
                     const delta = e.clientY - lastY;
-                    window.scrollableText.scrollTop += delta;
+                    const newScrollTop =
+                      window.scrollableText.scrollTop + delta * 2;
+                    const maxScroll =
+                      window.scrollableText.scrollHeight -
+                      window.scrollableText.clientHeight;
+
+                    window.scrollableText.scrollTop = Math.max(
+                      0,
+                      Math.min(newScrollTop, maxScroll),
+                    );
                     lastY = e.clientY;
+
+                    const availableScrollSpace =
+                      e.target.clientHeight -
+                      e.target.nextElementSibling.clientHeight;
                     const scrollPercentage =
-                      (window.scrollableText.scrollTop /
-                        (window.scrollableText.scrollHeight -
-                          window.scrollableText.clientHeight)) *
-                      100;
-                    e.target.nextElementSibling.style.top = `${Math.min(Math.max(scrollPercentage, 0), 91)}%`;
+                      (window.scrollableText.scrollTop / maxScroll) *
+                      availableScrollSpace;
+                    e.target.nextElementSibling.style.top = `${Math.min(Math.max(scrollPercentage, 0), availableScrollSpace)}px`;
                   };
 
                   const mouseUpHandler = () => {
@@ -115,27 +126,30 @@ export default function Breathe({ handleNavigate }) {
                 }}
               >
                 <div
-                  className="absolute bg-white w-full h-[9px] left-0"
+                  className="absolute bg-white w-full h-[20px] left-0"
                   style={{
                     top: (() => {
-                      if (!window.scrollableText) return "0%";
+                      if (!window.scrollableText) return "0px";
+                      const availableScrollSpace = 90 - 20; // container height - handle height
                       const scrollPercentage =
                         (window.scrollableText.scrollTop /
                           (window.scrollableText.scrollHeight -
                             window.scrollableText.clientHeight)) *
-                        100;
-                      return `${Math.min(Math.max(scrollPercentage, 0), 91)}%`;
+                        availableScrollSpace;
+                      return `${Math.min(Math.max(scrollPercentage, 0), availableScrollSpace)}px`;
                     })(),
                   }}
                   ref={(el) => {
                     if (el) {
                       const updatePosition = () => {
+                        const availableScrollSpace =
+                          el.parentElement.clientHeight - el.clientHeight;
                         const scrollPercentage =
                           (window.scrollableText.scrollTop /
                             (window.scrollableText.scrollHeight -
                               window.scrollableText.clientHeight)) *
-                          100;
-                        el.style.top = `${Math.min(Math.max(scrollPercentage, 0), 93)}%`;
+                          availableScrollSpace;
+                        el.style.top = `${Math.min(Math.max(scrollPercentage, 0), availableScrollSpace)}px`;
                         requestAnimationFrame(updatePosition);
                       };
                       requestAnimationFrame(updatePosition);
@@ -144,6 +158,16 @@ export default function Breathe({ handleNavigate }) {
                 />
               </div>
             </div>
+          </div>
+          <div className="mt-auto text-xs border border-white hover:bg-white hover:text-[#18181b] flex p-[2px] uppercase z-10 w-fit gap-1 ml-auto group">
+            <div className="w-fit">Treatment</div>
+            <svg
+              className="h-4 fill-white group-hover:fill-[#18181b]"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" />
+            </svg>
           </div>
         </div>
       </div>
