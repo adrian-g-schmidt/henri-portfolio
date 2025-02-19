@@ -106,8 +106,7 @@ const Who = memo(({ handleNavigate }) => {
               src="assets/licence_edit_blue.jpg"
               className="w-full mb-4"
             />
-            Henri{`&apos;`}s FILMMAKING practice spans NARRATIVE and
-            DOCUMENTARY.
+            Henri&#39;s FILMMAKING practice spans NARRATIVE and DOCUMENTARY.
             <br />
             <br />
             His focus is on exploring contemplative internal struggles and
