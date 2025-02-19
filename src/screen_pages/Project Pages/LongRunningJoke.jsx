@@ -32,19 +32,19 @@ export default function LongRunningJoke({ handleNavigate }) {
               el._slideshowInitialized = true;
 
               const images = [
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_1.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_3.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_4.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_5.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_6.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_7.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_8.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_9.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_10.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_11.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_12.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_13.jpg",
-                "public/assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_14.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_1.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_3.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_4.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_5.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_6.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_7.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_8.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_9.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_10.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_11.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_12.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_13.jpg",
+                "assets/PROJECT_IMAGES/RUNNINGJOKE_GALLERY/RUNNING_14.jpg",
               ];
 
               // Create two layers for the crossfade effect.

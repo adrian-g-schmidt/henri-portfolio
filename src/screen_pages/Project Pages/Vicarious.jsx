@@ -31,7 +31,7 @@ export default function Vicarious({ handleNavigate }) {
               el._slideshowInitialized = true;
 
               const images = [
-                "/assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_2.jpg",
+                "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_2.jpg",
                 "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_3.jpg",
                 "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_4.jpg",
                 "assets/PROJECT_IMAGES/VICARIOUS_GALLERY/VICARIOUS_1.jpg",

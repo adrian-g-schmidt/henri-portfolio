@@ -31,21 +31,21 @@ export default function Showreel({ handleNavigate }) {
               el._slideshowInitialized = true;
 
               const images = [
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_1.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_2.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_3.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_4.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_5.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_6.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_7.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_8.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_9.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_10.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_11.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_12.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_13.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_14.jpg",
-                "public/assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_1.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_1.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_2.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_3.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_4.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_5.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_6.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_7.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_8.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_9.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_10.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_11.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_12.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_13.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_14.jpg",
+                "assets/PROJECT_IMAGES/SHOWREEL_GALLERY/SHOWREEL_1.jpg",
               ];
 
               // Create two layers for the crossfade effect.

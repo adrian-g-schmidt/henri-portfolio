@@ -31,14 +31,14 @@ export default function Strings({ handleNavigate }) {
               el._slideshowInitialized = true;
 
               const images = [
-                "public/assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_1.jpg",
-                "public/assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_2.jpg",
-                "public/assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_3.jpg",
-                "public/assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_4.jpg",
-                "public/assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_5.jpg",
-                "public/assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_6.jpg",
-                "public/assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_7.jpg",
-                "public/assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_8.jpg",
+                "assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_1.jpg",
+                "assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_2.jpg",
+                "assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_3.jpg",
+                "assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_4.jpg",
+                "assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_5.jpg",
+                "assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_6.jpg",
+                "assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_7.jpg",
+                "assets/PROJECT_IMAGES/STRINGS_GALLERY/STRINGS_8.jpg",
               ];
 
               // Create two layers for the crossfade effect.

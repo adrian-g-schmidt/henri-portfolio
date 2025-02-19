@@ -31,12 +31,12 @@ export default function Terms({ handleNavigate }) {
               el._slideshowInitialized = true;
 
               const images = [
-                "public/assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_1.jpg",
-                "public/assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_2.jpg",
-                "public/assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_3.jpg",
-                "public/assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_4.jpg",
-                "public/assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_5.jpg",
-                "public/assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_6.jpg",
+                "assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_1.jpg",
+                "assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_2.jpg",
+                "assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_3.jpg",
+                "assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_4.jpg",
+                "assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_5.jpg",
+                "assets/PROJECT_IMAGES/TERMS_GALLERY/TERMS_6.jpg",
               ];
 
               // Create two layers for the crossfade effect.
