@@ -19,13 +19,81 @@ export default function Terms({ handleNavigate }) {
         </button>
         <div className="text-right">TERMS AND CONDITIONS</div>
       </header>
+      {/* VIDEO SLIDESHOW CONTAINER */}
       <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-1">
         <div className="col-span-3 flex flex-col gap-3">
-          <div className="bg-cover bg-center relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(/assets/terms_banner.jpg)] p-2 hover:scale-105 transition-transform duration-300">
-            <div className="text-white text-6xl drop-shadow-lg -translate-y-[8px]">
-              ▶
-            </div>
-          </div>
+          <div
+            className="relative z-30 w-full grow p-2 overflow-hidden"
+            ref={(el) => {
+              if (!el) return;
+              // Prevent re-initialization on re-renders
+              if (el._slideshowInitialized) return;
+              el._slideshowInitialized = true;
+
+              const images = [
+                "public/assets/showreel.jpg",
+                "public/assets/showreel_banner.jpg",
+                "public/assets/vicarious_banner.jpg",
+                "public/assets/vicarious.jpg",
+              ];
+
+              // Create two layers for the crossfade effect.
+              const layer1 = document.createElement("div");
+              const layer2 = document.createElement("div");
+              const playButton = document.createElement("button");
+
+              [layer1, layer2].forEach((layer) => {
+                layer.className =
+                  "absolute inset-0 bg-cover bg-center transition-opacity duration-6000";
+              });
+
+              playButton.className =
+                "absolute top-2 left-2 transform transition-all hover:scale-110 z-40";
+              playButton.innerHTML = `
+                <div class="w-8 h-8 border border-white transition-colors hover:bg-white flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="white" class="transition-all hover:fill-[#18181b]">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </div>
+              `;
+
+              // Initialize:
+              // layer1 is visible with the first image.
+              // layer2 is hidden with the second image.
+              layer1.style.backgroundImage = `url(${images[0]})`;
+              layer1.style.opacity = "1";
+              layer2.style.backgroundImage = `url(${images[1]})`;
+              layer2.style.opacity = "0";
+
+              // Append the layers to the container.
+              el.appendChild(layer1);
+              el.appendChild(layer2);
+              el.appendChild(playButton);
+
+              // We'll alternate the roles of the two layers.
+              let currentIndex = 0;
+              let topLayer = layer1;
+              let bottomLayer = layer2;
+
+              setInterval(() => {
+                const nextIndex = (currentIndex + 1) % images.length;
+                // Set the bottom layer's background to the next image.
+                bottomLayer.style.backgroundImage = `url(${images[nextIndex]})`;
+                // Fade in the bottom layer while fading out the top layer.
+                bottomLayer.style.opacity = "1";
+                topLayer.style.opacity = "0";
+
+                // After the transition, swap the layers.
+                setTimeout(() => {
+                  const temp = topLayer;
+                  topLayer = bottomLayer;
+                  bottomLayer = temp;
+                  currentIndex = nextIndex;
+                }, 6000); // 6000ms matches the transition duration.
+              }, 9000);
+            }}
+          />
+          {/* VIDEO SLIDESHOW CONTAINER END*/}
           <div className="flex justify-between w-full">
             <h2 className="text-[8px]">
               MUSIC VIDEO
@@ -35,7 +103,7 @@ export default function Terms({ handleNavigate }) {
             <h2 className="text-[8px] text-right">
               RUNTIME:
               <br />
-              00:05:35
+              00:04:13
             </h2>
           </div>
         </div>
@@ -72,40 +140,39 @@ export default function Terms({ handleNavigate }) {
                 <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
                   ABOUT
                 </span>
-                A near-future scifi short about free-will, obsession, and the
-                anxiety of being in charge of your own life.
+                I made a music video for local Sydney musician, WHEREIMATRN. The
+                entire video was shot in 3 hours. <br /> <br /> It’s a fun and
+                surreal interpretation of his song, ‘Terms and Conditions'
+                inspired by early 2000s java based browser games.
                 <br /> <br />
                 <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
                   LOGLINE
                 </span>
                 <br />
-                In a world where people can outsource their free will to a
-                service that takes control of their bodies and minds via a
-                computer terminal, one jaded operator's views are challenged
-                when he becomes dangerously obsessed with his client's
-                girlfriend.
+                Held captive by a sentient water cooler in a mysterious room, a
+                man is forced to drink all of its contents in order to win his
+                freedom — only to discover that he has wet the bed.
                 <br /> <br />
                 <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
                   CREDITS
                 </span>
                 <span className="text-white text-[7px] !text-left">
                   <u>DIRECTOR</u>: Henri Scott
-                  <br />
+                  <br /> <br />
                   <u>WRITER</u>: Henri Scott
                   <br />
-                  <u>PRODUCERS</u>: Henri Scott, Sebastian Zizza
                   <br />
-                  <u>1ST AD</u>: Sebastian Zizza
+                  <u>PRODUCERS</u>: <br />
+                  Henri Scott, Gabriel Medieros
                   <br />
-                  <u>DOP</u>: Rhavin Banda
                   <br />
-                  <u>1ST AC</u>: Naren G-J, Gianluca Cascone
+                  <u>CINEMATOGRAPHER</u>: Henri Scott
                   <br />
-                  <u>ART DEPT</u>: Amelia Leach
                   <br />
-                  <u>SOUND</u>: Tyrone Lawrence
+                  <u>ART DEPT</u>: Henri Scott
                   <br />
-                  <u>DIRECTORS ASSISTANT</u>: Naren G-J
+                  <br />
+                  <u>EDITOR</u>: Henri Scott
                 </span>
               </span>
               <div
@@ -164,16 +231,6 @@ export default function Terms({ handleNavigate }) {
                 />
               </div>
             </div>
-          </div>
-          <div className="mt-auto text-xs border border-white hover:bg-white hover:text-[#18181b] flex p-[2px] uppercase z-10 w-fit gap-1 ml-auto group">
-            <div className="w-fit">Treatment</div>
-            <svg
-              className="h-4 fill-white group-hover:fill-[#18181b]"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" />
-            </svg>
           </div>
         </div>
       </div>

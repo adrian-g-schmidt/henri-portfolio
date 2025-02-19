@@ -19,13 +19,12 @@ export default function Breathe({ handleNavigate }) {
         </button>
         <div className="text-right">JUST FUCKING BREATHE</div>
       </header>
+      {/* SINGLE IMAGE CONTAINER */}
       <div className="w-full text-3xl gap-4 grid grid-cols-5 h-full mt-1">
         <div className="col-span-3 flex flex-col gap-3">
-          <div className="bg-cover bg-center relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(/assets/JFB_banner.jpg)] p-2 hover:scale-105 transition-transform duration-300">
-            <div className="text-white text-6xl drop-shadow-lg -translate-y-[8px]">
-              ▶
-            </div>
-          </div>
+          <div className="bg-cover bg-center relative z-30 w-full flex items-center justify-center flex-shrink-0 grow bg-[url(/assets/JFB_banner.jpg)] p-2 transition-transform duration-300"></div>
+          {/* SINGLE IMAGE CONTAINER */}
+
           <div className="flex justify-between w-full">
             <h2 className="text-[8px]">
               SHORT FILM
@@ -35,7 +34,7 @@ export default function Breathe({ handleNavigate }) {
             <h2 className="text-[8px] text-right">
               RUNTIME:
               <br />
-              00:05:35
+              00:05:00
             </h2>
           </div>
         </div>
@@ -66,40 +65,27 @@ export default function Breathe({ handleNavigate }) {
                 <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
                   ABOUT
                 </span>
-                A near-future scifi short about free-will, obsession, and the
-                anxiety of being in charge of your own life.
+                Following the success of his first film Bondi Boy, Sydney based
+                director, Rhavin Banda, is teaming up with Henri Scott for an
+                ultra-short film about temptation and the perils of
+                justification.
                 <br /> <br />
                 <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
                   LOGLINE
                 </span>
                 <br />
-                In a world where people can outsource their free will to a
-                service that takes control of their bodies and minds via a
-                computer terminal, one jaded operator's views are challenged
-                when he becomes dangerously obsessed with his client's
-                girlfriend.
+                When Lobsang encounters an ad for a buddhist meditation app
+                while watching online pornography next to his sleeping life, he
+                is offered a chance to conquer his temptations.
                 <br /> <br />
                 <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">
                   CREDITS
                 </span>
                 <span className="text-white text-[7px] !text-left">
-                  <u>DIRECTOR</u>: Henri Scott
+                  <u>WRITERS</u>: Rhavin Banda, Henri Scott
                   <br />
-                  <u>WRITER</u>: Henri Scott
                   <br />
-                  <u>PRODUCERS</u>: Henri Scott, Sebastian Zizza
-                  <br />
-                  <u>1ST AD</u>: Sebastian Zizza
-                  <br />
-                  <u>DOP</u>: Rhavin Banda
-                  <br />
-                  <u>1ST AC</u>: Naren G-J, Gianluca Cascone
-                  <br />
-                  <u>ART DEPT</u>: Amelia Leach
-                  <br />
-                  <u>SOUND</u>: Tyrone Lawrence
-                  <br />
-                  <u>DIRECTORS ASSISTANT</u>: Naren G-J
+                  <u>PRODUCERS</u>: Rhavin Banda, Henri Scott
                 </span>
               </span>
               <div
