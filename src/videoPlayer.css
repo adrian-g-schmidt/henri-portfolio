@@ -186,7 +186,7 @@
 }
 
 .video-js .vjs-back-button {
-    background-image: url("assets/BACK_ARROW.svg");
+    background-image: url("/assets/BACK_ARROW.svg");
     background-size: contain;
     background-repeat: no-repeat;
     width: 1.5em;
