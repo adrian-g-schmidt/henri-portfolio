@@ -128,7 +128,7 @@ export default function LongRunningJoke({ handleNavigate }) {
           <div className="flex flex-col">
             <div className="flex">
               <span
-                className="text-[7px] w-[1100px] text-left h-[90px] overflow-y-auto scrollbar-hide hide-scrollbar block flex-grow mr-[5px]"
+                className="text-[7px] w-[1100px] text-left h-[90px] overflow-y-auto scrollbar-hide block flex-grow mr-[5px]"
                 style={{
                   msOverflowStyle: "none",
                   scrollbarWidth: "none",

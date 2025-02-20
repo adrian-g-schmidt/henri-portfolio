@@ -129,11 +129,11 @@ export default function Terms({ handleNavigate }) {
           <div className="flex flex-col">
             <div className="flex">
               <span
-                className="text-[7px] text-left w-[1000px] h-[90px] overflow-y-auto scrollbar-hide hide-scrollbar block flex-grow mr-[5px]"
+                className="text-[7px] text-left w-[1000px] h-[90px] overflow-y-auto scrollbar-hide block flex-grow mr-[5px]"
                 style={{
                   msOverflowStyle: "none",
                   scrollbarWidth: "none",
-                  "::-webkit-scrollbar": { display: "none" },
+                  WebkitScrollbar: { display: "none" },
                 }}
                 ref={(el) => {
                   if (el) {

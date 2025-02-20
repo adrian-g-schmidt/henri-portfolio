@@ -20,7 +20,7 @@ export default function What({ handleNavigate }) {
         2. What?
       </div>
       <div className="flex h-[calc(100%-3rem)]">
-        <div className="w-full text-3xl overflow-y-auto [&::-webkit-scrollbar]:hidden">
+        <div className="w-full text-3xl overflow-y-auto scrollbar-hide">
           <div className="flex gap-1 snap-start">
             <div className="flex-1">
               <h2 className="text-lg font-bold mb-2 leading-none">

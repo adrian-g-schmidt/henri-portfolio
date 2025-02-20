@@ -130,7 +130,7 @@ export default function Showreel({ handleNavigate }) {
           </div>
           <div className="flex flex-col">
             <span
-              className="text-[7px] text-left h-[60px] overflow-y-auto scrollbar-hide hide-scrollbar block"
+              className="text-[7px] text-left h-[60px] overflow-y-auto scrollbar-hide block"
               style={{
                 msOverflowStyle: "none",
                 scrollbarWidth: "none",
