@@ -17,7 +17,7 @@ const videoJsOptions = {
   ],
 };
 
-const Where = memo(({ handleNavigate }) => {
+const TermsVideo = memo(({ handleNavigate }) => {
   const playerRef = useRef(null);
 
   // Memoize the player ready handler
@@ -33,7 +33,7 @@ const Where = memo(({ handleNavigate }) => {
     });
   }, []);
 
-  // Update the back button navigation to go to "what"
+  // Update the back button navigation to go to "terms"
   const handleBackClick = useCallback(() => {
     handleNavigate("terms");
   }, [handleNavigate]);
@@ -53,6 +53,6 @@ const Where = memo(({ handleNavigate }) => {
   );
 });
 
-Where.displayName = "Where";
+TermsVideo.displayName = "TermsVideo";
 
-export default Where;
+export default TermsVideo;

@@ -59,6 +59,8 @@ export default function Terms({ handleNavigate }) {
                 </div>
               `;
 
+              playButton.onclick = () => handleNavigate("where");
+
               // Initialize:
               // layer1 is visible with the first image.
               // layer2 is hidden with the second image.
@@ -131,7 +133,7 @@ export default function Terms({ handleNavigate }) {
                 style={{
                   msOverflowStyle: "none",
                   scrollbarWidth: "none",
-                  WebkitScrollbar: { display: "none" },
+                  "::-webkit-scrollbar": { display: "none" },
                 }}
                 ref={(el) => {
                   if (el) {
@@ -143,8 +145,8 @@ export default function Terms({ handleNavigate }) {
                   ABOUT
                 </span>
                 I made a music video for local Sydney musician, WHEREIMATRN. The
-                entire video was shot in 3 hours. <br /> <br /> It’s a fun and
-                surreal interpretation of his song, ‘Terms and Conditions'
+                entire video was shot in 3 hours. <br /> <br /> It's a fun and
+                surreal interpretation of his song, 'Terms and Conditions'
                 inspired by early 2000s java based browser games.
                 <br /> <br />
                 <span className="bg-white text-[#18181B] text-[8px] px-1 mb-1 inline-block w-full">

@@ -95,7 +95,7 @@ export default function Strings({ handleNavigate }) {
             <h2 className="text-[8px] text-right">
               RUNTIME:
               <br />
-              00:05:35
+              00:15:35
             </h2>
           </div>
         </div>

@@ -13,6 +13,7 @@ import Strings from "./screen_pages/Project Pages/Strings.jsx";
 import Bouncing from "./screen_pages/Bouncing";
 import Vicarious from "./screen_pages/Project Pages/Vicarious.jsx";
 import Breathe from "./screen_pages/Project Pages/Breathe.jsx";
+import TermsVideo from "src/screen_pages/Project Pages/TermsVideo.jsx";
 import Terms from "./screen_pages/Project Pages/Terms.jsx";
 
 const TVInterface = () => {
@@ -83,6 +84,8 @@ const TVInterface = () => {
         return <Strings handleNavigate={handleNavigate} />;
       case "terms":
         return <Terms handleNavigate={handleNavigate} />;
+      case "termsvideo":
+        return <TermsVideo handleNavigate={handleNavigate} />;
       case "breathe":
         return <Breathe handleNavigate={handleNavigate} />;
       case "vicarious":

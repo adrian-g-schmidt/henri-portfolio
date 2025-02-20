@@ -6,10 +6,10 @@ import "./videoPlayer.css";
 export const VideoJS = (props) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
-  const { options, onReady } = props;
+  const { options, onReady, onBackClick } = props;
 
   React.useEffect(() => {
-    // Make sure Video.js player is only initialized once
+    // Initialize the Video.js player only once
     if (!playerRef.current) {
       // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
       const videoElement = document.createElement("video-js");
@@ -22,27 +22,54 @@ export const VideoJS = (props) => {
         onReady && onReady(player);
       }));
 
-      // You could update an existing player in the `else` block here
-      // on prop change, for example:
+      // Add custom back button if onBackClick is provided
+      if (onBackClick) {
+        // Register custom BackButton component if not already registered
+        if (!videojs.getComponent("BackButton")) {
+          const Button = videojs.getComponent("Button");
+          class BackButton extends Button {
+            constructor(player, options) {
+              super(player, options);
+              this.controlText("Back");
+            }
+            handleClick() {
+              if (this.options_.onClick) {
+                this.options_.onClick();
+              }
+            }
+            buildCSSClass() {
+              return `vjs-back-button ${super.buildCSSClass()}`;
+            }
+          }
+          videojs.registerComponent("BackButton", BackButton);
+        }
+        // Insert the back button into the control bar before the play toggle
+        const controlBar = player.getChild("controlBar");
+        const playToggle = controlBar.getChild("playToggle");
+        const playToggleIndex = controlBar.children().indexOf(playToggle);
+        controlBar.addChild(
+          "BackButton",
+          { onClick: onBackClick },
+          playToggleIndex,
+        );
+      }
     } else {
       const player = playerRef.current;
-
       player.autoplay(options.autoplay);
       player.src(options.sources);
     }
-  }, [options, videoRef, onReady]);
+  }, [options, onReady, onBackClick]);
 
-  // Dispose the Video.js player when the functional component unmounts
+  // Dispose the Video.js player when the component unmounts
   React.useEffect(() => {
     const player = playerRef.current;
-
     return () => {
       if (player && !player.isDisposed()) {
         player.dispose();
         playerRef.current = null;
       }
     };
-  }, [playerRef]);
+  }, []);
 
   return (
     <div data-vjs-player>
