@@ -1,5 +1,5 @@
 import { memo, useCallback, useRef } from "react";
-import VideoJS from "../VideoJS";
+import VideoJS from "../../VideoJS";
 import videojs from "video.js";
 
 // Move options outside component to prevent recreation on each render
