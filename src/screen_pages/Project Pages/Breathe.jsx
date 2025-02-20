@@ -109,11 +109,17 @@ export default function Breathe({ handleNavigate }) {
 
                     const availableScrollSpace =
                       e.target.clientHeight -
-                      e.target.nextElementSibling.clientHeight;
+                      (e.target.querySelector("div")
+                        ? e.target.querySelector("div").clientHeight
+                        : 0);
+
                     const scrollPercentage =
                       (window.scrollableText.scrollTop / maxScroll) *
                       availableScrollSpace;
-                    e.target.nextElementSibling.style.top = `${Math.min(Math.max(scrollPercentage, 0), availableScrollSpace)}px`;
+                    const innerDiv = e.target.querySelector("div");
+                    if (innerDiv) {
+                      innerDiv.style.top = `${Math.min(Math.max(scrollPercentage, 0), availableScrollSpace)}px`;
+                    }
                   };
 
                   const mouseUpHandler = () => {
