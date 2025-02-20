@@ -10,6 +10,7 @@
 .vjs-play-progress .vjs-time-tooltip {
     display: none !important;
 }
+
 /* Control bar - both normal and fullscreen */
 .video-js .vjs-control-bar,
 .video-js.vjs-fullscreen .vjs-control-bar {
@@ -17,11 +18,17 @@
     height: 4em;
     display: flex;
     align-items: center;
-    display: none; /* Hide controls initially */
+    visibility: hidden;
 }
+
+.video-js .vjs-back-button {
+    visibility: visible !important;
+}
+
 .video-js.vjs-has-started .vjs-control-bar,
 .video-js.vjs-has-started.vjs-fullscreen .vjs-control-bar {
     display: flex; /* Show controls when video has started */
+    visibility: visible;
 }
 /* Play/Pause button */
 .video-js .vjs-play-control {
@@ -179,7 +186,7 @@
 }
 
 .video-js .vjs-back-button {
-    background-image: url("assets/BACK ARROW.svg");
+    background-image: url("assets/BACK_ARROW.svg");
     background-size: contain;
     background-repeat: no-repeat;
     width: 1.5em;
