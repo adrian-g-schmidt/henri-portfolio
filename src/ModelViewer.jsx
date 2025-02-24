@@ -367,6 +367,7 @@ export default function ModelViewer() {
 
   return (
     <div className="overflow-hidden w-full h-screen">
+      {isSafari && "SAFARI DETECTED"}
       {isSafari ? (
         <Canvas {...canvasProps}>
           <Model cameraPosition={cameraPosition} />
