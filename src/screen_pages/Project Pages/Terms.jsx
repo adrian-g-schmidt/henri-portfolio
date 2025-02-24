@@ -59,7 +59,7 @@ export default function Terms({ handleNavigate }) {
                 </div>
               `;
 
-              playButton.onclick = () => handleNavigate("where");
+              playButton.onclick = () => handleNavigate("termsvideo");
 
               // Initialize:
               // layer1 is visible with the first image.
