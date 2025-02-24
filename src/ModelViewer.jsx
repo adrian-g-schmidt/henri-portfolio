@@ -367,7 +367,7 @@ export default function ModelViewer() {
 
   return (
     <div className="overflow-hidden w-full h-screen">
-      {isSafari ? (
+      <CanvasWrapper>
         <Canvas {...canvasProps}>
           <Model cameraPosition={cameraPosition} />
           <OrbitControls
@@ -389,31 +389,7 @@ export default function ModelViewer() {
             <Vignette eskil={false} offset={0.2} darkness={0.6} />
           </EffectComposer>
         </Canvas>
-      ) : (
-        <CanvasWrapper>
-          <Canvas {...canvasProps}>
-            <Model cameraPosition={cameraPosition} />
-            <OrbitControls
-              enablePan={false}
-              enableZoom={false}
-              enableRotate={false}
-              minPolarAngle={Math.PI / 4}
-              maxPolarAngle={Math.PI / 2}
-              target={[0, 0, 0]}
-              onEnd={handleMouseUp}
-            />
-            <Environment preset="city" />
-            <EffectComposer>
-              <ChromaticAberration
-                blendFunction={BlendFunction.NORMAL}
-                offset={[0.0005, 0.0005]}
-              />
-              <Sepia intensity={0.5} />
-              <Vignette eskil={false} offset={0.2} darkness={0.6} />
-            </EffectComposer>
-          </Canvas>
-        </CanvasWrapper>
-      )}
+      </CanvasWrapper>
     </div>
   );
 }
