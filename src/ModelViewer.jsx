@@ -18,7 +18,7 @@ const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
 };
 
-function Model() {
+function Model({ cameraPosition }) {
   const tv = useGLTF(`${import.meta.env.BASE_URL}crt_erased.glb`);
   const modelRef = useRef();
   const { camera } = useThree();
@@ -41,6 +41,11 @@ function Model() {
   const randomLookOffset = useRef({ x: 0, y: 0 });
   const isMoving = useRef(false);
   const cursorChaseTarget = useRef({ x: 0, y: 0, z: 0 });
+
+  useEffect(() => {
+    camera.position.set(...cameraPosition);
+    camera.lookAt(0, 0, 0);
+  }, [camera, cameraPosition]);
 
   useEffect(() => {
     camera.lookAt(0, 0, 0);
@@ -221,7 +226,7 @@ function Model() {
           const boredHoverTime = time * 0.2;
           targetPosition.current.x = Math.sin(boredHoverTime) * 4;
           targetPosition.current.y = Math.cos(boredHoverTime * 0.7) * 0.5 - 0.2;
-          targetPosition.current.z = Math.cos(boredHoverTime) * 8 - 18;
+          targetPosition.current.z = Math.cos(boredHoverTime) * 5 - 15;
 
           const dx = targetPosition.current.x - modelRef.current.position.x;
           const dy = targetPosition.current.y - modelRef.current.position.y;
@@ -275,21 +280,49 @@ function Model() {
 }
 
 export default function ModelViewer() {
-  const [cameraPosition, setCameraPosition] = useState([0, 0, 8]);
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const getInitialCameraZ = () => {
+    const ratio = window.innerWidth / window.innerHeight;
+    return ratio < 1 ? 5 + (1 - ratio) * 5 : 5;
+  };
+
+  const [cameraPosition, setCameraPosition] = useState([
+    0,
+    0,
+    getInitialCameraZ(),
+  ]);
   const springRef = useRef(null);
   const isSpringAnimating = useRef(false);
 
-  const handleCameraChange = (state) => {
-    if (!isSpringAnimating.current) {
-      setCameraPosition([state.target.x, state.target.y, state.target.z]);
-    }
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      const newDimensions = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+      setDimensions(newDimensions);
+
+      const ratio = newDimensions.width / newDimensions.height;
+      const newZ = ratio < 1 ? 5 + (1 - ratio) * 5 : 5;
+      console.log(newZ);
+      setCameraPosition([cameraPosition[0], cameraPosition[1], newZ]);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [cameraPosition]);
 
   const handleMouseUp = () => {
     isSpringAnimating.current = true;
     const springDuration = 1000;
     const startTime = Date.now();
     const startPosition = [...cameraPosition];
+    const ratio = dimensions.width / dimensions.height;
+    const targetZ = ratio < 1 ? 5 + (1 - ratio) * 5 : 5;
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
@@ -299,7 +332,7 @@ export default function ModelViewer() {
       setCameraPosition([
         startPosition[0] * (1 - easedProgress),
         startPosition[1] * (1 - easedProgress),
-        8,
+        targetZ,
       ]);
 
       if (progress < 1) {
@@ -327,14 +360,16 @@ export default function ModelViewer() {
     navigator.userAgent.indexOf("CriOS") == -1 &&
     navigator.userAgent.indexOf("FxiOS") == -1;
 
+  const canvasProps = {
+    style: { width: dimensions.width, height: dimensions.height },
+    className: "w-full h-full canvas-parent",
+  };
+
   return (
-    <>
+    <div className="overflow-hidden w-full h-screen">
       {isSafari ? (
-        <Canvas
-          camera={{ position: cameraPosition, fov: 45 }}
-          className="w-full h-full canvas-parent"
-        >
-          <Model />
+        <Canvas {...canvasProps}>
+          <Model cameraPosition={cameraPosition} />
           <OrbitControls
             enablePan={false}
             enableZoom={false}
@@ -342,7 +377,6 @@ export default function ModelViewer() {
             minPolarAngle={Math.PI / 4}
             maxPolarAngle={Math.PI / 2}
             target={[0, 0, 0]}
-            onChange={handleCameraChange}
             onEnd={handleMouseUp}
           />
           <Environment preset="city" />
@@ -357,11 +391,8 @@ export default function ModelViewer() {
         </Canvas>
       ) : (
         <CanvasWrapper>
-          <Canvas
-            camera={{ position: cameraPosition, fov: 45 }}
-            className="w-full h-full canvas-parent"
-          >
-            <Model />
+          <Canvas {...canvasProps}>
+            <Model cameraPosition={cameraPosition} />
             <OrbitControls
               enablePan={false}
               enableZoom={false}
@@ -369,7 +400,6 @@ export default function ModelViewer() {
               minPolarAngle={Math.PI / 4}
               maxPolarAngle={Math.PI / 2}
               target={[0, 0, 0]}
-              onChange={handleCameraChange}
               onEnd={handleMouseUp}
             />
             <Environment preset="city" />
@@ -384,6 +414,6 @@ export default function ModelViewer() {
           </Canvas>
         </CanvasWrapper>
       )}
-    </>
+    </div>
   );
 }
