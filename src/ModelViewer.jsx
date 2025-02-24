@@ -18,7 +18,7 @@ const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
 };
 
-function Model({ cameraPosition }) {
+function Model() {
   const tv = useGLTF(`${import.meta.env.BASE_URL}crt_erased.glb`);
   const modelRef = useRef();
   const { camera } = useThree();
@@ -41,11 +41,6 @@ function Model({ cameraPosition }) {
   const randomLookOffset = useRef({ x: 0, y: 0 });
   const isMoving = useRef(false);
   const cursorChaseTarget = useRef({ x: 0, y: 0, z: 0 });
-
-  useEffect(() => {
-    camera.position.set(...cameraPosition);
-    camera.lookAt(0, 0, 0);
-  }, [camera, cameraPosition]);
 
   useEffect(() => {
     camera.lookAt(0, 0, 0);
@@ -226,7 +221,7 @@ function Model({ cameraPosition }) {
           const boredHoverTime = time * 0.2;
           targetPosition.current.x = Math.sin(boredHoverTime) * 4;
           targetPosition.current.y = Math.cos(boredHoverTime * 0.7) * 0.5 - 0.2;
-          targetPosition.current.z = Math.cos(boredHoverTime) * 5 - 15;
+          targetPosition.current.z = Math.cos(boredHoverTime) * 8 - 18;
 
           const dx = targetPosition.current.x - modelRef.current.position.x;
           const dy = targetPosition.current.y - modelRef.current.position.y;
@@ -280,49 +275,23 @@ function Model({ cameraPosition }) {
 }
 
 export default function ModelViewer() {
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  const getInitialCameraZ = () => {
-    const ratio = window.innerWidth / window.innerHeight;
-    return ratio < 1 ? 5 + (1 - ratio) * 5 : 5;
-  };
-
-  const [cameraPosition, setCameraPosition] = useState([
-    0,
-    0,
-    getInitialCameraZ(),
-  ]);
+  const [cameraPosition, setCameraPosition] = useState([0, 0, 8]);
   const springRef = useRef(null);
   const isSpringAnimating = useRef(false);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const newDimensions = {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-      setDimensions(newDimensions);
-
-      const ratio = newDimensions.width / newDimensions.height;
-      const newZ = ratio < 1 ? 5 + (1 - ratio) * 5 : 5;
-      console.log(newZ);
-      setCameraPosition([cameraPosition[0], cameraPosition[1], newZ]);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [cameraPosition]);
+  const handleCameraChange = (state) => {
+    if (!isSpringAnimating.current) {
+      setCameraPosition([state.target.x, state.target.y, state.target.z]);
+    }
+  };
 
   const handleMouseUp = () => {
     isSpringAnimating.current = true;
     const springDuration = 1000;
     const startTime = Date.now();
     const startPosition = [...cameraPosition];
-    const ratio = dimensions.width / dimensions.height;
-    const targetZ = ratio < 1 ? 5 + (1 - ratio) * 5 : 5;
+    const aspect = window.innerWidth / window.innerHeight;
+    const zoomFactor = aspect < 1 ? 12 : 8;
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
@@ -332,7 +301,7 @@ export default function ModelViewer() {
       setCameraPosition([
         startPosition[0] * (1 - easedProgress),
         startPosition[1] * (1 - easedProgress),
-        targetZ,
+        zoomFactor,
       ]);
 
       if (progress < 1) {
@@ -353,43 +322,36 @@ export default function ModelViewer() {
     };
   }, []);
 
-  var isSafari =
-    navigator.vendor &&
-    navigator.vendor.indexOf("Apple") > -1 &&
-    navigator.userAgent &&
-    navigator.userAgent.indexOf("CriOS") == -1 &&
-    navigator.userAgent.indexOf("FxiOS") == -1;
-
-  const canvasProps = {
-    style: { width: dimensions.width, height: dimensions.height },
-    className: "w-full h-full canvas-parent",
-  };
+  const aspect = window.innerWidth / window.innerHeight;
+  const zoomFactor = aspect < 1 ? 12 : 8;
 
   return (
-    <div className="overflow-hidden w-full h-screen">
-      <CanvasWrapper>
-        <Canvas {...canvasProps}>
-          <Model cameraPosition={cameraPosition} />
-          <OrbitControls
-            enablePan={false}
-            enableZoom={false}
-            enableRotate={false}
-            minPolarAngle={Math.PI / 4}
-            maxPolarAngle={Math.PI / 2}
-            target={[0, 0, 0]}
-            onEnd={handleMouseUp}
+    <CanvasWrapper>
+      <Canvas
+        camera={{ position: [0, 0, zoomFactor], fov: 45 }}
+        className="w-full h-full canvas-parent"
+      >
+        <Model />
+        <OrbitControls
+          enablePan={false}
+          enableZoom={false}
+          enableRotate={false}
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={Math.PI / 2}
+          target={[0, 0, 0]}
+          onChange={handleCameraChange}
+          onEnd={handleMouseUp}
+        />
+        <Environment preset="city" />
+        <EffectComposer>
+          <ChromaticAberration
+            blendFunction={BlendFunction.NORMAL}
+            offset={[0.0005, 0.0005]}
           />
-          <Environment preset="city" />
-          <EffectComposer>
-            <ChromaticAberration
-              blendFunction={BlendFunction.NORMAL}
-              offset={[0.0005, 0.0005]}
-            />
-            <Sepia intensity={0.5} />
-            <Vignette eskil={false} offset={0.2} darkness={0.6} />
-          </EffectComposer>
-        </Canvas>
-      </CanvasWrapper>
-    </div>
+          <Sepia intensity={0.5} />
+          <Vignette eskil={false} offset={0.2} darkness={0.6} />
+        </EffectComposer>
+      </Canvas>
+    </CanvasWrapper>
   );
 }
