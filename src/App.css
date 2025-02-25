@@ -7,6 +7,16 @@
     background: transparent;
 }
 
+.dpad-highlight {
+    outline: 2px solid #ef4444 !important; /* Red outline */
+    outline-offset: 2px;
+    transition: all 0.2s ease;
+}
+
+.dpad-highlight:hover {
+    outline-color: #dc2626;
+}
+
 @keyframes flicker {
     0% {
         opacity: 0.27861;

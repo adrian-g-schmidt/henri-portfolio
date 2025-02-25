@@ -1,6 +1,12 @@
 import { Canvas } from "@react-three/fiber";
-import { useGLTF, OrbitControls, Environment, Center } from "@react-three/drei";
-import { useRef, useEffect, useState } from "react";
+import {
+  useGLTF,
+  OrbitControls,
+  Environment,
+  Center,
+  PerspectiveCamera,
+} from "@react-three/drei";
+import { useRef, useEffect, useState, useLayoutEffect } from "react";
 
 import { useFrame, useThree } from "@react-three/fiber";
 import {
@@ -13,6 +19,7 @@ import { BlendFunction } from "postprocessing";
 import { CanvasWrapper } from "@isaac_ua/drei-html-fix";
 
 import TVInterface from "./TVInterface";
+import DPad from "./Dpad";
 
 const easeOutCubic = (x) => {
   return 1 - Math.pow(1 - x, 3);
@@ -41,6 +48,7 @@ function Model() {
   const randomLookOffset = useRef({ x: 0, y: 0 });
   const isMoving = useRef(false);
   const cursorChaseTarget = useRef({ x: 0, y: 0, z: 0 });
+  const resizing = useRef(false);
 
   useEffect(() => {
     camera.lookAt(0, 0, 0);
@@ -71,7 +79,28 @@ function Model() {
       }
     };
 
+    // Add resize handler directly in the Model component
+    const handleResize = () => {
+      resizing.current = true;
+      // Ensure model stays visible during resize
+      if (modelRef.current && modelRef.current.visible) {
+        // Store current visibility
+        const wasVisible = modelRef.current.visible;
+
+        // Force visibility to true after a short delay
+        setTimeout(() => {
+          if (modelRef.current) {
+            modelRef.current.visible = wasVisible;
+          }
+          resizing.current = false;
+        }, 100);
+      } else {
+        resizing.current = false;
+      }
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("resize", handleResize);
 
     const checkBoredom = setInterval(() => {
       if (Date.now() - lastInteractionTime.current > 100000) {
@@ -81,16 +110,18 @@ function Model() {
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
       clearInterval(checkBoredom);
     };
   }, [camera, isBored]);
 
-  useEffect(() => {
+  // Use a layout effect to initialize the model - this runs synchronously before browser paint
+  useLayoutEffect(() => {
     if (modelRef.current) {
       modelRef.current.position.z = -50;
       modelRef.current.position.y = -0.2;
       modelRef.current.scale.setScalar(0);
-      modelRef.current.visible = true;
+      // Don't set visible yet - we'll do this in the animation frame
     }
     setIsLoaded(true);
   }, []);
@@ -118,6 +149,12 @@ function Model() {
     if (!isLoaded) return;
 
     const time = state.clock.getElapsedTime();
+
+    // Handle model visibility - set to visible after first frame if not already visible
+    if (modelRef.current && !modelRef.current.visible && !resizing.current) {
+      modelRef.current.visible = true;
+    }
+
     const movementDistance = Math.sqrt(
       Math.pow(mousePosition.current.x - lastMousePosition.current.x, 2) +
         Math.pow(mousePosition.current.y - lastMousePosition.current.y, 2),
@@ -256,7 +293,7 @@ function Model() {
     <Center>
       <group
         ref={modelRef}
-        visible={false}
+        visible={false} // Initially not visible, useFrame will handle showing it
         onClick={handleInteraction}
         onPointerOver={handleInteraction}
         onWheel={handleInteraction}
@@ -275,83 +312,111 @@ function Model() {
 }
 
 export default function ModelViewer() {
-  const [cameraPosition, setCameraPosition] = useState([0, 0, 8]);
-  const springRef = useRef(null);
-  const isSpringAnimating = useRef(false);
+  const [zoomFactor, setZoomFactor] = useState(8);
 
-  const handleCameraChange = (state) => {
-    if (!isSpringAnimating.current) {
-      setCameraPosition([state.target.x, state.target.y, state.target.z]);
-    }
-  };
+  const cameraRef = useRef();
+  const canvasRef = useRef(null);
 
-  const handleMouseUp = () => {
-    isSpringAnimating.current = true;
-    const springDuration = 1000;
-    const startTime = Date.now();
-    const startPosition = [...cameraPosition];
-    const aspect = window.innerWidth / window.innerHeight;
-    const zoomFactor = aspect < 1 ? 12 : 8;
+  useEffect(() => {
+    // Reference to the resize observer
+    let resizeObserver = null;
 
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / springDuration, 1);
-      const easedProgress = easeOutCubic(progress);
+    const handleResize = () => {
+      const aspect = window.innerWidth / window.innerHeight;
+      setZoomFactor(aspect < 1 ? 12 : 8);
 
-      setCameraPosition([
-        startPosition[0] * (1 - easedProgress),
-        startPosition[1] * (1 - easedProgress),
-        zoomFactor,
-      ]);
+      if (cameraRef.current && cameraRef.current.position) {
+        if (window.innerWidth < 640) {
+          cameraRef.current.position.y = -1;
+          console.log("updated");
+        } else {
+          cameraRef.current.position.y = 0;
+        }
+      }
 
-      if (progress < 1) {
-        springRef.current = requestAnimationFrame(animate);
-      } else {
-        isSpringAnimating.current = false;
+      const tvWrapper = document.querySelector(".tv-wrapper");
+      if (
+        tvWrapper &&
+        tvWrapper.parentElement &&
+        tvWrapper.parentElement.parentElement
+      ) {
+        tvWrapper.parentElement.parentElement.style.width = `${window.innerWidth}px`;
+        tvWrapper.parentElement.parentElement.style.height = `${window.innerHeight}px`;
       }
     };
 
-    springRef.current = requestAnimationFrame(animate);
-  };
+    // Use ResizeObserver for more reliable resize detection
+    if (window.ResizeObserver) {
+      resizeObserver = new ResizeObserver(() => {
+        requestAnimationFrame(handleResize);
+      });
 
-  useEffect(() => {
+      if (canvasRef.current) {
+        resizeObserver.observe(canvasRef.current);
+      }
+
+      const canvasParent = document.querySelector(".canvas-parent");
+      if (canvasParent) {
+        resizeObserver.observe(canvasParent);
+      }
+
+      // Also observe window for safety
+      resizeObserver.observe(document.documentElement);
+    } else {
+      // Fallback to window resize event for older browsers
+      window.addEventListener("resize", handleResize);
+    }
+
+    // Initial size setup
+    handleResize();
+
     return () => {
-      if (springRef.current) {
-        cancelAnimationFrame(springRef.current);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      } else {
+        window.removeEventListener("resize", handleResize);
       }
     };
   }, []);
 
-  const aspect = window.innerWidth / window.innerHeight;
-  const zoomFactor = aspect < 1 ? 12 : 8;
+  useEffect(() => {
+    if (cameraRef.current && cameraRef.current.position) {
+      if (window.innerWidth < 640) {
+        cameraRef.current.position.y = -1;
+        console.log("updated");
+      } else {
+        cameraRef.current.position.y = 0;
+      }
+    }
+  }, [cameraRef]);
 
   return (
-    <CanvasWrapper>
-      <Canvas
-        camera={{ position: [0, 0, zoomFactor], fov: 45 }}
-        className="w-full h-full canvas-parent"
-      >
-        <Model />
-        <OrbitControls
-          enablePan={false}
-          enableZoom={false}
-          enableRotate={false}
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={Math.PI / 2}
-          target={[0, 0, 0]}
-          onChange={handleCameraChange}
-          onEnd={handleMouseUp}
-        />
-        <Environment preset="city" />
-        <EffectComposer>
-          <ChromaticAberration
-            blendFunction={BlendFunction.NORMAL}
-            offset={[0.0005, 0.0005]}
+    <>
+      <CanvasWrapper>
+        <Canvas
+          ref={canvasRef}
+          className="w-full h-full canvas-parent"
+          key="3d-canvas"
+        >
+          <PerspectiveCamera
+            makeDefault
+            ref={cameraRef}
+            position={[0, 0, zoomFactor]}
+            fov={45}
           />
-          <Sepia intensity={0.5} />
-          <Vignette eskil={false} offset={0.2} darkness={0.6} />
-        </EffectComposer>
-      </Canvas>
-    </CanvasWrapper>
+          <Model />
+          <Environment preset="city" />
+          <EffectComposer>
+            <ChromaticAberration
+              blendFunction={BlendFunction.NORMAL}
+              offset={[0.0005, 0.0005]}
+            />
+            <Sepia intensity={0.5} />
+            <Vignette eskil={false} offset={0.2} darkness={0.6} />
+          </EffectComposer>
+        </Canvas>
+      </CanvasWrapper>
+      <DPad />
+    </>
   );
 }
